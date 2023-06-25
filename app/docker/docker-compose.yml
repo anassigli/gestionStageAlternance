@@ -1,0 +1,25 @@
+version: '3'
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: db
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: changeMe
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  app:
+    image: projet-alternance:latest
+    ports:
+      - "8080:80"
+    environment:
+      DATABASE_URL: mysql://symfony:changeMe@db:3306/app
+
+
+volumes:
+  db-data:
