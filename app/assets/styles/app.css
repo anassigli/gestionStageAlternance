@@ -1,11 +1,6 @@
-body {
-    background-color: #eee;
-}
-
-
-nav{
-    background-color: #353a3f;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 
 
