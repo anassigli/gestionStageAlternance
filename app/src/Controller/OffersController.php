@@ -2,9 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Candidacy;
 use App\Entity\Offers;
+use App\Entity\Status;
+use App\Entity\Student;
 use App\Form\OffersType;
 use App\Repository\OffersRepository;
+use App\Repository\StatusRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,33 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/offers')]
 class OffersController extends AbstractController
 {
-    #[Route('/', name: 'app_offers_index', methods: ['GET'])]
-    public function index(OffersRepository $offersRepository): Response
-    {
-        return $this->render('offers/index.html.twig', [
-            'offers' => $offersRepository->findAll(),
-        ]);
-    }
-
-    #[Route('/new', name: 'app_offers_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, OffersRepository $offersRepository): Response
-    {
-        $offer = new Offers();
-        $form = $this->createForm(OffersType::class, $offer);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $offersRepository->save($offer, true);
-
-            return $this->redirectToRoute('app_offers_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('offers/new.html.twig', [
-            'offer' => $offer,
-            'form' => $form,
-        ]);
-    }
-
     #[Route('/{id}', name: 'app_offers_show', methods: ['GET'])]
     public function show(Offers $offer): Response
     {
@@ -48,31 +26,32 @@ class OffersController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_offers_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Offers $offer, OffersRepository $offersRepository): Response
+    #[Route('/{id}/apply', name: 'app_offers_apply', methods: ['GET','POST'])]
+    public function apply(Offers $offer, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(OffersType::class, $offer);
-        $form->handleRequest($request);
+        $current_user = $this->getUser();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $offersRepository->save($offer, true);
+        $student = $entityManager->getRepository(Student::class)->findOneBy(['email' => $current_user->getUserIdentifier()]);
 
-            return $this->redirectToRoute('app_offers_index', [], Response::HTTP_SEE_OTHER);
+        // Retrieve the "Pending" status from the database
+        $status = $entityManager->getRepository(Status::class)->findOneBy(['status' => 'En attente']);
+
+        if (!$status) {
+            // Handle the case when the "Pending" status is not found
+            throw $this->createNotFoundException('Aucun statut.');
         }
 
-        return $this->renderForm('offers/edit.html.twig', [
-            'offer' => $offer,
-            'form' => $form,
-        ]);
-    }
+        // Create a new candidacy
+        $candidacy = new Candidacy();
+        $candidacy->setStudent($student)
+            ->setOffer($offer)
+            ->setStatus($status);
 
-    #[Route('/{id}', name: 'app_offers_delete', methods: ['POST'])]
-    public function delete(Request $request, Offers $offer, OffersRepository $offersRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$offer->getId(), $request->request->get('_token'))) {
-            $offersRepository->remove($offer, true);
-        }
+        // Save the candidacy to the database
+        $entityManager->persist($candidacy);
+        $entityManager->flush();
 
-        return $this->redirectToRoute('app_offers_index', [], Response::HTTP_SEE_OTHER);
+        // Redirect to a success page or do further processing as needed
+        return $this->redirectToRoute('app_offers_show');
     }
 }
