@@ -42,7 +42,7 @@ class RegistrationController extends AbstractController
                 $user->setImageFilename($imageFileName);
             }
 
-            $role = $form->get('userType')->getData();
+            $role[] = $form->get('userType')->getData();
             if($role){
                 $user->setRoles($role);
             }

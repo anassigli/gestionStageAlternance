@@ -70,8 +70,8 @@ class RegistrationFormType extends AbstractType
                 'label' => 'choix',
                 'mapped' => false,
                 'choices' => [
-                        'Etudiant' => '["ROLE_ETUDIANT"]',
-                        'Entreprise' => '["ROLE_ENTREPRISE"]',
+                        'Etudiant' => 'ROLE_ETUDIANT',
+                        'Entreprise' => 'ROLE_ENTREPRISE',
                     ]])
         ;
     }
