@@ -10,17 +10,26 @@ use Doctrine\Persistence\ObjectManager;
 class StudentsFixtures extends Fixture implements DependentFixtureInterface
 {
     public const STUDENT1 = 'student1';
+    public const STUDENT2 = 'student2';
     public function load(ObjectManager $manager)
     {
-        $student = (new Student())
+        $student1 = (new Student())
             ->setEmail("etu1@mail.com")
             ->setUser($this->getReference(UserFixtures::USER_STUDENT1))
-            ->setImageFilename("test")
             ->setFirstname("Toto")
             ->setLastname("Titi");
-        $this->addReference(self::STUDENT1, $student);
-        $this->setReference(self::STUDENT1, $student);
-        $manager->getRepository(Student::class)->save($student, true);
+        $this->addReference(self::STUDENT1, $student1);
+        $this->setReference(self::STUDENT1, $student1);
+        $manager->getRepository(Student::class)->save($student1, true);
+
+        $student2 = (new Student())
+            ->setEmail("etu2@mail.com")
+            ->setUser($this->getReference(UserFixtures::USER_STUDENT2))
+            ->setFirstname("Mathis")
+            ->setLastname("Dupont");
+        $this->addReference(self::STUDENT2, $student2);
+        $this->setReference(self::STUDENT2, $student2);
+        $manager->getRepository(Student::class)->save($student2, true);
     }
 
     public function getDependencies()

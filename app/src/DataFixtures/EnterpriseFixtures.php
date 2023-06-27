@@ -8,10 +8,11 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class EnterpriseFixtures extends Fixture implements DependentFixtureInterface {
+class EnterpriseFixtures extends Fixture implements DependentFixtureInterface
+{
     public const ENTERPRISE1 = 'enterprise1';
 
-    public const ENTERPRISE2 = 'enterprise1';
+    public const ENTERPRISE2 = 'enterprise2';
 
     public function load(ObjectManager $manager)
     {
@@ -21,7 +22,6 @@ class EnterpriseFixtures extends Fixture implements DependentFixtureInterface {
             ->setDescription("Fondée en 1976, CGI figure parmi les plus importantes entreprises de services-conseils en technologie de l’information (TI) et en management au monde. Nous sommes guidés par les faits et axés sur les résultats afin d’accélérer le rendement de vos investissements.")
             ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE1))
             ->setCity("Bordeaux")
-            ->setImageFilename("test")
             ->setDepartment("33000")
             ->setImageName("test")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
@@ -32,13 +32,12 @@ class EnterpriseFixtures extends Fixture implements DependentFixtureInterface {
             ->setEmail("enterprise2@mail.com")
             ->setName("Multimédia SOLUTIONS")
             ->setDescription("Multimédia SOLUTIONS est éditeur de logiciels de Gestion Électronique de Documents. . Forte de plus de 23 ans d'expertise, nous proposons nos logiciels Windex GED, BotServer et eFoms aux PME et grands-groupes de tous métiers.")
-            ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE1))
+            ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE2))
             ->setCity("Cestas")
-            ->setImageFilename("test")
             ->setDepartment("33610")
             ->setImageName("test")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
-        $this->addReference(self::ENTERPRISE1, $enterprise2);
+        $this->addReference(self::ENTERPRISE2, $enterprise2);
         $manager->getRepository(Enterprise::class)->save($enterprise2, true);
     }
 

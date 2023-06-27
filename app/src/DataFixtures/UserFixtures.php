@@ -13,6 +13,7 @@ class UserFixtures extends Fixture {
     public const USER_ENTERPRISE1 = 'user_enterprise1';
     public const USER_ENTERPRISE2 = 'user_enterprise2';
     public const USER_STUDENT1 = 'user_student1';
+    public const USER_STUDENT2 = 'user_student2';
     private UserPasswordHasherInterface $hasher;
 
     public function __construct(UserPasswordHasherInterface  $passwordHasher)
@@ -49,22 +50,22 @@ class UserFixtures extends Fixture {
         $this->setReference(self::USER_ENTERPRISE2, $userEnterprise2);
         $manager->getRepository(User::class)->save($userEnterprise2, true);
 
-        $userEtu = (new User())
+        $userEtu1 = (new User())
             ->setEmail("etu1@mail.com")
             ->setIsVerified(true)
             ->setRoles(["ROLE_STUDENT"]);
-        $userEtu->setPassword($this->hasher->hashPassword($userEtu, 'etu1'));
-        $this->addReference(self::USER_STUDENT1, $userEtu);
-        $this->setReference(self::USER_STUDENT1, $userEtu);
-        $manager->getRepository(User::class)->save($userEtu, true);
+        $userEtu1->setPassword($this->hasher->hashPassword($userEtu1, 'etu1'));
+        $this->addReference(self::USER_STUDENT1, $userEtu1);
+        $this->setReference(self::USER_STUDENT1, $userEtu1);
+        $manager->getRepository(User::class)->save($userEtu1, true);
 
-        $userEtu = (new User())
+        $userEtu2 = (new User())
             ->setEmail("etu2@mail.com")
             ->setIsVerified(true)
             ->setRoles(["ROLE_STUDENT"]);
-        $userEtu->setPassword($this->hasher->hashPassword($userEtu, 'etu2'));
-        $this->addReference(self::USER_STUDENT1, $userEtu);
-        $this->setReference(self::USER_STUDENT1, $userEtu);
-        $manager->getRepository(User::class)->save($userEtu, true);
+        $userEtu2->setPassword($this->hasher->hashPassword($userEtu2, 'etu2'));
+        $this->addReference(self::USER_STUDENT2, $userEtu2);
+        $this->setReference(self::USER_STUDENT2, $userEtu2);
+        $manager->getRepository(User::class)->save($userEtu2, true);
     }
 }
