@@ -10,4 +10,10 @@
 - yarn run build
 - symfony serve
 
-[test](https://gitlab-ce.iut.u-bordeaux.fr/bachabrol/projet_alternance/-/wikis/test)
+[Suivi projet Baptiste](https://gitlab-ce.iut.u-bordeaux.fr/bachabrol/projet_alternance/-/wikis/suivi-projet-Baptiste)
+
+[Suivi projet Gregory](https://gitlab-ce.iut.u-bordeaux.fr/bachabrol/projet_alternance/-/wikis/suivi-projet-Gregory)
+
+[Suivi projet Tom](https://gitlab-ce.iut.u-bordeaux.fr/bachabrol/projet_alternance/-/wikis/suivi-projet-Tom)
+
+[Suivi projet Anass](https://gitlab-ce.iut.u-bordeaux.fr/bachabrol/projet_alternance/-/wikis/suivi-projet-Anass)
