@@ -10,4 +10,4 @@
 - yarn run build
 - symfony serve
 
-[](https://gitlab-ce.iut.u-bordeaux.fr/bachabrol/projet_alternance/-/wikis/test)
+[test](https://gitlab-ce.iut.u-bordeaux.fr/bachabrol/projet_alternance/-/wikis/test)
