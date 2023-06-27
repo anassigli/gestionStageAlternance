@@ -7,8 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields: ['email'])]
+#[Vich\Uploadable]
 class Student
 {
     #[ORM\Id]
@@ -40,6 +46,12 @@ class Student
 
     #[ORM\OneToMany(mappedBy: 'student', targetEntity: Candidacy::class)]
     private Collection $candidacies;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageName = null;
+
+    #[Vich\UploadableField(mapping: 'students', fileNameProperty: 'imageName')]
+    private ?File $imageFile = null;
 
     public function __construct()
     {
@@ -169,6 +181,18 @@ class Student
                 $candidacy->setStudent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
+    public function setImageName(?string $imageName): static
+    {
+        $this->imageName = $imageName;
 
         return $this;
     }

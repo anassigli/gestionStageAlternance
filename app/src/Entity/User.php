@@ -11,7 +11,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte avec cette adresse mail existe déjà')]
+#[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -21,9 +22,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
-
-    #[ORM\Column(type: 'string')]
-    private ?string $imageFilename;
 
     #[ORM\Column]
     private array $roles = [];
@@ -195,20 +193,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->enterprise = $enterprise;
-
-        return $this;
-    }
-
-
-
-    public function getImageFilename(): string
-    {
-        return $this->imageFilename;
-    }
-
-    public function setImageFilename(string $imageFilename): self
-    {
-        $this->imageFilename = $imageFilename;
 
         return $this;
     }
