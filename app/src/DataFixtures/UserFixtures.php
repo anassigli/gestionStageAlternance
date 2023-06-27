@@ -21,6 +21,7 @@ class UserFixtures extends Fixture {
         $user = (new User())
             ->setEmail("enterprise1@mail.com")
             ->setIsVerified(true)
+            ->setImageFilename("test")
             ->setRoles(["ROLE_ENTERPRISE"]);
         $user->setPassword($this->hasher->hashPassword($user, 'user1'));
         $this->addReference(self::USER1, $user);
