@@ -29,6 +29,7 @@ class TagsFixtures extends Fixture implements DependentFixtureInterface
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_3));
             }
             $manager->getRepository(Tags::class)->save($tag, true);
+
         }
     }
 
