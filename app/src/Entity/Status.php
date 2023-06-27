@@ -15,8 +15,7 @@ class Status
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length:255)]
     private ?string $status = null;
 
     #[ORM\Column]
@@ -176,7 +175,13 @@ class Status
                 $candidacy->setStatus(null);
             }
         }
-
         return $this;
+    }
+
+
+    public function __toString(): string
+    {
+        // TODO: Implement __toString() method.
+        return $this->status;
     }
 }
