@@ -9,3 +9,8 @@ vich_uploader:
       uri_prefix: /images/enterprises
       upload_destination: '%kernel.project_dir%/public/images/enterprises'
       namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+    students:
+      uri_prefix: /images/students
+      upload_destination: '%kernel.project_dir%/public/images/students'
+      namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
