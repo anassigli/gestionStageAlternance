@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EnterpriseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -36,9 +38,6 @@ class Enterprise
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at;
 
-    #[ORM\ManyToOne(inversedBy: 'enterprise')]
-    private ?Offers $offers = null;
-
     #[ORM\ManyToOne(inversedBy: 'enterprises')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Status $status = null;
@@ -55,10 +54,14 @@ class Enterprise
     #[Vich\UploadableField(mapping: 'enterprises', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
+    #[ORM\OneToMany(mappedBy: 'enterprise', targetEntity: Offers::class)]
+    private Collection $offers;
+
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
         $this->updated_at = new \DateTime();
+        $this->offers = new ArrayCollection();
     }
 
     #[ORM\PreUpdate]
@@ -144,18 +147,6 @@ class Enterprise
         return $this;
     }
 
-    public function getOffers(): ?Offers
-    {
-        return $this->offers;
-    }
-
-    public function setOffers(?Offers $offers): static
-    {
-        $this->offers = $offers;
-
-        return $this;
-    }
-
     public function getStatus(): ?Status
     {
         return $this->status;
@@ -218,5 +209,35 @@ class Enterprise
     public function getImageFile(): ?File
     {
         return $this->imageFile;
+    }
+
+    /**
+     * @return Collection<int, Offers>
+     */
+    public function getOffers(): Collection
+    {
+        return $this->offers;
+    }
+
+    public function addOffer(Offers $offer): static
+    {
+        if (!$this->offers->contains($offer)) {
+            $this->offers->add($offer);
+            $offer->setEnterprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOffer(Offers $offer): static
+    {
+        if ($this->offers->removeElement($offer)) {
+            // set the owning side to null (unless already changed)
+            if ($offer->getEnterprise() === $this) {
+                $offer->setEnterprise(null);
+            }
+        }
+
+        return $this;
     }
 }

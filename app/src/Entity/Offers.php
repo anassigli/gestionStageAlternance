@@ -22,9 +22,6 @@ class Offers
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'offers', targetEntity: Enterprise::class)]
-    private Collection $enterprise;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
@@ -38,11 +35,20 @@ class Offers
     #[ORM\OneToMany(mappedBy: 'offer', targetEntity: Candidacy::class)]
     private Collection $candidacies;
 
+    #[ORM\ManyToOne(inversedBy: 'offers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Enterprise $enterprise = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $city = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $department = null;
+
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
         $this->updated_at = new \DateTime();
-        $this->enterprise = new ArrayCollection();
         $this->candidacies = new ArrayCollection();
     }
 
@@ -105,36 +111,6 @@ class Offers
         return $this;
     }
 
-    /**
-     * @return Collection<int, Enterprise>
-     */
-    public function getEnterprise(): Collection
-    {
-        return $this->enterprise;
-    }
-
-    public function addEnterprise(Enterprise $enterprise): static
-    {
-        if (!$this->enterprise->contains($enterprise)) {
-            $this->enterprise->add($enterprise);
-            $enterprise->setOffers($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEnterprise(Enterprise $enterprise): static
-    {
-        if ($this->enterprise->removeElement($enterprise)) {
-            // set the owning side to null (unless already changed)
-            if ($enterprise->getOffers() === $this) {
-                $enterprise->setOffers(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getStatus(): ?Status
     {
         return $this->status;
@@ -173,6 +149,42 @@ class Offers
                 $candidacy->setOffer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEnterprise(): ?Enterprise
+    {
+        return $this->enterprise;
+    }
+
+    public function setEnterprise(?Enterprise $enterprise): static
+    {
+        $this->enterprise = $enterprise;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): static
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getDepartment(): ?string
+    {
+        return $this->department;
+    }
+
+    public function setDepartment(string $department): static
+    {
+        $this->department = $department;
 
         return $this;
     }
