@@ -1,17 +1,18 @@
-{% extends 'base.html.twig' %}
 {% block body %}
-<div class="card w-1/3">
+<div class="card">
+
     <div >
-        <h1>Developpement Web</h1>
+        <h1> {{ offer.name }}</h1>
     </div>
 
     <div class="pill-container">
         <div class="pill-holder">
-            <div class="pill bg-red-700">Back</div>
+            <div class="pill bg-red-700" >Back</div>
             <div class="pill bg-sky-500 ">Design</div>
             <div class="pill bg-amber-300">Front</div>
         </div>
     </div>
+
 
     <div>
         <p class="candidatures"> Il y a 0 Candidatures</p>
@@ -22,12 +23,8 @@
     </div>
 
     <div >
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Nunc condimentum ac velit vitae ultricies. Mauris congue
-            est neque. Suspendisse vitae dui vel justo scelerisque egestas
-            at non neque. Fusce volutpat volutpat mi non imperdiet. Fusce
-            tempor purus nulla, sollicitudin interdum enim dictum a.
+        <p class="text-style-3lines">
+            {{ offer.description }}
         </p>
     </div>
 
