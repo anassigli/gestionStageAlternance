@@ -42,6 +42,11 @@ class RegistrationController extends AbstractController
                 $user->setImageFilename($imageFileName);
             }
 
+            $role = $form->get('userType')->getData();
+            if($role){
+                $user->setRoles($role);
+            }
+
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -69,15 +74,18 @@ class RegistrationController extends AbstractController
                 ->context(['signedUrl' => $signatureComponents->getSignedUrl()]);
              $this->mailer->send($email);
         }
-        return $this->render('registration/register.html.twig', [
+
+          return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+
+
+
     }
 
     #[Route('/verify/email', name: 'registration_confirmation_route')]
     public function verifyUserEmail(Request $request, UserRepository $userRepository): Response
     {
-
        // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $userRepository->find($request->query->get('id'));
         if (!$user) {
@@ -98,6 +106,6 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', 'Your e-mail address has been verified.');
         $user->setIsVerified(true);
         $userRepository->save($user, true);
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('app_choose_identity');
     }
 }

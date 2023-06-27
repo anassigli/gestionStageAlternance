@@ -50,6 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->created_at = new \DateTimeImmutable();
         $this->updated_at = new \DateTime();
+        $this->isVerified = false;
     }
 
     #[ORM\PreUpdate]
