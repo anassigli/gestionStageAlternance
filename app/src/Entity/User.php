@@ -22,6 +22,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
+
+    #[ORM\Column(type: 'string')]
+    private $imageFilename;
+
+
     #[ORM\Column]
     private array $roles = [];
 
@@ -194,6 +199,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->enterprise = $enterprise;
+
+        return $this;
+    }
+
+
+
+    public function getImageFilename(): string
+    {
+        return $this->imageFilename;
+    }
+
+    public function setImageFilename(string $imageFilename): self
+    {
+        $this->imageFilename = $imageFilename;
 
         return $this;
     }
