@@ -15,6 +15,7 @@ class StudentsFixtures extends Fixture implements DependentFixtureInterface
         $student = (new Student())
             ->setEmail("etu1@mail.com")
             ->setUser($this->getReference(UserFixtures::USER_STUDENT1))
+            ->setImageFilename("test")
             ->setFirstname("Toto")
             ->setLastname("Titi");
         $this->addReference(self::STUDENT1, $student);
