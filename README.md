@@ -9,3 +9,5 @@
 - yarn install (passer toutes les informations à rentrer)
 - yarn run build
 - symfony serve
+
+[test](https://gitlab-ce.iut.u-bordeaux.fr/bachabrol/projet_alternance/-/wikis/test)
