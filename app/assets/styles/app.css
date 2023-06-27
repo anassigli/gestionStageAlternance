@@ -2,5 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
+p{
+    font-size: 14px;
+    line-height: 145%;
+}
+
+h1{
+    font-weight: 700;
+    font-size: 25px;
+}
+.pill-container{
+}
+
+
+.offer-cta{
+    border-radius: 12px;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+}
+
+.candidatures{
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+.pill-holder{
+    display: flex;
+    max-width: 100%;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    gap: 0.3em;
+}
+
+.pill-holder::-webkit-scrollbar {
+    display: none;
+}
+
+.pill{
+    font-weight: 600;
+    color: white;
+    font-size: 12px;
+    line-height: 140%;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    border-radius: 10px;
+
+}
+
+
+
+.link-holder {
+    margin-top: 1vh;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.card {
+    padding: 2em;
+    margin-left: 2em;
+    border:0.4px solid black;
+    border-radius:20px;
+}
+
+
+
+
 
 
