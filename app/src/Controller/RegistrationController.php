@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Controller;
+
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\MailService\VerifyUser\Mailer;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,17 +20,20 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class RegistrationController extends AbstractController
 {
-    private MailerInterface $mailer;
     private VerifyEmailHelperInterface $verifyEmailHelper;
+    private UserRepository $userRepository;
 
-    public function __construct(VerifyEmailHelperInterface $helper,MailerInterface $mailer)
+    public function __construct(VerifyEmailHelperInterface $helper, UserRepository $userRepository)
     {
         $this->verifyEmailHelper = $helper;
-        $this->mailer = $mailer;
+        $this->userRepository = $userRepository;
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher,  EntityManagerInterface $entityManager,FileUploader $fileUploader): Response
+    public function register(Request                     $request,
+                             UserPasswordHasherInterface $userPasswordHasher,
+                             FileUploader                $fileUploader,
+                             Mailer                      $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -43,7 +48,7 @@ class RegistrationController extends AbstractController
             }
 
             $role[] = $form->get('userType')->getData();
-            if($role){
+            if ($role) {
                 $user->setRoles($role);
             }
 
@@ -54,8 +59,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $this->userRepository->save($user, true);
 
             $signatureComponents = $this->verifyEmailHelper->generateSignature(
                 'registration_confirmation_route',
@@ -64,30 +68,21 @@ class RegistrationController extends AbstractController
                 ['id' => $user->getId()]
             );
 
-            // do anything else you need here, like send an email
-
-            $email = (new TemplatedEmail())
-                ->from("anass.igli@gmail.com")
-                ->to($user->getEmail())
-                ->subject("please confirm Email")
-                ->htmlTemplate('registration/confirmation_email.html.twig')
-                ->context(['signedUrl' => $signatureComponents->getSignedUrl()]);
-             $this->mailer->send($email);
+            $mailer->sendChangePasswordMessage($user, $signatureComponents->getSignedUrl());
         }
 
-          return $this->render('registration/register.html.twig', [
+        return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
-
 
 
     }
 
     #[Route('/verify/email', name: 'registration_confirmation_route')]
-    public function verifyUserEmail(Request $request, UserRepository $userRepository): Response
+    public function verifyUserEmail(Request $request): Response
     {
-       // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user = $userRepository->find($request->query->get('id'));
+        // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->userRepository->find($request->query->get('id'));
         if (!$user) {
             throw $this->createNotFoundException();
         }
@@ -102,10 +97,8 @@ class RegistrationController extends AbstractController
             $this->addFlash('error', $e->getReason());
             return $this->redirectToRoute('app_register');
         }
-        // Mark your user as verified. e.g. switch a User::verified property to true
-        $this->addFlash('success', 'Your e-mail address has been verified.');
         $user->setIsVerified(true);
-        $userRepository->save($user, true);
+        $this->userRepository->save($user, true);
         return $this->redirectToRoute('app_choose_identity');
     }
 }

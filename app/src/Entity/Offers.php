@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OffersRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Offers
 {
     #[ORM\Id]
@@ -45,11 +46,15 @@ class Offers
     #[ORM\Column(length: 255)]
     private ?string $department = null;
 
+    #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'offers')]
+    private Collection $tags;
+
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
         $this->updated_at = new \DateTime();
         $this->candidacies = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     #[ORM\PreUpdate]
@@ -185,6 +190,30 @@ class Offers
     public function setDepartment(string $department): static
     {
         $this->department = $department;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tags>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tags $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tags $tag): static
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }
