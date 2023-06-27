@@ -8,12 +8,9 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-
+<div class="grid grid-cols-2 gap-8 w-2/3 mx-auto" >
     {% for offer in offers %}
-       <p>{{ offer.name }}</p>
-        <a href="{{ path('app_offers_apply', {'id': offer.id}) }}" class="btn btn-primary">Apply</a>
+        {% include 'card/card.html.twig' with {offer} %}
     {% endfor %}
-
 </div>
 {% endblock %}
