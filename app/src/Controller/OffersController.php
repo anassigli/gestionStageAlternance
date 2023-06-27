@@ -6,9 +6,11 @@ use App\Entity\Candidacy;
 use App\Entity\Offers;
 use App\Entity\Status;
 use App\Entity\Student;
+use App\Entity\User;
 use App\Form\OffersType;
 use App\Repository\OffersRepository;
 use App\Repository\StatusRepository;
+use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +28,7 @@ class OffersController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/apply', name: 'app_offers_apply', methods: ['GET','POST'])]
+    #[Route('/{id}/apply', name: 'app_offers_apply', methods: ['GET', 'POST'])]
     public function apply(Offers $offer, EntityManagerInterface $entityManager): Response
     {
         $current_user = $this->getUser();

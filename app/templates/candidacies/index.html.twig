@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidacies index{% endblock %}
+
+{% block body %}
+
+    <div class="grid grid-cols-2 gap-8 w-2/3 mx-auto" >
+        {% for candidacy in candidacies %}
+            {% set offer = candidacy.offer %}
+            {%  include 'card/card.html.twig' with { offer } %}
+        {% endfor %}
+    </div>
+{% endblock %}
