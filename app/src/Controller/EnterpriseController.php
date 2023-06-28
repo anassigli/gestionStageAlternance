@@ -6,13 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ChooseIdentityController extends AbstractController
+class EnterpriseController extends AbstractController
 {
-    #[Route('/choose', name: 'app_choose_identity')]
+    #[Route('/enterprise', name: 'app_enterprise')]
     public function index(): Response
     {
-        return $this->render('choose_identity/new.html.twig', [
-            'controller_name' => 'ChooseIdentityController',
+        return $this->render('enterprise/new.html.twig', [
+            'controller_name' => 'EnterpriseController',
         ]);
     }
 }
