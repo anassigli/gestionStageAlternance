@@ -49,6 +49,40 @@ class OffersController extends AbstractController
         ]);
     }
 
+    #[Route('/edit/{id}', name: 'app_offers_edit', methods: ['GET', 'POST'])]
+    public function edit(Request          $request,
+                         Offers           $offer,
+                         OffersRepository $offersRepository): Response
+    {
+        $form = $this->createForm(OffersType::class, $offer);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $offersRepository->save($offer, true);
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('offers/edit.html.twig', [
+            'offer' => $offer,
+            'form' => $form
+        ]);
+    }
+
+    #[Route('/delete/{id}', name: 'app_offers_delete', methods: ['POST'])]
+    public function delete(Request          $request,
+                           Offers           $offer,
+                           OffersRepository $offersRepository): Response
+    {
+
+        $offersRepository->remove($offer, true);
+        $route = $request->headers->get('referer');
+        return $this->redirect($route);
+        /*$offers = $offersRepository->findAll();
+        return $this->render('home/index.html.twig', [
+            'offers' => $offers
+        ]);*/
+    }
+
     #[Route('{id}/apply', name: 'app_offers_apply', methods: ['GET', 'POST'])]
     public function apply(Offers $offer, EntityManagerInterface $entityManager): Response
     {

@@ -45,7 +45,10 @@
                     {% endif %}
                 {% elseif "ROLE_ENTERPRISE" in app.user.roles %}
                     {% if offer.enterprise.id == app.user.enterprise.id %}
-                        <div><a href="" class="offer-cta text-white p-1 bg-blue-first ">Modifier</a></div>
+                        <div class="flex flex-grow-1 justify-between">
+                            <a href="{{ path("app_offers_edit", {'id': offer.id}) }}" class="offer-cta text-white p-1 bg-blue-first ">Modifier</a>
+                            {{ include('offers/_delete_form.html.twig') }}
+                        </div>
                     {% endif %}
                 {% endif %}
             </div>
