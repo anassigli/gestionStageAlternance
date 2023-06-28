@@ -39,7 +39,7 @@
                         {% endif %}
                     {% endfor %}
                     {% if find %}
-                        <div><a href="#" class="rounded-md p-2 text-white bg-red-500 hover:bg-red-600">Désister</a></div>
+                        <div><a href="{{ path('app_delete_candidacy', { 'id': offer.id }) }}" class="rounded-md p-2 text-white bg-red-500 hover:bg-red-600">Désister</a></div>
                     {% else %}
                         <div><a href="{{ path('app_new_candidacy', { 'id': offer.id }) }}"
                                 class="rounded-md p-2 text-white bg-sky-500 hover:bg-sky-600">Postuler</a>

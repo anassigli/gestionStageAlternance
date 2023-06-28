@@ -50,4 +50,28 @@ class CandidacyController extends AbstractController
 
         return $this->redirectToRoute('app_home');
     }
+
+    #[Route('/candidacy/delete/{id}', name: 'app_delete_candidacy')]
+    public function delete(Offers              $offer,
+                           StudentRepository   $studentRepository,
+                           CandidacyRepository $candidacyRepository,
+                           Session             $session): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $student = $studentRepository->findOneBy(['email' => $user->getEmail()]);
+
+        $candidacy = $candidacyRepository->findOneBy([
+            'offer' => $offer,
+            'student' => $student
+        ]);
+
+        $candidacyRepository->remove($candidacy, true);
+
+        $session->getFlashBag()->add('success',
+            "Votre candidature a bien été supprimée.");
+
+        return $this->redirectToRoute('app_home');
+    }
 }
