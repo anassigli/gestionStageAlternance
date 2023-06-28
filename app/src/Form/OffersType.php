@@ -20,16 +20,13 @@ class OffersType extends AbstractType
             ->add('city')
             ->add('department')
             ->add('tags', EntityType::class, [
-                // looks for choices from this entity
+                // Entité que l'on veut ajouter au formulaire
                 'class' => Tags::class,
-                /*'query_builder' => function (EntityRepository $er): QueryBuilder {
-                    return $er->createQueryBuilder('t')
-                        ->orderBy('t.tag', 'ASC');
-                },*/
-                // uses the Tags.tag property as the visible option string
+
+                // La valeur que l'on veut ajouter
                 'choice_label' => 'tag',
 
-                // used to render a select box, check boxes or radios
+                // Affichage
                 'multiple' => true,
                 'expanded' => true,
             ])
