@@ -21,18 +21,20 @@ class HomeController extends AbstractController
         /** @var User $current_user */
         $current_user = $this->getUser();
         $current_user_id = $current_user->getId();
-
         $current_user_role = $current_user->getRoles();
-        $candidacies = $current_user->getStudent()->getCandidacies();
+
+        if (in_array('ROLE_STUDENT', $current_user_role)) {
+            $candidacies = $current_user->getStudent()->getCandidacies();
+        }
+
         $offers = $offersRepository->findAll();
 
         /** @var User $user */
         $user = $this->getUser();
 
         if ($user) {
-            $roles = $user->getRoles();
 
-            if (in_array('ROLE_ENTERPRISE', $roles)) {
+            if (in_array('ROLE_ENTERPRISE', $current_user_role)) {
                 $enterprise = $enterpriseRepository->findOneBy(['email' => $user->getEmail()]);
 
                 if ($enterprise->getStatus()->getStatus() === 'En attente') {
@@ -41,11 +43,11 @@ class HomeController extends AbstractController
                 }
             }
         }
-        return $this->render('home/index.html.twig',[
-            'offers'=>$offers,
-            'current_user_role'=>$current_user_role,
-            'candidacies'=>$candidacies,
-            'current_user_id'=>$current_user_id
+        return $this->render('home/index.html.twig', [
+            'offers' => $offers,
+            'current_user_role' => $current_user_role,
+            'candidacies' => $candidacies ?? null,
+            'current_user_id' => $current_user_id
         ]);
     }
 }
