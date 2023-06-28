@@ -3,31 +3,19 @@
 {% block title %}Création de compte{% endblock %}
 
 {% block body %}
-    <div class="w-1/2 mx-auto">
-        {% include 'app_flashes.html.twig' %}
 
-        <h1>Création de compte</h1>
+    <h1 class="text-center font-semibold text-2xl">Création de compte</h1>
 
-
-        {{ form_errors(registrationForm) }}
-
-        {{ form_start(registrationForm) }}
-
-        {{ form_label(registrationForm.email) }}
-        {{ form_widget(registrationForm.email) }}
-
-        {{ form_label(registrationForm.plainPassword) }}
-        {{ form_widget(registrationForm.plainPassword) }}
-
-        {{ form_label(registrationForm.userType) }}
-        {{ form_widget(registrationForm.userType) }}
-
-        {{ form_label(registrationForm.agreeTerms) }}
-        {{ form_widget(registrationForm.agreeTerms) }}
-
-        <div>
-            <button type="submit" class="p-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">S'enregistrer</button>
+    <div class="flex">
+        <div class="w-1/2">
+            <h2 class="text-center text-xl">Formulaire entreprise</h2>
+            {{ form_start(enterprise_form) }}
+            {{ form_end(enterprise_form) }}
         </div>
-        {{ form_end(registrationForm) }}
+        <div class="w-1/2">
+            <h2 class="text-center text-xl">Formulaire Étudiant</h2>
+            {{ form_start(student_form) }}
+            {{ form_end(student_form) }}
+        </div>
     </div>
 {% endblock %}

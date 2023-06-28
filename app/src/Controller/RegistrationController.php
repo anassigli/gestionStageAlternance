@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Enterprise;
+use App\Entity\Student;
 use App\Entity\User;
+use App\Form\EnterpriseFormType;
 use App\Form\RegistrationFormType;
+use App\Form\StudentFormType;
 use App\MailService\VerifyUser\Mailer;
+use App\Repository\EnterpriseRepository;
 use App\Repository\StatusRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
@@ -35,28 +39,38 @@ class RegistrationController extends AbstractController
 
     #[Route('/register', name: 'app_register')]
     public function register(Request                     $request,
+                             Session                     $session,
                              UserPasswordHasherInterface $userPasswordHasher,
-                             Mailer                      $mailer): Response
+                             Mailer                      $mailer,
+                             EnterpriseRepository        $enterpriseRepository,
+                             StatusRepository            $statusRepository): Response
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+        $enterprise = new Enterprise();
+        $student = new Student();
+        $formEnterprise = $this->createForm(EnterpriseFormType::class, $enterprise);
+        $formStudent = $this->createForm(StudentFormType::class, $student);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $formEnterprise->handleRequest($request);
+        $formStudent->handleRequest($request);
 
-            $role[] = $form->get('userType')->getData();
-            if ($role) {
-                $user->setRoles($role);
-            }
+        if ($formEnterprise->isSubmitted() && $formEnterprise->isValid()) {
+            $enterprise->setStatus($statusRepository->findOneBy(['status' => 'En attente']));
 
-            // encode the plain password
+            /** @var User $user */
+            $user = (new User())
+                ->setEmail($enterprise->getEmail())
+                ->setRoles(['ROLE_ENTERPRISE'])
+                ->setEnterprise($enterprise);
+
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $formEnterprise->get('plainPassword')->getData()
                 )
             );
+
             $this->userRepository->save($user, true);
+            $enterpriseRepository->save($enterprise, true);
 
             $signatureComponents = $this->verifyEmailHelper->generateSignature(
                 'registration_confirmation_route',
@@ -66,18 +80,22 @@ class RegistrationController extends AbstractController
             );
 
             $mailer->sendChangePasswordMessage($user, $signatureComponents->getSignedUrl());
+
+            $session->getFlashBag()->add('success', 'Un mail de confirmation vous a été envoyé');
+
+            $this->redirectToRoute('app_home');
         }
 
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+            'enterprise_form' => $formEnterprise->createView(),
+            'student_form' => $formStudent->createView(),
         ]);
     }
 
-    #[Route('/verify/email', name: 'registration_confirmation_route')]
-    public function verifyUserEmail(Request          $request,
-                                    Session          $session,
-                                    EntityManager    $em,
-                                    StatusRepository $statusRepository): Response
+    #[
+        Route('/verify/email', name: 'registration_confirmation_route')]
+    public function verifyUserEmail(Request $request,
+                                    Session $session): Response
     {
         $user = $this->userRepository->find($request->query->get('id'));
         if (!$user) {
@@ -98,12 +116,8 @@ class RegistrationController extends AbstractController
 
         $this->userRepository->save($user, true);
 
-        if (in_array('ROLE_ENTERPRISE', $user->getRoles(), true)) {
-            $this->redirectToRoute('app_new_enterprise');
-        } else {
-            $this->redirectToRoute('app_new_student');
-        }
+        $session->getFlashBag()->add('success', 'Votre compte est bien vérifié');
 
-        return $this->redirectToRoute('app_choose_identity');
+        return $this->redirectToRoute('app_home');
     }
 }
