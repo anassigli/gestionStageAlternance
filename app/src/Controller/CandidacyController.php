@@ -16,7 +16,7 @@ class CandidacyController extends AbstractController
         $current_user = $this->getUser();
         $candidacies = $current_user->getStudent()->getCandidacies();
 
-        return $this->render('candidacies/index.html.twig', [
+        return $this->render('candidacies/new.html.twig', [
             'candidacies' => $candidacies,
         ]);
     }

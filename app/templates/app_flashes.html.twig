@@ -1,0 +1,24 @@
+{% for message in app.flashes('error') %}
+    <div class="border-2 border-red-400 bg-red-100 px-4 py-3 w-full mb-3 rounded w-2/3 mx-auto" role="alert">
+        <p class="text-red-600">{{ message }}</p>
+    </div>
+{% endfor %}
+
+{% for message in app.flashes('danger') %}
+    <div class="border-2 border-red-400 bg-red-100 px-4 py-3 w-full mb-3 rounded w-2/3 mx-auto" role="alert">
+        <p class="text-red-600">{{ message }}</p>
+    </div>
+{% endfor %}
+
+
+{% for message in app.flashes('warning') %}
+    <div class="border-2 border-orange-400 bg-orange-100 px-4 py-3 w-full mb-3 rounded w-2/3 mx-auto" role="alert">
+        <p class="text-orange-600">{{ message }}</p>
+    </div>
+{% endfor %}
+
+{% for message in app.flashes('success') %}
+    <div class="border-2 border-green-400 bg-green-100 px-4 py-3 w-full mb-3 rounded w-2/3 mx-auto" role="alert">
+        <p class="text-green-600">{{ message }}</p>
+    </div>
+{% endfor %}

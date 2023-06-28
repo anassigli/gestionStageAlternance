@@ -4,9 +4,7 @@
 
 {% block body %}
     <div class="w-1/2 mx-auto">
-        {% for flash_error in app.flashes('verify_email_error') %}
-            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-        {% endfor %}
+        {% include 'app_flashes.html.twig' %}
 
         <h1>Création de compte</h1>
 

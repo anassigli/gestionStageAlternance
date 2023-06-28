@@ -2,16 +2,20 @@
 
 namespace App\Controller;
 
+use App\Entity\Enterprise;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\MailService\VerifyUser\Mailer;
+use App\Repository\StatusRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
@@ -32,7 +36,6 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request                     $request,
                              UserPasswordHasherInterface $userPasswordHasher,
-                             FileUploader                $fileUploader,
                              Mailer                      $mailer): Response
     {
         $user = new User();
@@ -40,12 +43,6 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $imageFile = $form->get('image')->getData();
-            if ($imageFile) {
-                $imageFileName = $fileUploader->upload($imageFile);
-                $user->setImageFilename($imageFileName);
-            }
 
             $role[] = $form->get('userType')->getData();
             if ($role) {
@@ -74,14 +71,14 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
-
-
     }
 
     #[Route('/verify/email', name: 'registration_confirmation_route')]
-    public function verifyUserEmail(Request $request): Response
+    public function verifyUserEmail(Request          $request,
+                                    Session          $session,
+                                    EntityManager    $em,
+                                    StatusRepository $statusRepository): Response
     {
-        // $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->userRepository->find($request->query->get('id'));
         if (!$user) {
             throw $this->createNotFoundException();
@@ -94,11 +91,19 @@ class RegistrationController extends AbstractController
                 $user->getEmail(),
             );
         } catch (VerifyEmailExceptionInterface $e) {
-            $this->addFlash('error', $e->getReason());
+            $session->getFlashBag()->add('error', $e->getReason());
             return $this->redirectToRoute('app_register');
         }
         $user->setIsVerified(true);
+
         $this->userRepository->save($user, true);
+
+        if (in_array('ROLE_ENTERPRISE', $user->getRoles(), true)) {
+            $this->redirectToRoute('app_new_enterprise');
+        } else {
+            $this->redirectToRoute('app_new_student');
+        }
+
         return $this->redirectToRoute('app_choose_identity');
     }
 }

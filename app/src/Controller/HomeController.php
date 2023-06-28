@@ -14,6 +14,6 @@ class HomeController extends AbstractController
     public function index(OffersRepository $offersRepository): Response
     {
         $offers = $offersRepository->findAll();
-        return $this->render('home/index.html.twig',['offers'=>$offers]);
+        return $this->render('home/new.html.twig',['offers'=>$offers]);
     }
 }
