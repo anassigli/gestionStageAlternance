@@ -7,22 +7,29 @@
         <button class="flex items-center px-3 py-2 border rounded text-teal-200 border-teal-400 hover:text-white hover:border-white">
             <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Menu</title><path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/></svg>
         </button>
+
     </div>
     <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div class="text-sm lg:flex-grow">
 
         </div>
         <div>
-            <a href="/login" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
-                Login
-            </a>
-            <a href="/register" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
-                Register
-            </a>
-            <a href="/account" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
+            {% if not app.user %}
+                <a href="/login" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
+                    Login
+                </a>
+
+                <a href="/register" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
+                    Register
+                </a>
+            {% endif %}
+
+
+
+            <a href="/account" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4" aria-disabled="true">
                 Profil
             </a>
-            <a href="/offers" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
+            <a href="/" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
                 Mes Offres
             </a>
             <a href="{{ path('app_offers_create') }}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
@@ -30,11 +37,14 @@
             </a>
             <a href="{{ path('app_candidacies_show') }}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
                 Mes Candidatures
-            </a>        </div>
+            </a>
+            {% if app.user %}
+                <a href="/logout" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
+                    Logout
+                </a>
+            {% endif %}
+
+        </div>
     </div>
-
-
-
-
 
 </nav>

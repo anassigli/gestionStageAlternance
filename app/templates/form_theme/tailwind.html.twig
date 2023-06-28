@@ -31,6 +31,6 @@
 {%- endblock -%}
 
 {%- block widget_attributes -%}
-    {%- set widget_class = widget_class|default('mb-2 text-sm w-full h-9 rounded-md border-gray-100 bg-slate-200 shadow-sm focus:border-emerald-500 focus:ring focus:ring-emerald-600 focus:ring-opacity-50') ~ (errors|length ? ' ' ~ widget_errors_class|default('border-red-600')) -%}
+    {%- set widget_class = widget_class|default('mb-2 text-sm w-full h-9 rounded-md border-gray-100 bg-slate-200 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-600 focus:ring-opacity-50') ~ (errors|length ? ' ' ~ widget_errors_class|default('border-red-600')) -%}
     {{- parent() -}}
 {%- endblock -%}
