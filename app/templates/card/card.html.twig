@@ -7,9 +7,9 @@
 
         <div>
             <div class="pill-holder">
-                <div class="pill bg-red-700">Back</div>
-                <div class="pill bg-sky-500">Design</div>
-                <div class="pill bg-amber-300">Front</div>
+                {%  for tag in offer.tags %}
+                    <div class="pill bg-red-700">{{ tag.tag }}</div>
+                {% endfor %}
             </div>
 
 
