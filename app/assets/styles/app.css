@@ -20,13 +20,6 @@ h1{
     font-size: 25px;
 }
 
-
-.offer-cta{
-    border-radius: 12px;
-    padding-left: 0.6em;
-    padding-right: 0.6em;
-}
-
 .pill-holder{
     display: flex;
     max-width: 100%;
@@ -70,6 +63,12 @@ h1{
     gap: 0.6em;
 }
 
+.offre{
+    /* width:100% */ ;
+    border:0.4px solid black;
+    border-radius:20px;
+    padding: 2em;
+}
 .btn {
     @apply p-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md;
 }
