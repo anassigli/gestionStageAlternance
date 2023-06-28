@@ -31,7 +31,7 @@ class HomeController extends AbstractController
             }
 
             if (in_array('ROLE_ENTERPRISE', $current_user_role)) {
-                $enterprise = $enterpriseRepository->findOneBy(['email' => $current_user]);
+                $enterprise = $enterpriseRepository->findOneBy(['email' => $current_user->getEmail()]);
 
                 if ($enterprise->getStatus()->getStatus() === 'En attente') {
                     $session->getFlashBag()->add('warning',
