@@ -35,4 +35,16 @@ class EnterpriseController extends AbstractController
             'form' => $form
         ]);
     }
+
+    #[Route('/enterprise/offers', name: 'app_enterprise_offers')]
+    public function showOffers(EnterpriseRepository $enterpriseRepository): Response
+    {
+        $currentUser = $this->getUser();
+        $enterprise = $enterpriseRepository->findOneBy(['email' => $currentUser->getUserIdentifier()]);
+
+        return $this->render('enterprise/show_offers.html.twig', [
+            'offers' => $enterprise->getOffers(),
+            'current_user_role' => $currentUser->getRoles()
+        ]);
+    }
 }

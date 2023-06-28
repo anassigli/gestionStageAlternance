@@ -29,26 +29,25 @@
 
         <div class="link-container">
             <div class="link-holder">
-                <div><a href="{{ path('app_offers_show', {'id': offer.id}) }}" class="offer-cta text-white bg-blue-second p-1">En savoir +</a></div>
-                {% if  "ROLE_STUDENT" in current_user_role %}
-                    {% set trouver = false %}
+                <div><a href="{{ path('app_offers_show', {'id': offer.id}) }}"
+                        class="offer-cta text-white bg-blue-second p-1">En savoir +</a></div>
+                {% if  "ROLE_STUDENT" in app.user.roles %}
+                    {% set find = false %}
                     {% for candidature in offer.candidacies %}
-                        {% if candidature.student.user.id == current_user_id %}
-                            {% set trouver = true %}
+                        {% if candidature.student.user.id == app.user.id %}
+                            {% set find = true %}
                         {% endif %}
                     {% endfor %}
-                    {% if trouver %}
+                    {% if find %}
                         <div><a href="#" class="offer-cta text-white p-1 bg-red-600 ">Désister</a></div>
-                    {%  else %}
+                    {% else %}
                         <div><a href="" class="offer-cta text-white p-1 bg-blue-first ">Postuler</a></div>
                     {% endif %}
+                {% elseif "ROLE_ENTERPRISE" in app.user.roles %}
+                    {% if offer.enterprise.id == app.user.enterprise.id %}
+                        <div><a href="" class="offer-cta text-white p-1 bg-blue-first ">Modifier</a></div>
+                    {% endif %}
                 {% endif %}
-
-
-
-
-
-
             </div>
         </div>
 
