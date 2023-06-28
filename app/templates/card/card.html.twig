@@ -24,7 +24,7 @@
             <div class="link-holder">
                 <div><a href="{{ path('app_offers_show', {'id': offer.id}) }}"
                         class="offer-cta text-white bg-blue-second p-1">En savoir +</a></div>
-                {% if  "ROLE_STUDENT" in app.user.roles %}
+                {% if "ROLE_STUDENT" in app.user.roles %}
                     {% set find = false %}
                     {% for candidature in offer.candidacies %}
                         {% if candidature.student.user.id == app.user.id %}
