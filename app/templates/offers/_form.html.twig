@@ -1,4 +1,27 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {# {{ form_widget(form) }} #}
+
+<div class="my-custom-class-for-errors">
+    {{ form_errors(form) }}
+</div>
+
+<div class="row">
+    <div class="col">
+        {{ form_row(form.name) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.city) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.department) }}
+    </div>
+    <div class="col">
+        {{ form_widget(form.tags) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.description) }}
+    </div>
+</div>
+
+<button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
