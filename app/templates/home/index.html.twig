@@ -6,7 +6,13 @@
 
 <div class="grid grid-cols-2 gap-8 w-2/3 mx-auto" >
     {% for offer in offers %}
-        {% include 'card/card.html.twig' with {offer} %}
+        {%  include 'card/card.html.twig' with
+            {'offer': offer,
+                'current_user_role': current_user_role ,
+                'candidacies': candidacies,
+                'current_user_email':current_user_id
+            }
+        %}
     {% endfor %}
 </div>
 {% endblock %}

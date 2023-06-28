@@ -30,7 +30,25 @@
         <div class="link-container">
             <div class="link-holder">
                 <div><a href="#" class="offer-cta text-white bg-blue-second p-1">En savoir +</a></div>
-                <div><a href="#" class="offer-cta text-white p-1 bg-blue-first ">Postuler</a></div>
+                {% if  "ROLE_STUDENT" in current_user_role %}
+                    {% set trouver = false %}
+                    {% for candidature in offer.candidacies %}
+                        {% if candidature.student.user.id == current_user_id %}
+                            {% set trouver = true %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if trouver %}
+                        <div><a href="#" class="offer-cta text-white p-1 bg-red-600 ">Désister</a></div>
+                    {%  else %}
+                        <div><a href="#" class="offer-cta text-white p-1 bg-blue-first ">Postuler</a></div>
+                    {% endif %}
+                {% endif %}
+
+
+
+
+
+
             </div>
         </div>
 
