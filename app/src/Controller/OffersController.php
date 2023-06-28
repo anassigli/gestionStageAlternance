@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controller;
-
 use App\Entity\Candidacy;
 use App\Entity\Offers;
 use App\Entity\Status;
