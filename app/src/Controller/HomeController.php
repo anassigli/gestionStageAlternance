@@ -18,24 +18,20 @@ class HomeController extends AbstractController
                           Session              $session,
                           EnterpriseRepository $enterpriseRepository): Response
     {
-        /** @var User $current_user */
-        $current_user = $this->getUser();
-        $current_user_id = $current_user->getId();
-        $current_user_role = $current_user->getRoles();
-
-        if (in_array('ROLE_STUDENT', $current_user_role)) {
-            $candidacies = $current_user->getStudent()->getCandidacies();
-        }
-
         $offers = $offersRepository->findAll();
 
-        /** @var User $user */
-        $user = $this->getUser();
+        if ($this->getUser()) {
+            /** @var User $current_user */
+            $current_user = $this->getUser();
+            $current_user_id = $current_user->getId();
+            $current_user_role = $current_user->getRoles();
 
-        if ($user) {
+            if (in_array('ROLE_STUDENT', $current_user_role)) {
+                $candidacies = $current_user->getStudent()->getCandidacies();
+            }
 
             if (in_array('ROLE_ENTERPRISE', $current_user_role)) {
-                $enterprise = $enterpriseRepository->findOneBy(['email' => $user->getEmail()]);
+                $enterprise = $enterpriseRepository->findOneBy(['email' => $current_user]);
 
                 if ($enterprise->getStatus()->getStatus() === 'En attente') {
                     $session->getFlashBag()->add('warning',
@@ -45,9 +41,9 @@ class HomeController extends AbstractController
         }
         return $this->render('home/index.html.twig', [
             'offers' => $offers,
-            'current_user_role' => $current_user_role,
+            'current_user_role' => $current_user_role ?? null,
             'candidacies' => $candidacies ?? null,
-            'current_user_id' => $current_user_id
+            'current_user_id' => $current_user_id ?? null
         ]);
     }
 }
