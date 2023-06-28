@@ -26,13 +26,13 @@
 
 
 
-            <a href="/account" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
+            <a href="/account" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4" aria-disabled="true">
                 Profil
             </a>
-            <a href="/offers" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
+            <a href="/" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
                 Mes Offres
             </a>
-            <a href="/applications" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
+            <a href="{{ path('app_candidacies_show') }}" class="block mt-4 lg:inline-block lg:mt-0 text-white hover:text-yellow-mustard mr-4">
                 Mes Candidatures
             </a>
             {% if app.user %}
