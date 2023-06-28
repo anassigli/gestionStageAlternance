@@ -4,9 +4,10 @@
 
 {% block body %}
     <div class="offre place-content-center p-2em m-3em">
-    <div class="w-3/4">
+    <div >
 
-
+        <img src="{{ asset(img_enterprises ~ offer.enterprise.imageName) }}" class="w-1/10 float-right"
+             alt="logo de l'entreprise">
         <div class="text-xl font-medium">
             {{ offer.name }}
         </div>
@@ -26,9 +27,6 @@
                 <span class="text-sm font-medium text-gray-500">
                     Il y a {{ offer.candidacies|length }} candidature(s) pour cette offre.
                 </span>
-
-                <img src="{{ asset(img_enterprises ~ offer.enterprise.imageName) }}" class="w-1/10 float-right"
-                    alt="logo de l'entreprise">
             </div>
             <div>
                 <h2 class="present">
@@ -38,6 +36,26 @@
                     {{ offer.description }}
                 </p>
             </div>
+        </div>
+        <div class="link-holder">
+            <div><a href="{{ path('app_home') }}" class="offer-cta text-white p-1 bg-red-600 ">Retour à l'accueil</a></div>
+            {% if  "ROLE_STUDENT" in app.user.roles %}
+                {% set find = false %}
+                {% for candidature in offer.candidacies %}
+                    {% if candidature.student.user.id == app.user.id %}
+                        {% set find = true %}
+                    {% endif %}
+                {% endfor %}
+                {% if find %}
+                    <div><a href="#" class="offer-cta text-white p-1 bg-red-600 ">Désister</a></div>
+                {% else %}
+                    <div><a href="" class="offer-cta text-white p-1 bg-blue-first ">Postuler</a></div>
+                {% endif %}
+            {% elseif "ROLE_ENTERPRISE" in app.user.roles %}
+                {% if offer.enterprise.id == app.user.enterprise.id %}
+                    <div><a href="" class="offer-cta text-white p-1 bg-blue-first ">Modifier</a></div>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
     </div>
