@@ -26,7 +26,6 @@ class HomeController extends AbstractController
         if ($this->getUser()) {
             /** @var User $current_user */
             $current_user = $this->getUser();
-            $current_user_id = $current_user->getId();
             $current_user_role = $current_user->getRoles();
 
             if (in_array('ROLE_STUDENT', $current_user_role)) {
