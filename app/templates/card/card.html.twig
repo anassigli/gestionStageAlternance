@@ -30,25 +30,26 @@
         <div class="link-container">
             <div class="link-holder">
                 <div><a href="{{ path('app_offers_show', {'id': offer.id}) }}"
-                        class="rounded-lg p-2 text-white bg-blue-second p-1">En savoir +</a></div>
-                {% if  "ROLE_STUDENT" in current_user_role %}
-                    {% set postule = false %}
+                        class="rounded-md p-2 text-white bg-blue-500 hover:bg-blue-600">En savoir +</a></div>
+                {% if  "ROLE_STUDENT" in app.user.roles %}
+                    {% set find = false %}
                     {% for candidature in offer.candidacies %}
-                        {% if candidature.student.user.id == current_user_id %}
-                            {% set postule = true %}
+                        {% if candidature.student.user.id == app.user.id %}
+                            {% set find = true %}
                         {% endif %}
                     {% endfor %}
-                    {% if postule %}
-                        <div><a href="#" class="rounded-lg p-2 text-white bg-red-600 ">Désister</a></div>
+                    {% if find %}
+                        <div><a href="#" class="rounded-md p-2 text-white bg-red-500 hover:bg-red-600">Désister</a></div>
                     {% else %}
-                        <div>
-                            <a href="{{ path('app_new_candidacy', { 'id': offer.id }) }}"
-                               class="rounded-lg p-2 text-white bg-blue-first">Postuler</a>
+                        <div><a href="{{ path('app_new_candidacy', { 'id': offer.id }) }}"
+                                class="rounded-md p-2 text-white bg-sky-500 hover:bg-sky-600">Postuler</a>
                         </div>
                     {% endif %}
+                {% elseif "ROLE_ENTERPRISE" in app.user.roles %}
+                    {% if offer.enterprise.id == app.user.enterprise.id %}
+                        <div><a href="" class="rounded-md p-2 text-white bg-sky-500 hover:bg-sky-600">Modifier</a></div>
+                    {% endif %}
                 {% endif %}
-
-
             </div>
         </div>
 

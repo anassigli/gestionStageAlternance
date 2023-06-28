@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -22,10 +23,21 @@ class EnterpriseFormType extends AbstractType
     {
         $builder
             ->add('email' , EmailType::class)
-            ->add('name')
-            ->add('description')
-            ->add('city')
-            ->add('department')
+            ->add('name', null, [
+                'label' => "Nom"
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => "Description",
+                'attr' => [
+                    "style" => "height:200px"
+                ]
+            ])
+            ->add('city', null, [
+                'label' => "Ville"
+            ])
+            ->add('department', null, [
+                'label' => "Numéro de département"
+            ])
             ->add('imageFile', VichImageType::class, [
                 'label' => 'Logo',
                 'image_uri' => 'images/entreprises/',
