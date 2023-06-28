@@ -13,7 +13,7 @@ class OffersType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add("tags")
+            ->add('category', TagsType::class)
             ->add('description')
         ;
     }
