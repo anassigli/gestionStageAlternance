@@ -20,13 +20,6 @@ h1{
     font-size: 25px;
 }
 
-
-.offer-cta{
-    border-radius: 12px;
-    padding-left: 0.6em;
-    padding-right: 0.6em;
-}
-
 .pill-holder{
     display: flex;
     max-width: 100%;
