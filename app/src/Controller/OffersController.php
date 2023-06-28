@@ -31,7 +31,6 @@ class OffersController extends AbstractController
     {
         $newOffer = new Offers();
         $form = $this->createForm(OffersType::class, $newOffer);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
