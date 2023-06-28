@@ -3,32 +3,44 @@
 namespace App\Controller;
 
 use App\Entity\Candidacy;
+
 use App\Entity\Offers;
+use App\Form\OffersType;
 use App\Entity\Status;
 use App\Entity\Student;
-use App\Entity\User;
-use App\Form\OffersType;
 use App\Repository\OffersRepository;
-use App\Repository\StatusRepository;
-use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/offers')]
 class OffersController extends AbstractController
 {
-    #[Route('/{id}', name: 'app_offers_show', methods: ['GET'])]
-    public function show(Offers $offer): Response
+    #[Route('/add', name: 'app_offers_create', methods: ['GET'])]
+    public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('offers/show.html.twig', [
-            'offer' => $offer,
+        $newOffer = new Offers();
+        $form = $this->createForm(OffersType::class, $newOffer);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->getRepository(OffersRepository::class);
+            $entityManager->persist($newOffer);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('offers/new.html.twig', [
+            'form' => $form
         ]);
     }
 
-    #[Route('/{id}/apply', name: 'app_offers_apply', methods: ['GET', 'POST'])]
+    #[Route('{id}/apply', name: 'app_offers_apply', methods: ['GET', 'POST'])]
     public function apply(Offers $offer, EntityManagerInterface $entityManager): Response
     {
         $current_user = $this->getUser();
@@ -56,4 +68,13 @@ class OffersController extends AbstractController
         // Redirect to a success page or do further processing as needed
         return $this->redirectToRoute('app_offers_show');
     }
+
+    #[Route('/{id}', name: 'app_offers_show', methods: ['GET'])]
+    public function show(Offers $offer): Response
+    {
+        return $this->render('offers/show.html.twig', [
+            'offer' => $offer,
+        ]);
+    }
+
 }

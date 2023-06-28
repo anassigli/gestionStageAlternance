@@ -13,10 +13,8 @@ class OffersType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add("tags")
             ->add('description')
-            //->add('created_at')
-            //->add('updated_at')
-            //->add('status')
         ;
     }
 
