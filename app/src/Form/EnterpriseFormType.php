@@ -30,6 +30,7 @@ class EnterpriseFormType extends AbstractType
                 'image_uri' => 'images/entreprises/',
                 'allow_delete' => false,
                 'download_label' => 'Télécharger',
+                'required' => false
             ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'Mot de passe',

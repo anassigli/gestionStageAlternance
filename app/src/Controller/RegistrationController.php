@@ -11,6 +11,7 @@ use App\Form\StudentFormType;
 use App\MailService\VerifyUser\Mailer;
 use App\Repository\EnterpriseRepository;
 use App\Repository\StatusRepository;
+use App\Repository\StudentRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManager;
@@ -43,7 +44,8 @@ class RegistrationController extends AbstractController
                              UserPasswordHasherInterface $userPasswordHasher,
                              Mailer                      $mailer,
                              EnterpriseRepository        $enterpriseRepository,
-                             StatusRepository            $statusRepository): Response
+                             StatusRepository            $statusRepository,
+                             StudentRepository           $studentRepository): Response
     {
         $enterprise = new Enterprise();
         $student = new Student();
@@ -56,7 +58,6 @@ class RegistrationController extends AbstractController
         if ($formEnterprise->isSubmitted() && $formEnterprise->isValid()) {
             $enterprise->setStatus($statusRepository->findOneBy(['status' => 'En attente']));
 
-            /** @var User $user */
             $user = (new User())
                 ->setEmail($enterprise->getEmail())
                 ->setRoles(['ROLE_ENTERPRISE'])
@@ -79,7 +80,35 @@ class RegistrationController extends AbstractController
                 ['id' => $user->getId()]
             );
 
-            $mailer->sendChangePasswordMessage($user, $signatureComponents->getSignedUrl());
+            $mailer->sendConfirmEmailMessage($user, $signatureComponents->getSignedUrl());
+
+            $session->getFlashBag()->add('success', 'Un mail de confirmation vous a été envoyé');
+
+            $this->redirectToRoute('app_home');
+        } elseif ($formStudent->isSubmitted() && $formStudent->isValid()) {
+            $user = (new User())
+                ->setEmail($student->getEmail())
+                ->setRoles(['ROLE_STUDENT'])
+                ->setStudent($student);
+
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $formStudent->get('plainPassword')->getData()
+                )
+            );
+
+            $this->userRepository->save($user, true);
+            $studentRepository->save($student, true);
+
+            $signatureComponents = $this->verifyEmailHelper->generateSignature(
+                'registration_confirmation_route',
+                $user->getId(),
+                $user->getEmail(),
+                ['id' => $user->getId()]
+            );
+
+            $mailer->sendConfirmEmailMessage($user, $signatureComponents->getSignedUrl());
 
             $session->getFlashBag()->add('success', 'Un mail de confirmation vous a été envoyé');
 

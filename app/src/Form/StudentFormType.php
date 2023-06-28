@@ -32,13 +32,15 @@ class StudentFormType extends AbstractType
                 'label' => 'Email'
             ])
             ->add('cv', FileType::class, [
-                'label' => 'CV'
+                'label' => 'CV',
+                'required' => false
             ])
             ->add('imageFile', VichImageType::class, [
                 'label' => 'Image de profil',
                 'image_uri' => 'images/students/',
                 'allow_delete' => false,
                 'download_label' => 'Télécharger',
+                'required' => false
             ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'Mot de passe',
