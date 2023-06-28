@@ -10,7 +10,13 @@
         {{ form_row(form.name) }}
     </div>
     <div class="col">
-        {{ form_row(form.tags) }}
+        {{ form_row(form.city) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.department) }}
+    </div>
+    <div class="col">
+        {{ form_widget(form.tags) }}
     </div>
     <div class="col">
         {{ form_row(form.description) }}

@@ -1,14 +1,19 @@
 <?php
 
 namespace App\Controller;
+
 use App\Entity\Candidacy;
 
+use App\Entity\Enterprise;
 use App\Entity\Offers;
 use App\Form\OffersType;
 use App\Entity\Status;
 use App\Entity\Student;
+use App\Repository\EnterpriseRepository;
 use App\Repository\OffersRepository;
+use App\Repository\StatusRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,8 +23,11 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/offers')]
 class OffersController extends AbstractController
 {
-    #[Route('/add', name: 'app_offers_create', methods: ['GET'])]
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/add', name: 'app_offers_create', methods: ['GET', 'POST'])]
+    public function create(Request              $request,
+                           OffersRepository     $offersRepository,
+                           EnterpriseRepository $enterpriseRepository,
+                           StatusRepository     $statusRepository): Response
     {
         $newOffer = new Offers();
         $form = $this->createForm(OffersType::class, $newOffer);
@@ -27,9 +35,12 @@ class OffersController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->getRepository(OffersRepository::class);
-            $entityManager->persist($newOffer);
-            $entityManager->flush();
+            $enterprise = $enterpriseRepository->findOneBy(
+                ['email' => $this->getUser()->getUserIdentifier()]
+            );
+            $newOffer->setEnterprise($enterprise);
+            $newOffer->setStatus($statusRepository->findOneBy(["status" => "Validée"]));
+            $offersRepository->save($newOffer, true);
 
             return $this->redirectToRoute('app_home');
         }
