@@ -9,16 +9,19 @@ use Doctrine\Persistence\ObjectManager;
 
 class TagsFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const  TAGS = ["Dev FullStack", "Dev Front", "Dev BackEnd", "Designer", "Administrateur réseaux",  "Technicien de maintenance",
-        "Java", "JavaScript", "CSS","PHP", "Python", "C#", "C", "Ruby", "Rust", "Cobol",
+    public const  TAGS = ["Dev FullStack"=>"Metier", "Dev Front"=>"Metier", "Dev BackEnd"=>"Metier",
+        "Designer"=>"Metier", "Administrateur réseaux"=>"Metier",  "Technicien de maintenance"=>"Metier",
+        "Java"=>"Langage", "JavaScript"=>"Langage", "CSS"=>"Langage","PHP"=>"Langage", "Python"=>"Langage",
+        "C#"=>"Langage", "C"=>"Langage", "Ruby"=>"Langage", "Rust"=>"Langage", "Cobol"=>"Langage",
         "Petite", "Moyenne", "Grande",
-        "Télétravail", "De nuit"];
+        "Télétravail"=>"Condition", "De nuit"=>"Condition"];
 
     public function load(ObjectManager $manager)
     {
-        foreach (self::TAGS as $tagName) {
+        foreach (self::TAGS as $tagName => $category) {
             $tag = (new Tags())
                 ->setTag($tagName);
+            $tag->setCategory($category);
             if($tagName == "JavaScript" || $tagName == "Java" || $tagName == "Dev FullStack" || $tagName == "Petite") {
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_1));
             } else if($tagName == "Dev BackEnd" || $tagName == "C" || $tagName == "Moyenne") {
