@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Candidacy;
 
-use App\Entity\Enterprise;
 use App\Entity\Offers;
 use App\Form\OffersType;
 use App\Entity\Status;
@@ -13,7 +12,6 @@ use App\Repository\EnterpriseRepository;
 use App\Repository\OffersRepository;
 use App\Repository\StatusRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -29,11 +29,16 @@ class Tags
     #[ORM\ManyToMany(targetEntity: Offers::class, mappedBy: 'tags')]
     private Collection $offers;
 
+    #[ORM\ManyToOne(inversedBy: 'tags')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $category = null;
+
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
         $this->updated_at = new \DateTime();
         $this->offers = new ArrayCollection();
+        $this->category = new ArrayCollection();
     }
 
     #[ORM\PreUpdate]
@@ -106,6 +111,18 @@ class Tags
         if ($this->offers->removeElement($offer)) {
             $offer->removeTag($this);
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }

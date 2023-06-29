@@ -26,6 +26,7 @@
             <div class="link-holder m-0">
                 <div class="flex items-center justify-evenly w-full"><a href="{{ path('app_offers_show', {'id': offer.id}) }}"
                         class="rounded-md p-2 text-white bg-blue-500 hover:bg-blue-600">En savoir +</a>
+                    {% if app.user %}
                     {% if  "ROLE_STUDENT" in app.user.roles %}
                         {% set find = false %}
                         {% for candidature in offer.candidacies %}
@@ -47,8 +48,10 @@
                             {{ include('offers/_delete_form.html.twig') }}
                         {% endif %}
                     {% endif %}
+                    {% endif %}
                 </div>
             </div>
         </div>
+
     </div>
 {% endblock %}
