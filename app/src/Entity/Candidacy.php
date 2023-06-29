@@ -109,4 +109,9 @@ class Candidacy
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->getStudent()->getFirstname(). " ". $this->getStudent()->getLastname();
+    }
 }
