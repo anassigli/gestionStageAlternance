@@ -29,6 +29,9 @@ class Tags
     #[ORM\ManyToMany(targetEntity: Offers::class, mappedBy: 'tags')]
     private Collection $offers;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $category = null;
+
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
@@ -106,6 +109,18 @@ class Tags
         if ($this->offers->removeElement($offer)) {
             $offer->removeTag($this);
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?string $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }
