@@ -57,8 +57,8 @@ class HomeController extends AbstractController
             ['email' => $this->getUser()->getUserIdentifier()]
         );
 
-        $formEnterprise =  $this->createForm(EnterpriseFormType::class, $enterprise);
-        $formStudent =  $this->createForm(StudentFormType::class, $student);
+        $formEnterprise = $this->createForm(EnterpriseFormType::class, $enterprise);
+        $formStudent = $this->createForm(StudentFormType::class, $student);
 
         if ($enterprise != null) {
             return $this->render('enterprise/show.html.twig', [

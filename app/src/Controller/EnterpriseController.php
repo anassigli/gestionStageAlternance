@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Enterprise;
 use App\Form\EnterpriseFormType;
-use App\Form\RegistrationFormType;
 use App\Repository\EnterpriseRepository;
 use App\Repository\StatusRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
