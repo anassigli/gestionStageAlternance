@@ -36,7 +36,8 @@ class TagsFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            OffersFixtures::class
+            OffersFixtures::class,
+            CategoryFixtures::class
         ];
     }
 }
