@@ -54,6 +54,17 @@
             {% elseif "ROLE_ENTERPRISE" in app.user.roles %}
                 {% if offer.enterprise.id == app.user.enterprise.id %}
                     <div><a href="" class="offer-cta text-white p-1 bg-blue-first ">Modifier</a></div>
+                    {% if offer.candidacies|length > 0 %}
+                        <p>
+                            Candidateur(s) :
+                        </p>
+                        <ul>
+                        {% for candidature in offer.candidacies %}
+                            <li> {{ candidature.student.firstname }} {{ candidature.student.lastname }} {{ candidature.student.email }} </li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+
                 {% endif %}
             {% endif %}
         </div>
