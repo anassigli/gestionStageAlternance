@@ -49,6 +49,9 @@ class Offers
     #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'offers')]
     private Collection $tags;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $comment = null;
+
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
@@ -214,6 +217,18 @@ class Offers
     public function removeTag(Tags $tag): static
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): static
+    {
+        $this->comment = $comment;
 
         return $this;
     }
