@@ -2,26 +2,22 @@
 
 {% block body %}
     <div class="flex flex-col w-full items-center">
-        <a href="javascript:history.back()" class="rounded-md p-1 mb-3 text-white bg-sky-500 hover:bg-sky-600">Retour à la
+        <a href="javascript:history.back()" class="rounded-md p-1 mb-3 text-white bg-sky-500 hover:bg-sky-600">Retour à
+            la
             liste</a>
-        {% for offer in offers %}
-            <div class="w-full mt-1 mb-1 border-2 rounded p-3">
-                <div class="w-full flex justify-between items-center">
-                    <a href=""><p class="text-2xl">{{ offer.name }}</p></a>
-                    <p><span class="text-gray-400"><span class="font-semibold">{{ offer.candidacies|length }}</span> Candidatures</span></p>
-                </div>
-                {% if offer.candidacies|length != 0 %}
-                    <ul class="pl-2">
-                        {% for candidacy in offer.candidacies %}
-                            <li class="m-0.5"><a href="">{{ candidacy.student.lastname }} {{ candidacy.student.firstname }}</a></li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
-                    <p>Il n'y a pas de candidature sur cette offre.</p>
-                {% endif %}
+        <div class="w-full mt-1 mb-1 border-2 rounded p-3">
+            <div class="w-full flex justify-between items-center">
+                <a href=""><p class="text-2xl">{{ offer.name }}</p></a>
+                <p><span class="text-gray-400"><span class="font-semibold">{{ offer.candidacies|length }}</span> Candidatures</span>
+                </p>
             </div>
-        {% endfor %}
-        <a href="javascript:history.back()" class="rounded-md p-1 mt-3 text-white bg-sky-500 hover:bg-sky-600">Retour à la
-            liste</a>
+            <p>Liste des étudiants intéressés : Nom Prénom</p>
+            <ul class="pl-2">
+                {% for candidacy in offer.candidacies %}
+                    <li class="m-0.5"><a
+                                href="{{ path('app_student_show_profile', {id:candidacy.student.id}) }}">{{ candidacy.student.lastname }} {{ candidacy.student.firstname }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 {% endblock %}

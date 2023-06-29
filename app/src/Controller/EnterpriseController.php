@@ -23,8 +23,7 @@ class EnterpriseController extends AbstractController
 
     #[Route('/enterprise/offers/{id}/candidacies', name: 'app_enterprise_offers_candidacies')]
     public function showOfferCandidacies(
-        Offers $offer,
-        EnterpriseRepository $enterpriseRepository): Response
+        Offers $offer): Response
     {
         return $this->render('enterprise/show_offers_candidacies.html.twig', [
             'offer' => $offer

@@ -11,9 +11,13 @@
                         <span class="pill">{{ tag.tag }}</span>
                     {% endfor %}
                 </div>
-                <span class="text-sm font-medium text-gray-500">
+                <p class="text-sm font-medium text-gray-500">
                     Il y a {{ offer.candidacies|length }} candidature(s) pour cette offre.
-                </span>
+                    <br>
+                    {% if offer.candidacies|length != 0 %}
+                        <span><a href="{{ path('app_enterprise_offers_candidacies', { 'id': offer.id }) }}">Voir les candidatures.</a></span>
+                    {% endif %}
+                </p>
             </div>
             <div class="mb-4">
                 <p class="text-style-3lines">
