@@ -5,6 +5,10 @@
 {% block body %}
     <h1 class="w-full text-center">Modification de votre offre</h1>
 
+    <div class="mt-2 mb-3">
+        <a href="javascript:history.back()" class="rounded-md p-2 text-white bg-sky-500 hover:bg-sky-600">Retour à la liste</a>
+    </div>
+
     {{ include('offers/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
 
     <div class="flex mt-1 w-1/4">
