@@ -3,12 +3,15 @@
 {% block title %}Modification de votre offre{% endblock %}
 
 {% block body %}
-    <h1>Edit Offers</h1>
+    <h1 class="w-full text-center">Modification de votre offre</h1>
 
     {{ include('offers/_form.html.twig', {'button_label': 'Sauvegarder'}) }}
-    {{ include('offers/_delete_form.html.twig') }}
 
-    <a href="javascript:history.back()">back to list</a>
+    <div class="flex mt-1 w-1/4">
+        {{ include('offers/_delete_form.html.twig') }}
+        <a href="javascript:history.back()" class="rounded-md p-2 text-white bg-sky-500 hover:bg-sky-600 ml-1">Retour à la liste</a>
+    </div>
+
 
 
 {% endblock %}

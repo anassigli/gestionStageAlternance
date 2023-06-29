@@ -74,12 +74,10 @@ class OffersController extends AbstractController
     {
 
         $offersRepository->remove($offer, true);
+        // Permet de revenir sur la page précédente
         $route = $request->headers->get('referer');
+
         return $this->redirect($route);
-        /*$offers = $offersRepository->findAll();
-        return $this->render('home/index.html.twig', [
-            'offers' => $offers
-        ]);*/
     }
 
     #[Route('{id}/apply', name: 'app_offers_apply', methods: ['GET', 'POST'])]
