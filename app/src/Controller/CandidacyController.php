@@ -6,7 +6,6 @@ use App\Entity\Candidacy;
 use App\Entity\Offers;
 use App\Entity\User;
 use App\Repository\CandidacyRepository;
-use App\Repository\OffersRepository;
 use App\Repository\StatusRepository;
 use App\Repository\StudentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,7 +27,7 @@ class CandidacyController extends AbstractController
         ]);
     }
 
-    #[Route('/candidacy/new/{id}', name: 'app_new_candidacy')]
+    #[Route('/candidacies/new/{id}', name: 'app_new_candidacy')]
     public function new(Offers              $offer,
                         CandidacyRepository $candidacyRepository,
                         StudentRepository   $studentRepository,
@@ -51,7 +50,7 @@ class CandidacyController extends AbstractController
         return $this->redirectToRoute('app_home');
     }
 
-    #[Route('/candidacy/delete/{id}', name: 'app_delete_candidacy')]
+    #[Route('/candidacies/delete/{id}', name: 'app_delete_candidacy')]
     public function delete(Offers              $offer,
                            StudentRepository   $studentRepository,
                            CandidacyRepository $candidacyRepository,
