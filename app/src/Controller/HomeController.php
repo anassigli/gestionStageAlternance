@@ -48,7 +48,10 @@ class HomeController extends AbstractController
     }
 
     #[Route('/profil', name: 'app_home_profil')]
-    public function show(EnterpriseRepository $enterpriseRepository, StudentRepository $studentRepository): Response
+    public function show(
+        EnterpriseRepository $enterpriseRepository,
+        StudentRepository    $studentRepository,
+        OffersRepository     $offersRepository): Response
     {
         $enterprise = $enterpriseRepository->findOneBy(
             ['email' => $this->getUser()->getUserIdentifier()]
@@ -57,12 +60,19 @@ class HomeController extends AbstractController
             ['email' => $this->getUser()->getUserIdentifier()]
         );
 
-        $formEnterprise =  $this->createForm(EnterpriseFormType::class, $enterprise);
-        $formStudent =  $this->createForm(StudentFormType::class, $student);
+        $formEnterprise = $this->createForm(EnterpriseFormType::class, $enterprise);
+        $formStudent = $this->createForm(StudentFormType::class, $student);
 
-        if ($enterprise != null) {
+        if (isset($enterprise)) {
+            $offers = $offersRepository->findBy(["enterprise" => $enterprise]);
+            $nbTotalCandidacies = 0;
+            foreach ($offers as $offer){
+                $nbTotalCandidacies += $offer->getCandidacies()->count();
+            }
             return $this->render('enterprise/show.html.twig', [
-                'form' => $formEnterprise
+                'form' => $formEnterprise,
+                'nb_offers' => count($offers),
+                'nb_postulations' => $nbTotalCandidacies
             ]);
         }
 
