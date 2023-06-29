@@ -6,17 +6,12 @@ use App\Entity\Enterprise;
 use App\Entity\Student;
 use App\Entity\User;
 use App\Form\EnterpriseFormType;
-use App\Form\RegistrationFormType;
 use App\Form\StudentFormType;
 use App\MailService\VerifyUser\Mailer;
 use App\Repository\EnterpriseRepository;
 use App\Repository\StatusRepository;
 use App\Repository\StudentRepository;
 use App\Repository\UserRepository;
-use App\Service\FileUploader;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +19,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class RegistrationController extends AbstractController
@@ -121,8 +115,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[
-        Route('/verify/email', name: 'registration_confirmation_route')]
+    #[Route('/verify/email', name: 'registration_confirmation_route')]
     public function verifyUserEmail(Request $request,
                                     Session $session): Response
     {

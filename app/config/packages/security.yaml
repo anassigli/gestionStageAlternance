@@ -36,12 +36,13 @@ security:
   # Note: Only the *first* access control that matches will be used
   access_control:
     - { path: ^/login, role: PUBLIC_ACCESS }
+    - { path: ^/register, role: PUBLIC_ACCESS }
+    - { path: ^/verify/email, role: PUBLIC_ACCESS }
     - { path: ^/admin, roles: ROLE_ADMIN }
     - { path: ^/candidacies, roles: ROLE_STUDENT }
     - { path: ^/enterprise/offers, roles: ROLE_ENTERPRISE }
-    - { path: ^/offers, roles: ROLE_USER }
+    - { path: ^/offers/add, roles: ROLE_ENTERPRISE }
     - { path: ^/*, role: ROLE_USER }
-#    - { path: ^/offers/add, role: ROLE_ENTERPRISE }
 
 when@test:
   security:
