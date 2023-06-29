@@ -38,7 +38,6 @@ class Tags
         $this->created_at = new \DateTimeImmutable();
         $this->updated_at = new \DateTime();
         $this->offers = new ArrayCollection();
-        $this->category = new ArrayCollection();
     }
 
     #[ORM\PreUpdate]
