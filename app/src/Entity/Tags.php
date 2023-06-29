@@ -29,11 +29,15 @@ class Tags
     #[ORM\ManyToMany(targetEntity: Offers::class, mappedBy: 'tags')]
     private Collection $offers;
 
+    #[ORM\OneToMany(mappedBy: 'tags', targetEntity: Category::class)]
+    private Collection $category;
+
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
         $this->updated_at = new \DateTime();
         $this->offers = new ArrayCollection();
+        $this->category = new ArrayCollection();
     }
 
     #[ORM\PreUpdate]
@@ -105,6 +109,36 @@ class Tags
     {
         if ($this->offers->removeElement($offer)) {
             $offer->removeTag($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategory(): Collection
+    {
+        return $this->category;
+    }
+
+    public function addCategory(Category $category): static
+    {
+        if (!$this->category->contains($category)) {
+            $this->category->add($category);
+            $category->setTags($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): static
+    {
+        if ($this->category->removeElement($category)) {
+            // set the owning side to null (unless already changed)
+            if ($category->getTags() === $this) {
+                $category->setTags(null);
+            }
         }
 
         return $this;

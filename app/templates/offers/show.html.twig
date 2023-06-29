@@ -3,30 +3,72 @@
 {% block title %}Offers{% endblock %}
 
 {% block body %}
-    <h1>Offers</h1>
+    <div class="offre place-content-center p-2em m-3em">
+    <div >
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ offer.id }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ offer.description }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ offer.name }}</td>
-            </tr>
-            <tr>
-                <th>Created_at</th>
-                <td>{{ offer.createdAt ? offer.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Updated_at</th>
-                <td>{{ offer.updatedAt ? offer.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <img src="{{ asset(img_enterprises ~ offer.enterprise.imageName) }}" class="w-1/10 float-right"
+             alt="logo de l'entreprise">
+        <div class="text-xl font-medium">
+            {{ offer.name }}
+        </div>
+        <div class="">
+            {{ offer.city }}  {{ offer.department }}
+        </div>
+        <div class="conteneur_info_offre">
+            <div class="entête_offre">
+                <div>
+                    Date de création de l'offre : {{ offer.updatedAt ? offer.updatedAt|date('Y-m-d') : '' }}
+                </div>
+                <div class="pill-holder">
+                    {%  for tag in offer.tags %}
+                        <div class="pill bg-red-700">{{ tag.tag }}</div>
+                    {% endfor %}
+                </div>
+                <span class="text-sm font-medium text-gray-500">
+                    Il y a {{ offer.candidacies|length }} candidature(s) pour cette offre.
+                </span>
+            </div>
+            <div>
+                <h2 class="present">
+                    Voici les expliaction de votre travail:
+                </h2>
+                <p class="text-sm font-medium">
+                    {{ offer.description }}
+                </p>
+            </div>
+        </div>
+        <div class="link-holder">
+            <div><a href="{{ path('app_home') }}" class="offer-cta text-white p-1 bg-red-600 ">Retour à l'accueil</a></div>
+            {% if  "ROLE_STUDENT" in app.user.roles %}
+                {% set find = false %}
+                {% for candidature in offer.candidacies %}
+                    {% if candidature.student.user.id == app.user.id %}
+                        {% set find = true %}
+                    {% endif %}
+                {% endfor %}
+                {% if find %}
+                    <div><a href="#" class="offer-cta text-white p-1 bg-red-600 ">Désister</a></div>
+                {% else %}
+                    <div><a href="" class="offer-cta text-white p-1 bg-blue-first ">Postuler</a></div>
+                {% endif %}
+            {% elseif "ROLE_ENTERPRISE" in app.user.roles %}
+                {% if offer.enterprise.id == app.user.enterprise.id %}
+                    <div><a href="" class="offer-cta text-white p-1 bg-blue-first ">Modifier</a></div>
+                    {% if offer.candidacies|length > 0 %}
+                        <p>
+                            Candidateur(s) :
+                        </p>
+                        <ul>
+                        {% for candidature in offer.candidacies %}
+                            <li> {{ candidature.student.firstname }} {{ candidature.student.lastname }} {{ candidature.student.email }} </li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    </div>
+
 {% endblock %}
