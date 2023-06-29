@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Algolia\AlgoliaSearch\SearchClient;
 use App\Entity\Offers;
 use App\Entity\User;
 use App\Form\EnterpriseFormType;
@@ -10,18 +11,30 @@ use App\Repository\EnterpriseRepository;
 use App\Repository\OffersRepository;
 use App\Repository\StudentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
-    public function index(OffersRepository     $offersRepository,
-                          Session              $session,
-                          EnterpriseRepository $enterpriseRepository): Response
+    private EnterpriseRepository $enterpriseRepository;
+    private StudentRepository $studentRepository;
+    private OffersRepository $offersRepository;
+
+    public function __construct(EnterpriseRepository $enterpriseRepository,
+                                StudentRepository    $studentRepository,
+                                OffersRepository     $offersRepository)
     {
-        $offers = $offersRepository->findAll();
+        $this->enterpriseRepository = $enterpriseRepository;
+        $this->studentRepository = $studentRepository;
+        $this->offersRepository = $offersRepository;
+    }
+
+    #[Route('/', name: 'app_home')]
+    public function index(Session $session, Request $request): Response
+    {
+        $offers = $this->offersRepository->findAll();
 
         if ($this->getUser()) {
             /** @var User $current_user */
@@ -33,7 +46,7 @@ class HomeController extends AbstractController
             }
 
             if (in_array('ROLE_ENTERPRISE', $current_user_role)) {
-                $enterprise = $enterpriseRepository->findOneBy(['email' => $current_user->getEmail()]);
+                $enterprise = $this->enterpriseRepository->findOneBy(['email' => $current_user->getEmail()]);
 
                 if ($enterprise->getStatus()->getStatus() === 'En attente') {
                     $session->getFlashBag()->add('warning',
@@ -48,12 +61,12 @@ class HomeController extends AbstractController
     }
 
     #[Route('/profil', name: 'app_home_profil')]
-    public function show(EnterpriseRepository $enterpriseRepository, StudentRepository $studentRepository): Response
+    public function show(): Response
     {
-        $enterprise = $enterpriseRepository->findOneBy(
+        $enterprise = $this->enterpriseRepository->findOneBy(
             ['email' => $this->getUser()->getUserIdentifier()]
         );
-        $student = $studentRepository->findOneBy(
+        $student = $this->studentRepository->findOneBy(
             ['email' => $this->getUser()->getUserIdentifier()]
         );
 

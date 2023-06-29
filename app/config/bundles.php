@@ -18,5 +18,5 @@ return [
     EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle::class => ['all' => true],
     Symfony\UX\StimulusBundle\StimulusBundle::class => ['all' => true],
     Symfony\UX\Chartjs\ChartjsBundle::class => ['all' => true],
-    Algolia\SearchBundle\AlgoliaSearchBundle::class => ['all' => true],
+    Meilisearch\Bundle\MeilisearchBundle::class => ['all' => true],
 ];

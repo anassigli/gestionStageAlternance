@@ -1,0 +1,27 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+
+    <div class="flex flex-col gap-10">
+        <!-- part 1 : pie & doughnut charts -->
+        <div class="flex">
+            <div class="flex-initial w-1/2">
+                <p>charte 1 : titre</p>
+                <div style="height: 300px;">
+                    {{ render_chart(lastStudentsAndEnterprises) }}
+                </div>
+            </div>
+            <div class="flex-initial w-1/2">
+                <p>charte 2 : titre</p>
+                <div style="height: 300px;">
+                    {{ render_chart(allStudentsAndEnterprises) }}
+                </div>
+            </div>
+        </div>
+        <!-- end part 1  -->
+
+    </div>
+
+
+{% endblock %}
+
