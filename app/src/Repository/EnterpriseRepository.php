@@ -39,6 +39,23 @@ class EnterpriseRepository extends ServiceEntityRepository
         }
     }
 
+
+    /**
+    //     * @return Enterprise[] Returns an array of Enterprise objects
+    //     */
+    public function findTodaysNewCompanies(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('s');
+
+        $queryBuilder
+            ->select('COUNT(s.id)')
+            ->where($queryBuilder->expr()->eq('s.created_at', ':today'))
+            ->setParameter('today', new \DateTime('today'));
+        $query = $queryBuilder->getQuery();
+
+        return $query->getResult();
+    }
+
 //    /**
 //     * @return Enterprise[] Returns an array of Enterprise objects
 //     */
