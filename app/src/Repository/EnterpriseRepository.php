@@ -3,7 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Enterprise;
+use DateInterval;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +41,44 @@ class EnterpriseRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function countAll(){
+        $queryBuilder = $this->createQueryBuilder('e');
+        $queryBuilder
+            ->select('count(e.id)');
+        $count = $queryBuilder->getQuery()->getSingleScalarResult();
+        return $count;
+    }
+    /**
+    //     * @return Enterprise[] Returns an array of Enterprise objects
+    //     */
+    public function findTodaysNewCompanies(): int
+    {
+        $queryBuilder = $this->createQueryBuilder('e');
+        $queryBuilder
+            ->select('count(e.id)')
+            ->where($queryBuilder->expr()->eq('e.created_at', ':today'))
+            ->setParameter('today', new DateTime('today'));
+            return $queryBuilder->getQuery()->getSingleScalarResult();
+    }
+
+
+
+    public function findNewCompaniesInLastWeek(): int
+    {
+        $now = new DateTime();
+        $startOfWeek = $now->sub(new DateInterval('P1W'))->modify('monday')->format('Y-m-d 00:00:00');
+        $endOfWeek = $now->modify('sunday')->format('Y-m-d 23:59:59');
+
+        $queryBuilder = $this->createQueryBuilder('e');
+        $queryBuilder
+            ->select('count(e.id)')
+            ->where($queryBuilder->expr()->between('e.created_at', ':startOfWeek', ':endOfWeek'))
+            ->setParameter('startOfWeek', $startOfWeek)
+            ->setParameter('endOfWeek', $endOfWeek);
+        $count = $queryBuilder->getQuery()->getSingleScalarResult();
+        return $count;
     }
 
 //    /**

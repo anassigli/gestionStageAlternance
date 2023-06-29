@@ -29,8 +29,9 @@ class Tags
     #[ORM\ManyToMany(targetEntity: Offers::class, mappedBy: 'tags')]
     private Collection $offers;
 
-    #[ORM\OneToMany(mappedBy: 'tags', targetEntity: Category::class)]
-    private Collection $category;
+    #[ORM\ManyToOne(inversedBy: 'tags')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $category = null;
 
     public function __construct()
     {
@@ -114,32 +115,14 @@ class Tags
         return $this;
     }
 
-    /**
-     * @return Collection<int, Category>
-     */
-    public function getCategory(): Collection
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function addCategory(Category $category): static
+    public function setCategory(?Category $category): static
     {
-        if (!$this->category->contains($category)) {
-            $this->category->add($category);
-            $category->setTags($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): static
-    {
-        if ($this->category->removeElement($category)) {
-            // set the owning side to null (unless already changed)
-            if ($category->getTags() === $this) {
-                $category->setTags(null);
-            }
-        }
+        $this->category = $category;
 
         return $this;
     }

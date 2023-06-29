@@ -8,6 +8,8 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "acseo/typesense-bundle": "^0.7.1",
+        "algolia/search-bundle": "^6.0",
+        "doctrine/dbal": "^3.6",
         "doctrine/doctrine-bundle": "^2.10",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "doctrine/doctrine-migrations-bundle": "^3.2",
