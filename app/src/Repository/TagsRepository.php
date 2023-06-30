@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Tags;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use http\Env\Response;
 
 /**
  * @extends ServiceEntityRepository<Tags>
@@ -39,6 +40,28 @@ class TagsRepository extends ServiceEntityRepository
         }
     }
 
+
+
+    public function getTagUsageCounts()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery('
+            SELECT t.tag, COUNT(o.id) as usageCount
+            FROM App\Entity\Tags t
+            JOIN t.category c
+            JOIN t.offers o
+            WHERE c.category = :categoryName
+            GROUP BY t.tag
+        ');
+
+        $query->setParameter('categoryName', 'Langage');
+
+        $results = $query->getResult();
+        return $results;
+
+    }
+
 //    /**
 //     * @return Tags[] Returns an array of Tags objects
 //     */
@@ -63,4 +86,6 @@ class TagsRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
 }
