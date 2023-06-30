@@ -26,7 +26,76 @@ class GraphController extends AbstractController
         $newStudents = sizeof($studentRepository->findNewStudentsInLastWeek());
 
         $lastStudentsAndEnterprises = $chartBuilder->createChart(Chart::TYPE_PIE);
+
         $allStudentsAndEnterprises = $chartBuilder->createChart(Chart::TYPE_BAR);
+
+        $allTagsChart = $chartBuilder->createChart(Chart::TYPE_BAR);
+
+
+        //--------
+        $studentsFoundAlternance = $chartBuilder->createChart(Chart::TYPE_LINE);
+        $studentsFoundStage = $chartBuilder->createChart(Chart::TYPE_LINE);
+
+
+        $studentsFoundAlternance->setData([
+            'labels' => ['Janv', 'Fev', 'Mars', 'Avril', 'Mai', 'Juin', 'Juil.'],
+            'datasets' => [
+                [
+                    'label' => 'Ont trouvé une alternance',
+                    'backgroundColor' => 'rgb(255, 99, 132)',
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => [0, 20, 45, 22, 20, 30, 45],
+                ],
+                [
+                    'label' => "N'ont toujours pas trouvé d'alternance",
+                    'backgroundColor' => 'rgb(120, 99, 132, .4)',
+                    'borderColor' => 'rgb(120, 99, 132, .4)',
+                    'data' => [70, 63, 41, 33, 2, 1, 1],
+                ],
+            ],
+        ]);
+
+
+        $studentsFoundStage->setData([
+            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            'datasets' => [
+                [
+                    'label' => 'Ont trouvé un stage',
+                    'backgroundColor' => 'rgb(255, 99, 132)',
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => [0, 10, 5, 2, 20, 30, 45],
+                ],
+                [
+                    'label' => "N'ont toujours pas trouvé de stage",
+                    'backgroundColor' => 'rgb(120, 99, 132, .4)',
+                    'borderColor' => 'rgb(120, 99, 132, .4)',
+                    'data' => [100, 70, 45, 32, 20, 10, 10],
+                ],
+            ],
+        ]);
+
+
+
+
+        $allTagsChart->setData([
+            'labels' => ["blabla,blabla"],
+            'datasets' => [
+                [
+                    'backgroundColor' => ['rgb(255, 99, 132, .4)', 'rgb(120, 99, 132, .4)'],
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => [10],
+                    'tension' => 0.4,
+                ],
+                [
+                    'backgroundColor' => ['rgb(255, 99, 132, .4)', 'rgb(120, 99, 132, .4)'],
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => [20],
+                    'tension' => 0.4,
+                ],
+            ],
+        ]);
+
+
 
         if ($newCompanies !== 0 || $newStudents !== 0) {
 
@@ -61,13 +130,19 @@ class GraphController extends AbstractController
             $allStudentsAndEnterprises->setOptions([
                 'maintainAspectRatio' => false,
             ]);
+            $lastStudentsAndEnterprises->setOptions([
+                'maintainAspectRatio' => false,
+            ]);
         }
 
         return $this->render('admin/graph/index.html.twig', [
             'newStudents' => $newStudents,
             'newCompanies' => $newCompanies,
             'lastStudentsAndEnterprises' => $lastStudentsAndEnterprises,
-            'allStudentsAndEnterprises' => $allStudentsAndEnterprises
+            'allStudentsAndEnterprises' => $allStudentsAndEnterprises,
+            'studentsFoundStage' => $studentsFoundStage,
+            'studentsFoundAlternance' => $studentsFoundAlternance,
+            'allTagsChart' => $allTagsChart
         ]);
     }
 }
