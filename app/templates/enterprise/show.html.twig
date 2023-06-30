@@ -2,7 +2,15 @@
 
 {% block body %}
     <div>
-        <h1>Informations de votre entreprise</h1>
+        <div class="w-full text-center">
+            <h1>Informations de votre entreprise</h1>
+        </div>
+
+        <div class="m-0 p-0 flex flex-col">
+            <p>Vous avez <span class="font-bold">{{ nb_offers }}</span> offres sur l'application. Vous pouvez les consulter <a href="{{ path('app_enterprise_offers') }}">ici</a>.</p>
+            <p>Vous avez <span class="font-bold">{{ nb_postulations }}</span> postulations d'étudiant.</p>
+        </div>
+
         {{ form_start(form) }}
         {{ form_end(form) }}
     </div>

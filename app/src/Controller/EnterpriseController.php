@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Offers;
 use App\Repository\EnterpriseRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,8 +17,16 @@ class EnterpriseController extends AbstractController
         $enterprise = $enterpriseRepository->findOneBy(['email' => $currentUser->getUserIdentifier()]);
 
         return $this->render('enterprise/show_offers.html.twig', [
-            'offers' => $enterprise->getOffers(),
-            'current_user_role' => $currentUser->getRoles()
+            'offers' => $enterprise->getOffers()
+        ]);
+    }
+
+    #[Route('/enterprise/offers/{id}/candidacies', name: 'app_enterprise_offers_candidacies')]
+    public function showOfferCandidacies(
+        Offers $offer): Response
+    {
+        return $this->render('enterprise/show_offers_candidacies.html.twig', [
+            'offer' => $offer
         ]);
     }
 }

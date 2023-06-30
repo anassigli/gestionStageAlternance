@@ -4,10 +4,9 @@ namespace App\Form;
 
 use App\Entity\Offers;
 use App\Entity\Tags;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,10 +15,17 @@ class OffersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('city')
-            ->add('department')
+            ->add('name',null,[
+                'label' => 'Nom'
+            ])
+            ->add('city',null,[
+                'label' => 'Ville'
+            ])
+            ->add('department',null,[
+                'label' => 'Departement'
+            ])
             ->add('tags', EntityType::class, [
+                'label' => 'Tags',
                 // Entité que l'on veut ajouter au formulaire
                 'class' => Tags::class,
 
@@ -30,7 +36,12 @@ class OffersType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
             ])
-            ->add('description');
+            ->add('description', TextareaType::class, [
+                'label' => "Description",
+                'attr' => [
+                    "style" => "height:200px"
+                ]
+            ]);
 
     }
 

@@ -3,7 +3,21 @@
 {% block body %}
     <div>
         <h1>Informations étudiant</h1>
-        {{ form_start(form) }}
-        {{ form_end(form) }}
+        <div>
+            {{ form_label(form.lastname) }}
+            {{ form_widget(form.lastname, {'attr': {'readonly': 'readonly'}}) }}
+        </div>
+        <div>
+            {{ form_label(form.firstname) }}
+            {{ form_widget(form.firstname, {'attr': {'readonly': 'readonly'}}) }}
+        </div>
+        <div>
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email, {'attr': {'readonly': 'readonly'}}) }}
+        </div>
+        <div>
+            <a href="">Accepter la candidature</a>
+            <a>Refuser la candidature</a>
+        </div>
     </div>
 {% endblock %}
