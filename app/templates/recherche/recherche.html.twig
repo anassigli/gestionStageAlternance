@@ -1,0 +1,30 @@
+{%  block body %}
+    <div>
+        <p>
+            List des tags :
+        </p>
+        <div class="flex ">
+
+            {%  for category in categories %}
+
+                <div class="flex-col mb-4">
+                    <label  class="  text-lg font-medium  dark:text-dark">{{ category.category }}</label>
+                    <div>
+                        {% for tags in category.tags %}
+                            <div class="flex items-center mb-4">
+                                <input id="default-checkbox" type="checkbox" value="{{ tags.tag }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <label for="default-checkbox" class="ml-2 text-sm font-medium text-dark dark:text-dark">{{ tags.tag }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+            -->
+        </div>
+
+
+
+        <button type="button" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Rechercher</button>
+
+    </div>
+{% endblock %}
