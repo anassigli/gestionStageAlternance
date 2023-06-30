@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use Algolia\AlgoliaSearch\SearchClient;
-use App\Entity\Offers;
+
 use App\Entity\User;
 use App\Form\EnterpriseFormType;
 use App\Form\StudentFormType;
@@ -58,6 +57,7 @@ class HomeController extends AbstractController
                 }
             }
         }
+
         return $this->render('home/index.html.twig', [
             'offers' => $offers,
             'candidacies' => $candidacies ?? null,
