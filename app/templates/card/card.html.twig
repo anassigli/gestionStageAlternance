@@ -11,9 +11,13 @@
                         <span class="pill">{{ tag.tag }}</span>
                     {% endfor %}
                 </div>
-                <span class="text-sm font-medium text-gray-500">
+                <p class="text-sm font-medium text-gray-500">
                     Il y a {{ offer.candidacies|length }} candidature(s) pour cette offre.
-                </span>
+                    <br>
+                    {% if offer.candidacies|length != 0 %}
+                        <span><a href="{{ path('app_enterprise_offers_candidacies', { 'id': offer.id }) }}">Voir les candidatures.</a></span>
+                    {% endif %}
+                </p>
             </div>
             <div class="mb-4">
                 <p class="text-style-3lines">
@@ -22,12 +26,12 @@
             </div>
         </div>
 
-        <div class="link-container">
-            <div class="link-holder">
-                <div><a href="{{ path('app_offers_show', {'id': offer.id}) }}"
-                        class="rounded-md p-2 text-white bg-blue-500 hover:bg-blue-600">En savoir +</a></div>
-                {% if app.user %}
-                    {% if "ROLE_STUDENT" in app.user.roles %}
+        <div class="link-container m-0">
+            <div class="link-holder m-0">
+                <div class="flex items-center justify-evenly w-full"><a href="{{ path('app_offers_show', {'id': offer.id}) }}"
+                        class="rounded-md p-2 text-white bg-blue-500 hover:bg-blue-600">En savoir +</a>
+                    {% if app.user %}
+                    {% if  "ROLE_STUDENT" in app.user.roles %}
                         {% set find = false %}
                         {% for candidature in offer.candidacies %}
                             {% if candidature.student.user.id == app.user.id %}
@@ -35,22 +39,22 @@
                             {% endif %}
                         {% endfor %}
                         {% if find %}
-                            <div><a href="{{ path('app_delete_candidacy', { 'id': offer.id }) }}"
-                                    class="rounded-md p-2 text-white bg-red-500 hover:bg-red-600">Désister</a></div>
+                            <a href="{{ path('app_delete_candidacy', { 'id': offer.id }) }}"
+                               class="rounded-md p-2 text-white bg-red-500 hover:bg-red-600">Désister</a>
                         {% else %}
-                            <div><a href="{{ path('app_new_candidacy', { 'id': offer.id }) }}"
-                                    class="rounded-md p-2 text-white bg-sky-500 hover:bg-sky-600">Postuler</a>
-                            </div>
+                            <a href="{{ path('app_new_candidacy', { 'id': offer.id }) }}"
+                               class="rounded-md p-2 text-white bg-sky-500 hover:bg-sky-600">Postuler</a>
                         {% endif %}
                     {% elseif "ROLE_ENTERPRISE" in app.user.roles %}
                         {% if offer.enterprise.id == app.user.enterprise.id %}
-                            <div><a href="" class="rounded-md p-2 text-white bg-sky-500 hover:bg-sky-600">Modifier</a>
-                            </div>
+                            <a href="{{ path("app_offers_edit", {'id': offer.id}) }}"
+                               class="rounded-md p-2 text-white bg-blue-500 hover:bg-blue-600">Modifier</a>
+                            {{ include('offers/_delete_form.html.twig') }}
                         {% endif %}
                     {% endif %}
-                {% endif %}
+                    {% endif %}
+                </div>
             </div>
-            <a>test</a>
         </div>
 
     </div>

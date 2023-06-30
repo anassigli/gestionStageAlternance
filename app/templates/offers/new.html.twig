@@ -3,8 +3,13 @@
 {% block title %}New Offers{% endblock %}#}
 
 {% block body %}
-    <h1>Create new Offers</h1>
+    <h1 class="text-center">Création d'une offre</h1>
+    <div class="mt-2 mb-3">
+        <a href="javascript:history.back()" class="rounded-md p-2 text-white bg-sky-500 hover:bg-sky-600">Retour à la liste</a>
+    </div>
     {{ include('offers/_form.html.twig') }}
-    <a href="{{ path('app_home') }}">back to list</a>
+    <div class="mt-2">
+        <a href="javascript:history.back()" class="rounded-md p-2 text-white bg-sky-500 hover:bg-sky-600">Retour à la liste</a>
+    </div>
 
 {% endblock %}
