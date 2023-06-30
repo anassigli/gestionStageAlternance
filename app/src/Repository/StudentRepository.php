@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Student;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -30,8 +31,6 @@ class StudentRepository extends ServiceEntityRepository
         }
     }
 
-
-
     public function remove(Student $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
@@ -41,40 +40,17 @@ class StudentRepository extends ServiceEntityRepository
         }
     }
 
-
-   public function countAll(){
-       $queryBuilder = $this->createQueryBuilder('s');
-       $queryBuilder
-           ->select('count(s.id)');
-       $count = $queryBuilder->getQuery()->getSingleScalarResult();
-       return $count;
-   }
-    public function findTodaysNewStudents(): int
+    public function findNewStudentsInLastWeek(): array
     {
-        $queryBuilder = $this->createQueryBuilder('s');
-        $queryBuilder
-            ->select('count(s.id)')
-            ->where($queryBuilder->expr()->eq('s.created_at', ':today'))
-            ->setParameter('today', new \DateTime('today'));
-        $count = $queryBuilder->getQuery()->getSingleScalarResult();
-        return $count;
-    }
+        $now = new DateTime();
+        $lastWeek = new DateTime('-1 week');
 
-
-    public function findNewStudentsInLastWeek(): int
-    {
-        $now = new \DateTime();
-        $startOfWeek = $now->sub(new \DateInterval('P1W'))->modify('monday')->format('Y-m-d 00:00:00');
-        $endOfWeek = $now->modify('sunday')->format('Y-m-d 23:59:59');
-
-        $queryBuilder = $this->createQueryBuilder('s');
-        $queryBuilder
-            ->select('count(s.id)')
-            ->where($queryBuilder->expr()->between('s.created_at', ':startOfWeek', ':endOfWeek'))
-            ->setParameter('startOfWeek', $startOfWeek)
-            ->setParameter('endOfWeek', $endOfWeek);
-        $count = $queryBuilder->getQuery()->getSingleScalarResult();
-        return $count;
+        return $this->createQueryBuilder('s')
+            ->where('s.created_at BETWEEN :lastWeek AND :now')
+            ->setParameter('now', $now)
+            ->setParameter('lastWeek', $lastWeek)
+            ->getQuery()
+            ->getScalarResult();
     }
 
 

@@ -1,44 +1,6 @@
-
-{% extends '@EasyAdmin/page/content.html.twig'%}
+{% extends '@EasyAdmin/page/content.html.twig' %}
 
 {% block content %}
-
-   <div class="flex flex-col gap-10">
-      <!-- part 1 : pie & doughnut charts -->
-      <div class="flex">
-         <div class="flex-initial w-1/2">
-            <p>charte 1 : titre</p>
-            <div style="height: 300px;">
-               {{ render_chart(chart1) }}
-            </div>
-         </div>
-         <div class="flex-initial w-1/2">
-            <p>charte 2 : titre</p>
-            <div style="height: 300px;">
-               {{ render_chart(chart2) }}
-            </div>
-         </div>
-      </div>
-      <!-- end part 1  -->
-
-
-
-
-      <!-- part 2 : Line chart-->
-      <div>
-         {{ render_chart(chart2) }}
-      </div>
-
-      <!-- end part 2-->
-
-
-
-
-   </div>
-
-
-
-
 
 {% endblock %}
 

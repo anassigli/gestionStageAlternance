@@ -8,15 +8,6 @@
             "ref": "b202ccc902adb679c089d541b1b2748d595b4315"
         }
     },
-    "algolia/search-bundle": {
-        "version": "6.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "3.0",
-            "ref": "fd172e8feabf6b1c0818e18de90c2a3f82ea0a60"
-        }
-    },
     "doctrine/doctrine-bundle": {
         "version": "2.10",
         "recipe": {
@@ -63,6 +54,15 @@
             "branch": "main",
             "version": "3.0",
             "ref": "b131e6cbfe1b898a508987851963fff485986285"
+        }
+    },
+    "meilisearch/search-bundle": {
+        "version": "0.13",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "0.10",
+            "ref": "f0730f97441a5391832fb176305f69abe86b70a3"
         }
     },
     "php-http/discovery": {

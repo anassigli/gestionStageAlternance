@@ -9,16 +9,22 @@ use Doctrine\Persistence\ObjectManager;
 
 class TagsFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const  TAGS = ["Dev FullStack", "Dev Front", "Dev BackEnd", "Designer", "Administrateur réseaux",  "Technicien de maintenance",
-        "Java", "JavaScript", "CSS","PHP", "Python", "C#", "C", "Ruby", "Rust", "Cobol",
-        "Petite", "Moyenne", "Grande",
-        "Télétravail", "De nuit"];
+    public const  TAGS = ["Dev FullStack"=>CategoryFixtures::JOB, "Dev Front"=>CategoryFixtures::JOB,
+        "Dev BackEnd"=>CategoryFixtures::JOB, "Designer"=>CategoryFixtures::JOB, "Administrateur réseaux"=>CategoryFixtures::JOB,
+        "Technicien de maintenance"=>CategoryFixtures::JOB, "Java"=>CategoryFixtures::LANGUAGE, "JavaScript"=>CategoryFixtures::LANGUAGE,
+        "CSS"=>CategoryFixtures::LANGUAGE,"PHP"=>CategoryFixtures::LANGUAGE, "Python"=>CategoryFixtures::LANGUAGE,
+        "C#"=>CategoryFixtures::LANGUAGE, "C"=>CategoryFixtures::LANGUAGE, "Ruby"=>CategoryFixtures::LANGUAGE,
+        "Rust"=>CategoryFixtures::LANGUAGE, "Cobol"=>CategoryFixtures::LANGUAGE,
+        "Petite"=>CategoryFixtures::SIZE, "Moyenne"=>CategoryFixtures::SIZE, "Grande"=>CategoryFixtures::SIZE,
+        "Télétravail"=>CategoryFixtures::CONDITION, "De nuit"=>CategoryFixtures::CONDITION,
+        "Stage"=>CategoryFixtures::OFFER_TYPE,"Alternance"=>CategoryFixtures::OFFER_TYPE];
 
     public function load(ObjectManager $manager)
     {
-        foreach (self::TAGS as $tagName) {
+        foreach (self::TAGS as $tagName => $category) {
             $tag = (new Tags())
                 ->setTag($tagName);
+                $tag->setCategory($this->getReference($category));
             if($tagName == "JavaScript" || $tagName == "Java" || $tagName == "Dev FullStack" || $tagName == "Petite") {
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_1));
             } else if($tagName == "Dev BackEnd" || $tagName == "C" || $tagName == "Moyenne") {
@@ -36,7 +42,8 @@ class TagsFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            OffersFixtures::class
+            OffersFixtures::class,
+            CategoryFixtures::class
         ];
     }
 }
