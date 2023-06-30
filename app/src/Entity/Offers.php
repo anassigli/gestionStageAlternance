@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: OffersRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -18,9 +19,11 @@ class Offers
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups('searchable')]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('searchable')]
     private ?string $name = null;
 
     #[ORM\Column]
@@ -41,15 +44,19 @@ class Offers
     private ?Enterprise $enterprise = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('searchable')]
     private ?string $city = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('searchable')]
     private ?string $department = null;
 
     #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'offers')]
+    #[Groups('searchable')]
     private Collection $tags;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups('searchable')]
     private ?string $comment = null;
 
     public function __construct()
