@@ -15,7 +15,7 @@
                     Il y a {{ offer.candidacies|length }} candidature(s) pour cette offre.
                     <br>
                     {% if offer.candidacies|length != 0 %}
-                        <span><a href="{{ path('app_enterprise_offers_candidacies', { 'id': offer.id }) }}">Voir les candidatures.</a></span>
+                        <span><a href="{{ path('app_enterprise_offers_candidacies', { 'id': offer.id }) }}">Voir les candidatures</a></span>
                     {% endif %}
                 </p>
             </div>

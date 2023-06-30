@@ -74,7 +74,7 @@ class HomeController extends AbstractController
         $formStudent = $this->createForm(StudentFormType::class, $student);
 
         if (isset($enterprise)) {
-            $offers = $offersRepository->findBy(["enterprise" => $enterprise]);
+            $offers = $this->offersRepository->findBy(["enterprise" => $enterprise]);
             $nbTotalCandidacies = 0;
             foreach ($offers as $offer){
                 $nbTotalCandidacies += $offer->getCandidacies()->count();
@@ -86,7 +86,7 @@ class HomeController extends AbstractController
             ]);
         }
 
-        return $this->render('student/show.html.twig', [
+        return $this->render('student/show.profil.html.twig', [
             'form' => $formStudent
         ]);
     }
