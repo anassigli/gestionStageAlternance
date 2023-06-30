@@ -41,9 +41,25 @@
     padding: 2em;
 }
 .btn {
-    @apply p-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md;
+    @apply p-2 text-white rounded-md;
 }
 
+.bg-Validée {
+    @apply bg-green-500;
+}
+
+/* Statut en attente */
+.bg-En {
+    @apply bg-purple-500;
+}
+
+.bg-Refusée {
+    @apply bg-red-500;
+}
+
+.bg-Pourvue {
+    @apply bg-green-500;
+}
 
 
 
