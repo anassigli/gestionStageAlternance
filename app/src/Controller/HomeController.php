@@ -6,9 +6,9 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\EnterpriseFormType;
 use App\Form\StudentFormType;
-use App\Repository\CategoryRepository;
 use App\Repository\EnterpriseRepository;
 use App\Repository\OffersRepository;
+use App\Repository\StatusRepository;
 use App\Repository\StudentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,24 +21,26 @@ class HomeController extends AbstractController
     private EnterpriseRepository $enterpriseRepository;
     private StudentRepository $studentRepository;
     private OffersRepository $offersRepository;
-    private CategoryRepository $categoryRepository;
+    private StatusRepository $statusRepository;
 
     public function __construct(EnterpriseRepository $enterpriseRepository,
                                 StudentRepository    $studentRepository,
                                 OffersRepository     $offersRepository,
-                                CategoryRepository   $categoryRepository)
+                                StatusRepository     $statusRepository)
     {
         $this->enterpriseRepository = $enterpriseRepository;
         $this->studentRepository = $studentRepository;
         $this->offersRepository = $offersRepository;
-        $this->categoryRepository = $categoryRepository;
+        $this->statusRepository = $statusRepository;
     }
 
     #[Route('/', name: 'app_home')]
-    public function index(Session $session, Request $request): Response
+    public function index(Session $session): Response
     {
-        $offers = $this->offersRepository->findAll();
-        $categories = $this->categoryRepository->findAll();
+        $offers = $this->offersRepository->findBy([
+            'status' => $this->statusRepository->findOneBy(['status' => 'Validée'])
+        ]);
+
         if ($this->getUser()) {
             /** @var User $current_user */
             $current_user = $this->getUser();
@@ -53,7 +55,8 @@ class HomeController extends AbstractController
 
                 if ($enterprise->getStatus()->getStatus() === 'En attente') {
                     $session->getFlashBag()->add('warning',
-                        "Votre entreprise est en attente de confirmation d'un administrateur. Vous ne pouvez pas poster d'offre pour l'instant. ");
+                        "Votre entreprise est en attente de confirmation d'un administrateur. 
+                        Vous ne pouvez pas poster d'offre pour l'instant.");
                 }
             }
         }
@@ -61,7 +64,6 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'offers' => $offers,
             'candidacies' => $candidacies ?? null,
-            'categories' => $categories,
         ]);
     }
 
@@ -81,7 +83,7 @@ class HomeController extends AbstractController
         if (isset($enterprise)) {
             $offers = $this->offersRepository->findBy(["enterprise" => $enterprise]);
             $nbTotalCandidacies = 0;
-            foreach ($offers as $offer){
+            foreach ($offers as $offer) {
                 $nbTotalCandidacies += $offer->getCandidacies()->count();
             }
             return $this->render('enterprise/show.html.twig', [
