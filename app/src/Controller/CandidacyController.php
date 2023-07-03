@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Candidacy;
 use App\Entity\Offers;
-use App\Entity\Student;
 use App\Entity\User;
 use App\Repository\CandidacyRepository;
 use App\Repository\OffersRepository;
@@ -100,15 +99,13 @@ class CandidacyController extends AbstractController
     }
 
     #[Route('/candidacies/accept/student/{id}', name: 'app_candidacy_refuse')]
-    public function refuseCandidacy(Request             $request,
+    public function refuseCandidacy(
                                     Candidacy           $candidacy,
                                     StatusRepository    $statusRepository,
                                     CandidacyRepository $candidacyRepository): Response
     {
         $candidacy->setStatus($statusRepository->findOneBy(["status" => "Refusée"]));
-
         $candidacyRepository->save($candidacy, true);
-
-        return $this->redirectToRoute('app_enterprise_offers_candidacies');
+        return $this->redirectToRoute('app_enterprise_offers_candidacies', ["id" => $candidacy->getOffer()->getId()]);
     }
 }
