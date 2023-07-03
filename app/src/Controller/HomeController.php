@@ -27,12 +27,14 @@ class HomeController extends AbstractController
     private StudentRepository $studentRepository;
     private OffersRepository $offersRepository;
     private StatusRepository $statusRepository;
+    private CategoryRepository $categoryRepository;
     private TagsRepository $tagsRepository;
 
     public function __construct(EnterpriseRepository $enterpriseRepository,
                                 StudentRepository    $studentRepository,
                                 OffersRepository     $offersRepository,
                                 StatusRepository     $statusRepository,
+                                CategoryRepository   $categoryRepository,
                                 TagsRepository       $tagsRepository)
     {
         $this->enterpriseRepository = $enterpriseRepository;
@@ -40,6 +42,7 @@ class HomeController extends AbstractController
         $this->offersRepository = $offersRepository;
         $this->statusRepository = $statusRepository;
         $this->tagsRepository = $tagsRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     #[Route('/', name: 'app_home')]
