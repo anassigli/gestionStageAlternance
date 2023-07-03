@@ -39,16 +39,13 @@ class CandidacyRepository extends ServiceEntityRepository
         }
     }
 
-    public function getCandidacyByMonth()
+    public function getCandidacyByMonth(): array
     {
-        $results = $this->createQueryBuilder('c')
+        return $this->createQueryBuilder('c')
             ->select('MONTH(c.created_at) as month, count(c.id)')
             ->groupBy('month')
             ->getQuery()
             ->getResult();
-
-        dd($results);
-        return $results;
     }
 
 //    /**
