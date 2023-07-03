@@ -1,17 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
-
 {% block body %}
 
-<div class="grid grid-cols-2 gap-8 mx-auto" >
-    {% for offer in offers %}
-        {%  include 'card/card.html.twig' with
-            {
-                'offer': offer,
-                'candidacies': candidacies,
-            }
-        %}
-    {% endfor %}
-</div>
+    {% include "_search_data.html.twig" with {
+        form: form ?? null
+    } %}
+
+    <div class="grid grid-cols-2 gap-8 mx-auto">
+        {% for offer in offers %}
+            {% include 'card/card.html.twig' with
+                {
+                    'offer': offer,
+                    'candidacies': candidacies,
+                } %}
+        {% endfor %}
+    </div>
+
 {% endblock %}
