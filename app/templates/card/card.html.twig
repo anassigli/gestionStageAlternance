@@ -14,7 +14,8 @@
                 <p class="text-sm font-medium text-gray-500">
                     Il y a {{ offer.candidacies|length }} candidature(s) pour cette offre.
                     <br>
-                    {% if offer.candidacies|length != 0 and "ROLE_ENTERPRISE" in app.user.roles %}
+                    {% if offer.candidacies|length != 0 and "ROLE_ENTERPRISE" in app.user.roles
+                        and offer.enterprise.user.id == app.user.id %}
                         <span>
                             <a href="{{ path('app_enterprise_offers_candidacies', { 'id': offer.id }) }}"
                                class="hover:underline">
