@@ -46,9 +46,8 @@ class HomeController extends AbstractController
     }
 
     #[Route('/', name: 'app_home')]
-    public function index(Session $session, Request $request, CandidacyRepository $candidacyRepository): Response
+    public function index(Session $session, Request $request): Response
     {
-        dd($candidacyRepository->test());
         $offers = $this->offersRepository->findBy([
             'status' => $this->statusRepository->findOneBy(['status' => 'Validée'])
         ]);
