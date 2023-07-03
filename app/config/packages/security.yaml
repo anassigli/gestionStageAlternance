@@ -39,7 +39,7 @@ security:
     - { path: ^/register, role: PUBLIC_ACCESS }
     - { path: ^/verify/email, role: PUBLIC_ACCESS }
     - { path: ^/admin, roles: ROLE_ADMIN }
-    - { path: ^/candidacies, roles: ROLE_STUDENT }
+    - { path: ^/candidacies, roles: [ROLE_STUDENT, ROLE_ENTERPRISE] }
     - { path: ^/enterprise/offers, roles: ROLE_ENTERPRISE }
     - { path: ^/offers/add, roles: ROLE_ENTERPRISE }
     - { path: ^/*, role: ROLE_USER }

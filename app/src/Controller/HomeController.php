@@ -120,7 +120,7 @@ class HomeController extends AbstractController
             ]);
         }
 
-        return $this->render('student/show.html.twig', [
+        return $this->render('student/show.profil.html.twig', [
             'form' => $formStudent
         ]);
     }
