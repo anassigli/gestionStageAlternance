@@ -11,13 +11,14 @@ class StudentsFixtures extends Fixture implements DependentFixtureInterface
 {
     public const STUDENT1 = 'student1';
     public const STUDENT2 = 'student2';
+    public const STUDENT3 = 'student3';
     public function load(ObjectManager $manager)
     {
         $student1 = (new Student())
             ->setEmail("etu1@mail.com")
             ->setUser($this->getReference(UserFixtures::USER_STUDENT1))
-            ->setFirstname("Toto")
-            ->setLastname("Titi");
+            ->setFirstname("Robert")
+            ->setLastname("Marcoux");
         $this->addReference(self::STUDENT1, $student1);
         $this->setReference(self::STUDENT1, $student1);
         $manager->getRepository(Student::class)->save($student1, true);
@@ -30,6 +31,15 @@ class StudentsFixtures extends Fixture implements DependentFixtureInterface
         $this->addReference(self::STUDENT2, $student2);
         $this->setReference(self::STUDENT2, $student2);
         $manager->getRepository(Student::class)->save($student2, true);
+
+        $student3 = (new Student())
+            ->setEmail("etu3@mail.com")
+            ->setUser($this->getReference(UserFixtures::USER_STUDENT3))
+            ->setFirstname("Jérôme")
+            ->setLastname("Duranseau");
+        $this->addReference(self::STUDENT3, $student3);
+        $this->setReference(self::STUDENT3, $student3);
+        $manager->getRepository(Student::class)->save($student3, true);
     }
 
     public function getDependencies()
