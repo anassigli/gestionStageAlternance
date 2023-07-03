@@ -20,7 +20,7 @@ class SearchController extends AbstractController
                            EntityManagerInterface $doctrine,
                            OffersRepository       $offersRepository): Response
     {
-        $searchQuery = $request->query->get('q') ?? '';
+        $searchQuery = $request->query->get('query') ?? '';
         $searchService->index($doctrine, $offersRepository->findAll());
 
         $hits = $searchService->search($doctrine, Offers::class, $searchQuery);
@@ -38,7 +38,6 @@ class SearchController extends AbstractController
             'search/index.html.twig',
             [
                 'quotes' => $hits,
-                'q' => $searchQuery,
                 'candidacies' => $candidacies ?? null
             ]
         );
