@@ -31,8 +31,8 @@ class HomeController extends AbstractController
     public function __construct(EnterpriseRepository $enterpriseRepository,
                                 StudentRepository    $studentRepository,
                                 OffersRepository     $offersRepository,
-                                StatusRepository     $statusRepository)
-                                StatusRepository     $statusRepository, TagsRepository       $tagsRepository)
+                                StatusRepository     $statusRepository,
+                                TagsRepository       $tagsRepository)
     {
         $this->enterpriseRepository = $enterpriseRepository;
         $this->studentRepository = $studentRepository;
