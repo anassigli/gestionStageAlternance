@@ -32,7 +32,7 @@ class GraphController extends AbstractController
         return $graph;
     }
 
-    private function createLineGraph(ChartBuilderInterface $chartBuilder, array $labels, array $data): Chart
+    private function createLineGraph(ChartBuilderInterface $chartBuilder, array $labels, array $nbStudentsPerMonth, array $acceptedCandidacyPerMonth): Chart
     {
         $graph = $chartBuilder->createChart(Chart::TYPE_LINE);
         $graph->setData([
@@ -43,17 +43,30 @@ class GraphController extends AbstractController
                     'label' => 'Ont trouvé un contrat',
                     'backgroundColor' => 'rgb(255, 99, 132)',
                     'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => [0, 10, 5, 2, 20, 30, 45, 0, 10, 5, 2, 20, 30, 45],
+                    'data' => $nbStudentsPerMonth,
                 ],
                 [
                     'label' => "N'ont toujours pas trouvé de contrat",
                     'backgroundColor' => 'rgb(120, 99, 132, .4)',
                     'borderColor' => 'rgb(120, 99, 132, .4)',
-                    'data' => [100, 70, 45, 32, 20, 10, 10, 100, 70, 45, 32, 20, 10, 10],
+                    'data' => $acceptedCandidacyPerMonth,
                 ],
             ],
         ]);
         return $graph;
+    }
+
+    private function createNbCandidacyGraph(ChartBuilderInterface $chartBuilder, CandidacyRepository $candidacyRepository, int $studentsCount) {
+        $acceptedCandidacyPerMonth = $candidacyRepository->getCandidacyByMonth();
+        $studentsCountRemains = $studentsCount;
+        $nbStudentsPerMonth = [];
+        foreach ($acceptedCandidacyPerMonth as $month) {
+            $studentsCountRemains = $studentsCountRemains - $month;
+            $toto = $month;
+            $nbStudentsPerMonth[] = $studentsCountRemains;
+        }
+        dd($nbStudentsPerMonth, $acceptedCandidacyPerMonth);
+        return $this->createLineGraph($chartBuilder, [],$nbStudentsPerMonth, $toto);
     }
 
     #[Route('/admin/graph', name: 'app_admin_graph')]
@@ -77,8 +90,7 @@ class GraphController extends AbstractController
 
         $allTagsChart = $chartBuilder->createChart(Chart::TYPE_BAR);
 
-        $acceptedCandidacyPerMonth = $candidacyRepository->getCandidacyByMonth();
-        $studentsFoundStage = $this->createLineGraph($chartBuilder, [], $acceptedCandidacyPerMonth);
+        $studentsFoundStage = $this->createNbCandidacyGraph($chartBuilder, $candidacyRepository, $studentsCount);
 
         //tags
         $tagsCount = sizeof($tagsRepository->findAll());

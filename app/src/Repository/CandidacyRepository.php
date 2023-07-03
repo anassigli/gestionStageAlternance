@@ -41,11 +41,31 @@ class CandidacyRepository extends ServiceEntityRepository
 
     public function getCandidacyByMonth(): array
     {
-        return $this->createQueryBuilder('c')
+        $candidacyByMonth = [
+            "1" => 0,
+            "2" => 0,
+            "3" => 0,
+            "4" => 0,
+            "5" => 0,
+            "6" => 0,
+            "7" => 0,
+            "8" => 0,
+            "9" => 0,
+            "10" => 0,
+            "11" => 0,
+            "12" => 0
+        ];
+        $results = $this->createQueryBuilder('c')
             ->select('MONTH(c.created_at) as month, count(c.id)')
+            ->join("c.status","s")
+            ->where("s.status = 'Validée'")
             ->groupBy('month')
             ->getQuery()
             ->getResult();
+        foreach ($results as $result) {
+            $candidacyByMonth[strval($result["month"])] = $result[1];
+        }
+        return $candidacyByMonth;
     }
 
 //    /**
