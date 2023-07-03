@@ -66,18 +66,7 @@ class EnterpriseFixtures extends Fixture implements DependentFixtureInterface
         $this->addReference(self::ENTERPRISE4, $enterprise4);
         $manager->getRepository(Enterprise::class)->save($enterprise4, true);
 
-        $enterprise5 = (new Enterprise())
-            ->setEmail("enterprise5@mail.com")
-            ->setName("THALES")
-            ->setDescription("Thales est un groupe d'électronique français spécialisé dans l'aérospatiale, la défense, la sécurité et le transport terrestre dont le siège social se situe dans le quartier de La Défense à Paris.")
-            ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE5))
-            ->setCity("Paris")
-            ->setDepartment("75000")
-            ->setImageName("test")
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
-        $this->addReference(self::ENTERPRISE5, $enterprise5);
-        $manager->getRepository(Enterprise::class)->save($enterprise5, true);
-    }
+         }
 
     public function getDependencies(): array
     {
