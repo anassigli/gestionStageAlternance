@@ -95,10 +95,10 @@ class CandidacyController extends AbstractController
         $candidacyRepository->save($candidacy, true);
         $offersRepository->save($offer, true);
 
-        return $this->redirectToRoute('app_enterprise_offers_candidacies');
+        return $this->redirectToRoute('app_enterprise_offers_candidacies', ["id" => $candidacy->getOffer()->getId()]);
     }
 
-    #[Route('/candidacies/accept/student/{id}', name: 'app_candidacy_refuse')]
+    #[Route('/candidacies/refuse/student/{id}', name: 'app_candidacy_refuse')]
     public function refuseCandidacy(
                                     Candidacy           $candidacy,
                                     StatusRepository    $statusRepository,

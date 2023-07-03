@@ -19,9 +19,8 @@
             {{ form_label(form.email) }}
             {{ form_widget(form.email, {'attr': {'readonly': 'readonly'}}) }}
         </div>
-
         <div class="w-1/2 mx-auto flex justify-around">
-            {% if candidacy.status != "Validée" %}
+            {% if candidacy.status == "En attente" %}
                 <a href="{{ path('app_candidacy_accept', {id: candidacy.id}) }}"
                    class="rounded-md p-1 mr-3 text-white bg-green-500 hover:bg-green-600">
                     Accepter
@@ -40,6 +39,5 @@
                 </div>
             {% endif %}
         </div>
-
     </div>
 {% endblock %}

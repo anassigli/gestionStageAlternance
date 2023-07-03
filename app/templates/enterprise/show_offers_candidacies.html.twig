@@ -9,7 +9,9 @@
             <div class="w-full flex justify-between items-center">
                 <div class="flex flex-col">
                     <span class="text-2xl underline">{{ offer.name }}</span>
-                    <span class="rounded-md text-white bg-green-400 w-fit p-1">{{ offer.status }}</span>
+                    <span class="w-fit rounded-full text-sm p-2 text-white bg-{{ offer.status }}">
+                            {{ offer.status }}
+                    </span>
                 </div>
                 <p>
                     <span class="text-gray-400"><span class="font-semibold">{{ offer.candidacies|length }}</span> Candidatures</span>
@@ -19,11 +21,13 @@
             <ul class="pl-2">
                 {% for candidacy in offer.candidacies %}
                     <li class="m-0.5 flex justify-between items-center">
-                        <a href="{{ path('app_student_show_profile', {id:candidacy.student.id}) }}">
+                        <a href="{{ path('app_student_show_profile', {id:candidacy.student.id, candidacyId:candidacy.id}) }}">
                             {{ candidacy.student.lastname }} {{ candidacy.student.firstname }}
                         </a>
-                        <span class="rounded-md text-white bg-green-400 w-fit p-1">{{ candidacy.status }}</span>
-                        {% if offer.status != "Pourvue" %}
+                        <span class="rounded-full text-sm p-2 text-white bg-{{ candidacy.status }}">
+                            {{ candidacy.status }}
+                        </span>
+                        {% if offer.status != "Pourvue" and candidacy.status == "En attente" %}
                             <div class="flex justify-around">
                                 <a href="{{ path('app_candidacy_accept', {id: candidacy.id}) }}"
                                    class="rounded-md p-1 mr-3 text-white bg-green-500 hover:bg-green-600">
