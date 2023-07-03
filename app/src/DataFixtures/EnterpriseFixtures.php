@@ -14,7 +14,6 @@ class EnterpriseFixtures extends Fixture implements DependentFixtureInterface
     public const ENTERPRISE2 = 'enterprise2';
     public const ENTERPRISE3 = 'enterprise3';
     public const ENTERPRISE4 = 'enterprise4';
-    public const ENTERPRISE5 = 'enterprise5';
 
     public function load(ObjectManager $manager)
     {

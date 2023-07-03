@@ -21,7 +21,6 @@ class OffersFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-
         $offer1_1 = (new Offers())
             ->setName("Alternance Développeur JAVA H/F")
             ->setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae enim quam. Nulla maximus nisi felis, eget ornare massa accumsan tempor. Vivamus tempus venenatis turpis, vitae porttitor justo. Maecenas interdum gravida scelerisque. Nunc egestas purus quis consectetur pellentesque. Sed ut efficitur neque. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi non blandit diam. Vivamus sit amet neque eu ex pharetra imperdiet. Vestibulum sagittis pellentesque erat sit amet aliquam. In sit amet odio felis. Vestibulum tincidunt massa lorem, et luctus orci rhoncus eu. Quisque in elit tincidunt, tincidunt mauris ac, mattis arcu. Nullam faucibus sem vel orci congue imperdiet. Mauris cursus tempus aliquam. ")
@@ -54,7 +53,6 @@ class OffersFixtures extends Fixture implements DependentFixtureInterface
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE2))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
-
         $offer2_2 = (new Offers())
             ->setName("Stage Maintenance de base de données" )
             ->setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae enim quam. Nulla maximus nisi felis, eget ornare massa accumsan tempor. Vivamus tempus venenatis turpis, vitae porttitor justo. Maecenas interdum gravida scelerisque. Nunc egestas purus quis consectetur pellentesque. Sed ut efficitur neque. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi non blandit diam. Vivamus sit amet neque eu ex pharetra imperdiet. Vestibulum sagittis pellentesque erat sit amet aliquam. In sit amet odio felis. Vestibulum tincidunt massa lorem, et luctus orci rhoncus eu. Quisque in elit tincidunt, tincidunt mauris ac, mattis arcu. Nullam faucibus sem vel orci congue imperdiet. Mauris cursus tempus aliquam. ")
@@ -62,7 +60,6 @@ class OffersFixtures extends Fixture implements DependentFixtureInterface
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE2))
             ->setCity("Cestas")
             ->setStatus($this->getReference(StatusFixtures::WAITING));
-
 
         $offer3_1 = (new Offers())
             ->setName("Développeur C# H/F")
@@ -72,7 +69,6 @@ class OffersFixtures extends Fixture implements DependentFixtureInterface
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE3))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
-
         $offer3_2 = (new Offers())
             ->setName("Développeur C# H/F" )
             ->setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae enim quam. Nulla maximus nisi felis, eget ornare massa accumsan tempor. Vivamus tempus venenatis turpis, vitae porttitor justo. Maecenas interdum gravida scelerisque. Nunc egestas purus quis consectetur pellentesque. Sed ut efficitur neque. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi non blandit diam. Vivamus sit amet neque eu ex pharetra imperdiet. Vestibulum sagittis pellentesque erat sit amet aliquam. In sit amet odio felis. Vestibulum tincidunt massa lorem, et luctus orci rhoncus eu. Quisque in elit tincidunt, tincidunt mauris ac, mattis arcu. Nullam faucibus sem vel orci congue imperdiet. Mauris cursus tempus aliquam. ")
@@ -80,7 +76,6 @@ class OffersFixtures extends Fixture implements DependentFixtureInterface
             ->setCity("Cestas")
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE3))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
-
 
         $offer4_1 = (new Offers())
             ->setName("Alternance - Développeur Kotlin H/F")
@@ -90,7 +85,6 @@ class OffersFixtures extends Fixture implements DependentFixtureInterface
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE4))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
-
         $offer4_2 = (new Offers())
             ->setName("Alternance - Développeur Angular H/F" )
             ->setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vitae enim quam. Nulla maximus nisi felis, eget ornare massa accumsan tempor. Vivamus tempus venenatis turpis, vitae porttitor justo. Maecenas interdum gravida scelerisque. Nunc egestas purus quis consectetur pellentesque. Sed ut efficitur neque. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi non blandit diam. Vivamus sit amet neque eu ex pharetra imperdiet. Vestibulum sagittis pellentesque erat sit amet aliquam. In sit amet odio felis. Vestibulum tincidunt massa lorem, et luctus orci rhoncus eu. Quisque in elit tincidunt, tincidunt mauris ac, mattis arcu. Nullam faucibus sem vel orci congue imperdiet. Mauris cursus tempus aliquam. ")
@@ -98,8 +92,6 @@ class OffersFixtures extends Fixture implements DependentFixtureInterface
             ->setCity("Cestas")
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE4))
             ->setStatus($this->getReference(StatusFixtures::WAITING));
-
-
 
 
         $this->addReference(self::OFFER_ENTERPRISE1_1, $offer1_1);
@@ -135,6 +127,7 @@ class OffersFixtures extends Fixture implements DependentFixtureInterface
         $manager->getRepository(Offers::class)->save($offer1_2, true);
         $manager->getRepository(Offers::class)->save($offer3_2, true);
         $manager->getRepository(Offers::class)->save($offer4_2, true);
+        $manager->getRepository(Offers::class)->save($offer1_3, true);
         $manager->getRepository(Offers::class)->save($offer3_1, true);
         $manager->getRepository(Offers::class)->save($offer2_1, true);
     }
