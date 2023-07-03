@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\EnterpriseFormType;
 use App\Form\StudentFormType;
+use App\Repository\CategoryRepository;
 use App\Repository\EnterpriseRepository;
 use App\Repository\OffersRepository;
 use App\Repository\StatusRepository;
@@ -22,16 +23,19 @@ class HomeController extends AbstractController
     private StudentRepository $studentRepository;
     private OffersRepository $offersRepository;
     private StatusRepository $statusRepository;
+    private CategoryRepository $categoryRepository;
 
     public function __construct(EnterpriseRepository $enterpriseRepository,
                                 StudentRepository    $studentRepository,
                                 OffersRepository     $offersRepository,
-                                StatusRepository     $statusRepository)
+                                StatusRepository     $statusRepository,
+                                CategoryRepository   $categoryRepository)
     {
         $this->enterpriseRepository = $enterpriseRepository;
         $this->studentRepository = $studentRepository;
         $this->offersRepository = $offersRepository;
         $this->statusRepository = $statusRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     #[Route('/', name: 'app_home')]
@@ -40,6 +44,7 @@ class HomeController extends AbstractController
         $offers = $this->offersRepository->findBy([
             'status' => $this->statusRepository->findOneBy(['status' => 'Validée'])
         ]);
+        $categories = $this->categoryRepository->findAll();
 
         if ($this->getUser()) {
             /** @var User $current_user */
@@ -64,6 +69,7 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'offers' => $offers,
             'candidacies' => $candidacies ?? null,
+            'categories' => $categories,
         ]);
     }
 

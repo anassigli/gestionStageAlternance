@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
-
 {% block body %}
 
     <div>
@@ -22,6 +20,25 @@
                        placeholder="Chercher par intitulé de poste, compétence entreprise ou location" required
                 />
             </div>
+
+            {% for category in categories %}
+
+                <div class="flex-col mb-4">
+                    <label class="  text-lg font-medium  dark:text-dark">{{ category.category }}</label>
+                    <div>
+                        {% for tags in category.tags %}
+                            <div class="flex items-center mb-4">
+                                <input id="default-checkbox" type="checkbox" value="{{ tags.tag }}"
+                                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500
+                                       dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700
+                                       dark:border-gray-600">
+                                <label for="default-checkbox"
+                                       class="ml-2 text-sm font-medium text-dark dark:text-dark">{{ tags.tag }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
         </form>
     </div>
 
@@ -34,4 +51,5 @@
                 } %}
         {% endfor %}
     </div>
+
 {% endblock %}
