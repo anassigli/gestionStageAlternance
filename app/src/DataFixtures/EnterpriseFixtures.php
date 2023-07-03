@@ -11,8 +11,9 @@ use Doctrine\Persistence\ObjectManager;
 class EnterpriseFixtures extends Fixture implements DependentFixtureInterface
 {
     public const ENTERPRISE1 = 'enterprise1';
-
     public const ENTERPRISE2 = 'enterprise2';
+    public const ENTERPRISE3 = 'enterprise3';
+    public const ENTERPRISE4 = 'enterprise4';
 
     public function load(ObjectManager $manager)
     {
@@ -39,7 +40,32 @@ class EnterpriseFixtures extends Fixture implements DependentFixtureInterface
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
         $this->addReference(self::ENTERPRISE2, $enterprise2);
         $manager->getRepository(Enterprise::class)->save($enterprise2, true);
-    }
+
+        $enterprise3 = (new Enterprise())
+            ->setEmail("enterprise3@mail.com")
+            ->setName("Capgemini")
+            ->setDescription("Le groupe Capgemini, comme beaucoup de ses concurrents, s'est constitué à travers de multiples acquisitions dans tous les secteurs d'activités liés aux services informatiques : consulting, intégration de systèmes, infogérance. Près de 40 acquisitions (petites ou grandes entreprises) ont été réalisées en 40 ans.")
+            ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE3))
+            ->setCity("Bordeaux")
+            ->setDepartment("33000")
+            ->setImageName("test")
+            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+        $this->addReference(self::ENTERPRISE3, $enterprise3);
+        $manager->getRepository(Enterprise::class)->save($enterprise3, true);
+
+        $enterprise4 = (new Enterprise())
+            ->setEmail("enterprise4@mail.com")
+            ->setName("Betclic Group")
+            ->setDescription("Betclic ou Betclic Everest Group est une entreprise française de paris sportifs, poker en ligne et de sport hippique créé en 2005 à Londres par Eric Moncada et Nicolas Béraud. Elle revendique 11 millions de joueurs inscrits sur sa plateforme en ligne. Betclic est une filiale de FL Entertainment, qui détient aussi l'entreprise Banijay.")
+            ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE4))
+            ->setCity("Bordeaux")
+            ->setDepartment("33000")
+            ->setImageName("test")
+            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+        $this->addReference(self::ENTERPRISE4, $enterprise4);
+        $manager->getRepository(Enterprise::class)->save($enterprise4, true);
+
+         }
 
     public function getDependencies(): array
     {
