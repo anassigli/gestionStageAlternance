@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Repository\EnterpriseRepository;
 use App\Repository\StudentRepository;
+use App\Repository\TagsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,6 +16,7 @@ class GraphController extends AbstractController
     #[Route('/admin/graph', name: 'app_admin_graph')]
     public function index(EnterpriseRepository  $enterpriseRepository,
                           StudentRepository     $studentRepository,
+                          TagsRepository $tagsRepository,
                           ChartBuilderInterface $chartBuilder): Response
     {
         //Data
@@ -28,7 +30,6 @@ class GraphController extends AbstractController
         $lastStudentsAndEnterprises = $chartBuilder->createChart(Chart::TYPE_PIE);
 
         $allStudentsAndEnterprises = $chartBuilder->createChart(Chart::TYPE_BAR);
-
         $allTagsChart = $chartBuilder->createChart(Chart::TYPE_BAR);
 
 
@@ -75,24 +76,40 @@ class GraphController extends AbstractController
         ]);
 
 
+//tags
+
+        $companiesCount = sizeof($tagsRepository->findAll());
+        $tagsCountResults = $tagsRepository->getTagUsageCounts();
+
+        $tagUsageCounts = [];
+        foreach ($tagsCountResults as $tagCountResult) {
+            $tagName = $tagCountResult['tag'];
+            $usageCount = $tagCountResult['usageCount'];
+            $tagUsageCounts[$tagName] = $usageCount;
+        }
+
+        $keys = array_keys($tagsCountResults);
+        $values = array_values($tagsCountResults);
+        $v = [];
+
+        for ($i = 0; $i < sizeof($values); $i++) {
+            array_push($v, $values[$i]["tag"]);
+        }
+
+
+
 
 
         $allTagsChart->setData([
-            'labels' => ["blabla,blabla"],
-            'datasets' => [
-                [
-                    'backgroundColor' => ['rgb(255, 99, 132, .4)', 'rgb(120, 99, 132, .4)'],
-                    'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => [10],
-                    'tension' => 0.4,
+            'labels' => $v,
+                'datasets' => [
+                    [
+                        'backgroundColor' => ['rgb(255, 99, 132, .4)', 'rgb(120, 99, 132, .4)'],
+                        'borderColor' => 'rgb(255, 99, 132)',
+                        'data' => $keys,
+                        'tension' => 0.4,
+                    ],
                 ],
-                [
-                    'backgroundColor' => ['rgb(255, 99, 132, .4)', 'rgb(120, 99, 132, .4)'],
-                    'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => [20],
-                    'tension' => 0.4,
-                ],
-            ],
         ]);
 
 
