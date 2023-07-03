@@ -19,11 +19,16 @@ doctrine:
                 prefix: 'App\Entity'
                 alias: App
 
+        dql:
+            string_functions:
+                DATE_FORMAT: DoctrineExtensions\Query\Mysql\DateFormat
+
 when@test:
     doctrine:
         dbal:
             # "TEST_TOKEN" is typically set by ParaTest
             dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
 
 when@prod:
     doctrine:

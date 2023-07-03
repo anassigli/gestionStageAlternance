@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Candidacy;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use http\Env\Response;
 
 /**
  * @extends ServiceEntityRepository<Candidacy>
@@ -38,6 +39,37 @@ class CandidacyRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+/*
+    public function getAcceptedStudentsCountByMonth($month): int
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery("
+            SELECT COUNT(c.id) as studentCount, 
+                CONCAT(DATE_FORMAT(c.created_at, '%Y'), '-', DATE_FORMAT(c.created_at, '%m')) as month
+            FROM App\Entity\Candidacy c
+            LEFT JOIN c.status s
+            WHERE (s.status = :statusName OR s.status IS NULL)
+                AND YEAR(c.created_at) = :year
+                AND MONTH(c.created_at) = :month
+            GROUP BY month
+            ORDER BY month DESC
+        ");
+
+        $query->setParameter('statusName', 'validée');
+        $query->setParameter('year', date('Y'));
+        $query->setParameter('month', $month);
+
+        $results = $query->getResult();
+
+        if (!empty($results)) {
+            return (int) $results[0]['studentCount'];
+        } else {
+            return 0;
+        }
+    }
+
+*/
 
 //    /**
 //     * @return Candidacy[] Returns an array of Candidacy objects
