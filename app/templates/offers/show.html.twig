@@ -3,72 +3,125 @@
 {% block title %}Offers{% endblock %}
 
 {% block body %}
-    <div class="offre place-content-center p-2em m-3em">
-    <div >
 
-        <img src="{{ asset(img_enterprises ~ offer.enterprise.imageName) }}" class="w-1/10 float-right"
-             alt="logo de l'entreprise">
-        <div class="text-xl font-medium">
-            {{ offer.name }}
-        </div>
-        <div class="">
-            {{ offer.city }}  {{ offer.department }}
-        </div>
-        <div class="conteneur_info_offre">
-            <div class="entête_offre">
-                <div>
-                    Date de création de l'offre : {{ offer.updatedAt ? offer.updatedAt|date('Y-m-d') : '' }}
+
+    <div class="flex flex-row items-center gap-3 mb-2">
+        <svg width="20" height="auto" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.439339 10.9393C-0.146447 11.5251 -0.146446 12.4749 0.439341 13.0607L9.98529 22.6066C10.5711 23.1924 11.5208 23.1924 12.1066 22.6066C12.6924 22.0208 12.6924 21.0711 12.1066 20.4853L3.62132 12L12.1066 3.51471C12.6924 2.92892 12.6924 1.97917 12.1066 1.39339C11.5208 0.807603 10.5711 0.807604 9.98527 1.39339L0.439339 10.9393ZM36 10.5L1.5 10.5L1.5 13.5L36 13.5L36 10.5Z" fill="black"/>
+        </svg>
+
+        <a href="{{ path('app_home') }}" class="">Retour à l'accueil</a>
+    </div>
+
+    <div class="flex flex-col drop-shadow ">
+        <div class="flex flex-row justify-between items-center bg-card-bg-normal p-4  rounded-t-lg ">
+
+            <div class="flex flex-row items-center gap-3">
+                <img src="{{ asset(img_enterprises ~ offer.enterprise.imageName) }}" class="float-right rounded-full"
+                     style="width: 40px; height: auto ; margin-right:10px" alt="">
+                <div class="flex flex-row items-center gap-3">
+                    <p>{{ offer.enterprise.name }}</p>
+
+                    {% if offer.status == "Validée" %}
+                        <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="16" cy="16" r="16" fill="#0BD172"/>
+                            <path d="M22.6667 11L13.5 20.1667L9.33337 16" stroke="white" stroke-width="3.65754"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    {% endif %}
                 </div>
-                <div class="pill-holder">
-                    {%  for tag in offer.tags %}
-                        <div class="pill bg-red-700">{{ tag.tag }}</div>
-                    {% endfor %}
-                </div>
+            </div>
+
+            <div class="flex flex-col">
                 <span class="text-sm font-medium text-gray-500">
                     Il y a {{ offer.candidacies|length }} candidature(s) pour cette offre.
                 </span>
-            </div>
-            <div>
-                <h2 class="present">
-                    Voici les expliaction de votre travail:
-                </h2>
-                <p class="text-sm font-medium">
-                    {{ offer.description }}
-                </p>
+                <span class="text-xs text-gray-500 font-light">
+                    {{ offer.updatedAt ? offer.updatedAt|date('Y-m-d') : '' }}
+                </span>
             </div>
         </div>
-        <div class="link-holder">
-            <div><a href="{{ path('app_home') }}" class="offer-cta text-white p-1 bg-red-600 ">Retour à l'accueil</a></div>
-            {% if  "ROLE_STUDENT" in app.user.roles %}
-                {% set find = false %}
-                {% for candidature in offer.candidacies %}
-                    {% if candidature.student.user.id == app.user.id %}
-                        {% set find = true %}
-                    {% endif %}
+
+        <div class="pt-4 pb-4 pl-4 pr-4 rounded-b-lg gap-3 bg-white">
+            <div class="text-xl font-semibold">
+                <h1 class="mt-2 mb-10">{{ offer.name }} <span
+                            class="text-xs text-gray-500 font-light ">({{ offer.city }} - {{ offer.department }})</span>
+                </h1>
+            </div>
+
+            <div class="flex flex-wrap ">
+                {% for tag in offer.tags %}
+                    <span class="rounded-full bg-card-bg-normal }} pl-3 pr-3 mr-2 mb-3 break-keep">{{ tag.tag }}</span>
                 {% endfor %}
-                {% if find %}
-                    <div><a href="#" class="offer-cta text-white p-1 bg-red-600 ">Désister</a></div>
-                {% else %}
-                    <div><a href="" class="offer-cta text-white p-1 bg-blue-first ">Postuler</a></div>
-                {% endif %}
-            {% elseif "ROLE_ENTERPRISE" in app.user.roles %}
-                {% if offer.enterprise.id == app.user.enterprise.id %}
-                    <div><a href="" class="offer-cta text-white p-1 bg-blue-first ">Modifier</a></div>
-                    {% if offer.candidacies|length > 0 %}
-                        <p>
-                            Candidateur(s) :
-                        </p>
-                        <ul>
-                        {% for candidature in offer.candidacies %}
-                            <li> {{ candidature.student.firstname }} {{ candidature.student.lastname }} {{ candidature.student.email }} </li>
-                        {% endfor %}
-                        </ul>
+            </div>
+
+            <p class="mt-4 mb-4">
+                {{ offer.description }}
+            </p>
+
+            {% if app.user %}
+                {% if "ROLE_STUDENT" in app.user.roles %}
+                    {% set find = false %}
+
+
+                    {% for candidacy in offer.candidacies %}
+                        {% if candidacy.student.user.id == app.user.id %}
+                            {% set find = true %}
+                        {% endif %}
+                    {% endfor %}
+
+
+                    {% if find %}
+                        <a href="{{ path('app_delete_candidacy', { 'id': offer.id }) }}"
+                           class="text-red-500 break-keep flex flex-row items-center gap-1">
+                            <svg width="18" height="18" viewBox="0 0 34 34" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="17.0293" cy="16.5" r="14" fill="#FF0000" fill-opacity="0.5"/>
+                                <path d="M12.0796 12.0503L21.9791 21.9498" stroke="white" stroke-width="2"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12.0796 21.9497L21.9791 12.0502" stroke="white" stroke-width="2"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+
+                            <p>Désister</p>
+                        </a>
+
+
+                    {% else %}
+                        <a href="{{ path('app_new_candidacy', { 'id': offer.id }) }}"
+                           class="text-green-500 break-keep flex flex-row items-center gap-1">
+                            <svg width="18" height="18" viewBox="0 0 28 28" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="14" cy="14" r="14" fill="#7B61FF"/>
+                                <path d="M14 7.5V21.5" stroke="white" stroke-width="2" stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+                                <path d="M7 14.5H21" stroke="white" stroke-width="2" stroke-linecap="round"
+                                      stroke-linejoin="round"/>
+                            </svg>
+
+                            <div class="text-[#7B61FF]">
+                                Postuler
+                            </div>
+
+
+                        </a>
                     {% endif %}
 
+
+                {% elseif "ROLE_ENTERPRISE" in app.user.roles %}
+                    {% if offer.enterprise.id == app.user.enterprise.id %}
+                        <a href="{{ path("app_offers_edit", {'id': offer.id}) }}"
+                           class="rounded-md p-2 text-white bg-blue-500 hover:bg-blue-600">Modifier</a>
+                        {{ include('offers/_delete_form.html.twig') }}
+                    {% endif %}
+                    <span class="rounded-full text-sm p-2 text-white bg-{{ offer.status }}">{{ offer.status }}</span>
                 {% endif %}
             {% endif %}
+
+
         </div>
     </div>
-    </div>
+
+
 
 {% endblock %}
