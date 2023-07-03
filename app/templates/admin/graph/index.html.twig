@@ -6,13 +6,13 @@
         <!-- part 1 : pie & doughnut charts -->
         <div class="flex">
             <div class="flex-initial w-1/2">
-                <p>charte 1 : titre</p>
+                <p>Charte 1 : Nouvelles inscription de la semaine dernière</p>
                 <div style="height: 300px;">
                     {{ render_chart(lastStudentsAndEnterprises) }}
                 </div>
             </div>
             <div class="flex-initial w-1/2">
-                <p>charte 2 : titre</p>
+                <p>Charte 2 : Nombre total d'étudiants et d'entreprises</p>
                 <div style="height: 300px;">
                     {{ render_chart(allStudentsAndEnterprises) }}
                 </div>
@@ -21,8 +21,15 @@
         <!-- end part 1  -->
 
 
-
         <div class="flex">
+            <div class="flex-initial w-1/2">
+                <p>Charte 3 : Avancement des recherches</p>
+                <div style="height: 300px;">
+                    {{ render_chart(studentsFoundStage) }}
+                </div>
+            </div>
+        </div>
+        {#<div class="flex">
             <div class="flex-initial w-1/2">
                 <p>charte 1 : stages</p>
                 <div style="height: 300px;">
@@ -35,7 +42,7 @@
                     {{ render_chart(studentsFoundAlternance) }}
                 </div>
             </div>
-        </div>
+        </div>#}
 
 
         <div class="flex">
