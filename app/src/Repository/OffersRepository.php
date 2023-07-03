@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Offers;
+use App\Model\SearchData;
+use Couchbase\SearchMetaData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -63,4 +65,31 @@ class OffersRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findBySearch(SearchData $searchData): array
+    {
+        $offers = $this->createQueryBuilder('o')
+            ->join('o.status', 's')
+            ->where("s.status = 'Validée'");
+
+        if (!empty($searchData)) {
+            $offers = $offers
+                ->join('o.tags', 't')
+                ->andWhere('o.name LIKE :q')
+                ->orWhere('o.description LIKE :q')
+                ->orWhere('o.city LIKE :q')
+                ->orWhere('o.department LIKE :q')
+                ->orWhere("t.tag LIKE :q")
+                ->setParameter('q', "%{$searchData->q}%");
+        }
+
+        if (!empty($searchData->tags)) {
+            $offers = $offers
+                ->andWhere('t.id IN (:tagsName)')
+                ->setParameter('tagsName', $searchData->tags);
+        }
+
+        return $offers
+            ->getQuery()
+            ->getResult();
+    }
 }
