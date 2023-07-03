@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Repository\CandidacyRepository;
 use App\Repository\EnterpriseRepository;
 use App\Repository\StudentRepository;
 use App\Repository\TagsRepository;
@@ -17,11 +18,13 @@ class GraphController extends AbstractController
     public function index(EnterpriseRepository  $enterpriseRepository,
                           StudentRepository     $studentRepository,
                           TagsRepository $tagsRepository,
+                          CandidacyRepository $candidacyRepository,
                           ChartBuilderInterface $chartBuilder): Response
     {
         //Data
         $studentsCount = sizeof($enterpriseRepository->findAll());
         $companiesCount = sizeof($studentRepository->findAll());
+       // $acceptedStudentsCount = sizeof($candidacyRepository->getAcceptedStudentsCountByMonth());
 
         // new Students and Enterprises
         $newCompanies = sizeof($enterpriseRepository->findNewCompaniesInLastWeek());
@@ -47,12 +50,6 @@ class GraphController extends AbstractController
                     'borderColor' => 'rgb(255, 99, 132)',
                     'data' => [0, 20, 45, 22, 20, 30, 45],
                 ],
-                [
-                    'label' => "N'ont toujours pas trouvé d'alternance",
-                    'backgroundColor' => 'rgb(120, 99, 132, .4)',
-                    'borderColor' => 'rgb(120, 99, 132, .4)',
-                    'data' => [70, 63, 41, 33, 2, 1, 1],
-                ],
             ],
         ]);
 
@@ -66,19 +63,12 @@ class GraphController extends AbstractController
                     'borderColor' => 'rgb(255, 99, 132)',
                     'data' => [0, 10, 5, 2, 20, 30, 45],
                 ],
-                [
-                    'label' => "N'ont toujours pas trouvé de stage",
-                    'backgroundColor' => 'rgb(120, 99, 132, .4)',
-                    'borderColor' => 'rgb(120, 99, 132, .4)',
-                    'data' => [100, 70, 45, 32, 20, 10, 10],
-                ],
+
             ],
         ]);
 
 
 //tags
-
-        $companiesCount = sizeof($tagsRepository->findAll());
         $tagsCountResults = $tagsRepository->getTagUsageCounts();
 
         $tagUsageCounts = [];
@@ -104,10 +94,11 @@ class GraphController extends AbstractController
             'labels' => $v,
                 'datasets' => [
                     [
-                        'backgroundColor' => ['rgb(255, 99, 132, .4)', 'rgb(120, 99, 132, .4)'],
+                        'label' => "",
+                        'backgroundColor' => ['rgb(255, 99, 132, .4)', 'rgb(120, 99, 132, .4)','rgb(120, 39, 132, .4)','rgb(10, 39, 112, .4)','rgb(10, 120, 132, .4)'],
                         'borderColor' => 'rgb(255, 99, 132)',
                         'data' => $keys,
-                        'tension' => 0.4,
+                        'tension' => 0.1,
                     ],
                 ],
         ]);
@@ -151,6 +142,9 @@ class GraphController extends AbstractController
                 'maintainAspectRatio' => false,
             ]);
         }
+
+
+
 
         return $this->render('admin/graph/index.html.twig', [
             'newStudents' => $newStudents,

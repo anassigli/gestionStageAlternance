@@ -22,12 +22,14 @@ doctrine:
             string_functions:
                 MONTH: DoctrineExtensions\Query\Mysql\Month
                 YEAR: DoctrineExtensions\Query\Mysql\Year
+                DATE_FORMAT: DoctrineExtensions\Query\Mysql\DateFormat
 
 when@test:
     doctrine:
         dbal:
             # "TEST_TOKEN" is typically set by ParaTest
             dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
 
 when@prod:
     doctrine:
