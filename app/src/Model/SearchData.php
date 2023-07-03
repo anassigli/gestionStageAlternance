@@ -7,4 +7,6 @@ class SearchData
     public string $q = '';
 
     public array $tags = [];
+
+    public array $categories = [];
 }

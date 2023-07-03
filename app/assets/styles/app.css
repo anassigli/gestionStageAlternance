@@ -61,7 +61,17 @@
     @apply bg-green-500;
 }
 
+optgroup {
+    @apply font-semibold inline-grid mx-auto;
+}
 
+select {
+    @apply space-x-4;
+}
+
+select::-webkit-scrollbar {
+    display: none;
+}
 
 
 
