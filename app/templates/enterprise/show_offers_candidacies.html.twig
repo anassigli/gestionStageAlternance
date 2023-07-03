@@ -7,15 +7,39 @@
             liste</a>
         <div class="w-full mt-1 mb-1 border-2 rounded p-3">
             <div class="w-full flex justify-between items-center">
-                <a href=""><p class="text-2xl">{{ offer.name }}</p></a>
-                <p><span class="text-gray-400"><span class="font-semibold">{{ offer.candidacies|length }}</span> Candidatures</span>
+                <div class="flex flex-col">
+                    <span class="text-2xl underline">{{ offer.name }}</span>
+                    <span class="w-fit rounded-full text-sm p-2 text-white bg-{{ offer.status }}">
+                            {{ offer.status }}
+                    </span>
+                </div>
+                <p>
+                    <span class="text-gray-400"><span class="font-semibold">{{ offer.candidacies|length }}</span> Candidatures</span>
                 </p>
             </div>
-            <p>Liste des étudiants intéressés : Nom Prénom</p>
+            <p>Liste des étudiants intéressés :</p>
             <ul class="pl-2">
                 {% for candidacy in offer.candidacies %}
-                    <li class="m-0.5"><a
-                                href="{{ path('app_student_show_profile', {id:candidacy.student.id}) }}">{{ candidacy.student.lastname }} {{ candidacy.student.firstname }}</a></li>
+                    <li class="m-0.5 flex justify-between items-center">
+                        <a href="{{ path('app_student_show_profile', {id:candidacy.student.id, candidacyId:candidacy.id}) }}">
+                            {{ candidacy.student.lastname }} {{ candidacy.student.firstname }}
+                        </a>
+                        <span class="rounded-full text-sm p-2 text-white bg-{{ candidacy.status }}">
+                            {{ candidacy.status }}
+                        </span>
+                        {% if offer.status != "Pourvue" and candidacy.status == "En attente" %}
+                            <div class="flex justify-around">
+                                <a href="{{ path('app_candidacy_accept', {id: candidacy.id}) }}"
+                                   class="rounded-md p-1 mr-3 text-white bg-green-500 hover:bg-green-600">
+                                    Accepter
+                                </a>
+                                <a href="{{ path('app_candidacy_refuse', {id: candidacy.id}) }}"
+                                   class="rounded-md p-1 text-white bg-red-500 hover:bg-red-600">
+                                    Refuser
+                                </a>
+                            </div>
+                        {% endif %}
+                    </li>
                 {% endfor %}
             </ul>
         </div>

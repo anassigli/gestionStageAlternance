@@ -1,7 +1,5 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
-    form_themes:
-        - form_theme/tailwind.html.twig
     globals:
         img_enterprises: '/images/enterprises/'
         img_students: '/images/students/'

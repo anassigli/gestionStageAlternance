@@ -56,7 +56,6 @@ class Offers
     private Collection $tags;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups('searchable')]
     private ?string $comment = null;
 
     public function __construct()
