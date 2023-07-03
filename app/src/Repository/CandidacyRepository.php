@@ -39,6 +39,15 @@ class CandidacyRepository extends ServiceEntityRepository
         }
     }
 
+    public function test(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->select('MONTH(c.created_at) as month, count(c.id)')
+            ->groupBy('month')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Candidacy[] Returns an array of Candidacy objects
 //     */

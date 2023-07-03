@@ -8,6 +8,7 @@ use App\Form\EnterpriseFormType;
 use App\Form\SearchType;
 use App\Form\StudentFormType;
 use App\Model\SearchData;
+use App\Repository\CandidacyRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\EnterpriseRepository;
 use App\Repository\OffersRepository;
@@ -45,8 +46,9 @@ class HomeController extends AbstractController
     }
 
     #[Route('/', name: 'app_home')]
-    public function index(Session $session, Request $request): Response
+    public function index(Session $session, Request $request, CandidacyRepository $candidacyRepository): Response
     {
+        dd($candidacyRepository->test());
         $offers = $this->offersRepository->findBy([
             'status' => $this->statusRepository->findOneBy(['status' => 'Validée'])
         ]);
