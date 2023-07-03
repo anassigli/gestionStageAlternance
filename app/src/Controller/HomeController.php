@@ -13,6 +13,7 @@ use App\Repository\EnterpriseRepository;
 use App\Repository\OffersRepository;
 use App\Repository\StatusRepository;
 use App\Repository\StudentRepository;
+use App\Repository\TagsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,16 +26,19 @@ class HomeController extends AbstractController
     private StudentRepository $studentRepository;
     private OffersRepository $offersRepository;
     private StatusRepository $statusRepository;
+    private TagsRepository $tagsRepository;
 
     public function __construct(EnterpriseRepository $enterpriseRepository,
                                 StudentRepository    $studentRepository,
                                 OffersRepository     $offersRepository,
                                 StatusRepository     $statusRepository)
+                                StatusRepository     $statusRepository, TagsRepository       $tagsRepository)
     {
         $this->enterpriseRepository = $enterpriseRepository;
         $this->studentRepository = $studentRepository;
         $this->offersRepository = $offersRepository;
         $this->statusRepository = $statusRepository;
+        $this->tagsRepository = $tagsRepository;
     }
 
     #[Route('/', name: 'app_home')]
