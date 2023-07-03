@@ -40,7 +40,7 @@
         <div class="pt-4 pb-4 pl-4 pr-4 rounded-b-lg gap-3 bg-white">
             <div class="flex flex-wrap ">
                 {% for tag in offer.tags %}
-                    <span class="rounded-full bg-card-bg-normal }} pl-3 pr-3 mr-2 mb-3 break-keep">{{ tag.tag }}</span>
+                    <span class="rounded-full bg-card-bg-normal }} pl-3 pr-3 mr-2 mb-3 break-keep">{{ tag.tag }} {{ tag.category }}</span>
                 {% endfor %}
             </div>
 
