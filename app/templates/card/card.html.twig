@@ -1,11 +1,11 @@
 {% block body %}
 
-    {% if offer.candidacies%}
+    {% if offer.candidacies %}
         {% for candidacy in offer.candidacies %}
             {% if candidacy.student.user.id == app.user.id %}
                 {% if candidacy.status == "validée" %}
                     {% set color = "card-bg-accepted" %}
-                {% elseif candidacy.status == "Refusée"  %}
+                {% elseif candidacy.status == "Refusée" %}
                     {% set color = "card-bg-rejected" %}
                 {% else %}
                     {% set color = "card-bg-onHold" %}
@@ -14,24 +14,26 @@
         {% endfor %}
     {% endif %}
 
+    {% set currentDate = "now"|date("Y-m-d") %}
+    {% set offerCreationDate = offer.createdAt|date("Y-m-d") %}
+    {% set dateInterval = date('now').diff(offer.createdAt).format('%H:%I:%S') %}
+    {% set diffInWeeks = dateInterval|number_format % 7 %}
+
     <div class="flex flex-col drop-shadow">
-        <div class="flex items-center bg-card-bg-normal p-4 rounded-t-lg">
+        <div class="flex items-center bg-card-bg-normal px-4 py-2 rounded-t-lg">
 
             <div class="flex items-center gap-3 justify-between w-full">
                 <img src="{{ asset(img_enterprises ~ offer.enterprise.imageName) }}" class="float-right rounded-full"
-                    style="width: 40px; height: auto ; margin-right:10px" alt="image entreprise">
-                <div class="flex items-center gap-3 w-8/12">
+                     style="width: 40px; height: auto ; margin-right:10px" alt="image entreprise">
+                <div class="w-8/12">
                     <p>{{ offer.name }}</p>
-
-                    {% if offer.status == "Validée" %}
-                            <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="16" cy="16" r="16" fill="#0BD172"/>
-                                <path d="M22.6667 11L13.5 20.1667L9.33337 16" stroke="white" stroke-width="3.65754" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                    {% endif %}
+                    <span class="text-xs text-gray-500 font-light">{{ offer.city }} ({{ offer.department }})</span> <br>
+                    <span class="text-sm text-gray-500 font-normal">Parue il y a {{ diffInWeeks }} semaine(s)</span>
                 </div>
                 <div>
-                    <a href="{{ path('app_offers_show', {'id': offer.id}) }}" class=" text-blue-600 break-keep">En savoir +</a>
+                    <a href="{{ path('app_offers_show', {'id': offer.id}) }}" class=" text-blue-600 break-keep">
+                        En savoir +
+                    </a>
                 </div>
             </div>
         </div>
@@ -51,64 +53,63 @@
                 {% if "ROLE_STUDENT" in app.user.roles %}
                     {% set find = false %}
 
-
                     {% for candidacy in offer.candidacies %}
                         {% if candidacy.student.user.id == app.user.id %}
                             {% set find = true %}
                         {% endif %}
                     {% endfor %}
 
-
                     {% if find %}
-                            <a href="{{ path('app_delete_candidacy', { 'id': offer.id }) }}"
-                               class="text-red-500 break-keep flex flex-row items-center gap-1">
-                                <svg width="18" height="18" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="17.0293" cy="16.5" r="14" fill="#FF0000" fill-opacity="0.5"/>
-                                    <path d="M12.0796 12.0503L21.9791 21.9498" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M12.0796 21.9497L21.9791 12.0502" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-
+                        <a href="{{ path('app_delete_candidacy', { 'id': offer.id }) }}"
+                           class="text-red-500 flex items-center gap-1 mt-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" class="svg-red">
+                                <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"/>
+                            </svg>
                             <p>Désister</p>
-                            </a>
-
+                        </a>
 
                     {% else %}
                         <a href="{{ path('app_new_candidacy', { 'id': offer.id }) }}"
-                           class="text-green-500 break-keep flex flex-row items-center gap-1">
-                            <svg width="18" height="18" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="14" cy="14" r="14" fill="#7B61FF"/>
-                                <path d="M14 7.5V21.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M7 14.5H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                           class="text-purple-500 break-keep flex flex-row items-center gap-1 mt-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"
+                                 class="svg-purple">
+                                <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/>
                             </svg>
-
-                        <div class="text-[#7B61FF]">
-                        Postuler
-                        </div>
-
-
-
+                            <p>Postuler</p>
                         </a>
                     {% endif %}
 
-
-
-
-
-
-
-
-
                 {% elseif "ROLE_ENTERPRISE" in app.user.roles %}
+
                     {% if offer.enterprise.id == app.user.enterprise.id %}
-                        <a href="{{ path("app_offers_edit", {'id': offer.id}) }}"
-                           class="rounded-md p-2 text-white bg-blue-500 hover:bg-blue-600">Modifier</a>
-                        {{ include('offers/_delete_form.html.twig') }}
+                        <div class="flex gap-3">
+                            <a href="{{ path("app_offers_edit", {'id': offer.id}) }}"
+                               class="text-purple-500 flex items-center gap-1 mt-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"
+                                     class="svg-purple">
+                                    <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/>
+                                </svg>
+                                <p>Modifier</p>
+                            </a>
+                            {{ include('offers/_delete_form.html.twig') }}
+                        </div>
                     {% endif %}
-                    <span class="rounded-full text-sm p-2 text-white bg-{{ offer.status }}">{{ offer.status }}</span>
                 {% endif %}
+
+                <p class="text-sm text-gray-500 mt-4">
+                    Il y a {{ offer.candidacies|length }} candidature(s) pour cette offre.
+                    <br>
+                    {% if offer.candidacies|length != 0
+                        and "ROLE_ENTERPRISE" in app.user.roles
+                        and offer.enterprise.id == app.user.enterprise.id %}
+                        <span class="font-semibold">
+                            <a href="{{ path('app_enterprise_offers_candidacies', { 'id': offer.id }) }}">
+                                Voir les candidatures
+                            </a>
+                        </span>
+                    {% endif %}
+                </p>
             {% endif %}
-
-
         </div>
     </div>
 {% endblock %}
