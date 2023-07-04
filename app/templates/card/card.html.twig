@@ -14,14 +14,14 @@
         {% endfor %}
     {% endif %}
 
-    <div class="flex flex-col drop-shadow ">
-        <div class="flex flex-row justify-between items-center bg-card-bg-normal p-4  rounded-t-lg ">
+    <div class="flex flex-col drop-shadow">
+        <div class="flex items-center bg-card-bg-normal p-4 rounded-t-lg">
 
-            <div class="flex flex-row items-center gap-3">
+            <div class="flex items-center gap-3 justify-between w-full">
                 <img src="{{ asset(img_enterprises ~ offer.enterprise.imageName) }}" class="float-right rounded-full"
-                    style="width: 40px; height: auto ; margin-right:10px" alt="">
-                <div class="flex flex-row items-center gap-3">
-                    <p>{{ offer.enterprise.name }}</p>
+                    style="width: 40px; height: auto ; margin-right:10px" alt="image entreprise">
+                <div class="flex items-center gap-3 w-8/12">
+                    <p>{{ offer.name }}</p>
 
                     {% if offer.status == "Validée" %}
                             <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,10 +30,9 @@
                             </svg>
                     {% endif %}
                 </div>
-            </div>
-
-            <div class="items-stretch ">
-                <a href="{{ path('app_offers_show', {'id': offer.id}) }}" class=" text-blue-600 break-keep">En savoir +</a>
+                <div>
+                    <a href="{{ path('app_offers_show', {'id': offer.id}) }}" class=" text-blue-600 break-keep">En savoir +</a>
+                </div>
             </div>
         </div>
 
