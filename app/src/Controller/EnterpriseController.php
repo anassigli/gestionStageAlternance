@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Enterprise;
 use App\Entity\Offers;
+use App\Form\EnterpriseFormType;
 use App\Repository\EnterpriseRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,11 +24,18 @@ class EnterpriseController extends AbstractController
     }
 
     #[Route('/enterprise/offers/{id}/candidacies', name: 'app_enterprise_offers_candidacies')]
-    public function showOfferCandidacies(
-        Offers $offer): Response
+    public function showOfferCandidacies(Offers $offer): Response
     {
         return $this->render('enterprise/show_offers_candidacies.html.twig', [
             'offer' => $offer
+        ]);
+    }
+
+    #[Route('/enterprises', name: 'app_enterprises')]
+    public function index(EnterpriseRepository $enterpriseRepository): Response
+    {
+        return $this->render('enterprise/index.html.twig', [
+            'enterprises' => $enterpriseRepository->findAll()
         ]);
     }
 }
