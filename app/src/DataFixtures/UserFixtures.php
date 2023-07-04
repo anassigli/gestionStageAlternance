@@ -214,7 +214,7 @@ class UserFixtures extends Fixture {
         $manager->getRepository(User::class)->save($userEtu13, true);
 
         $userEtu14 = (new User())
-            ->setEmail("etu13@mail.com")
+            ->setEmail("etu14@mail.com")
             ->setIsVerified(true)
             ->setRoles(["ROLE_STUDENT"]);
         $userEtu14->setPassword($this->hasher->hashPassword($userEtu14, 'etu14'));
