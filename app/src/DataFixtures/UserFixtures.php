@@ -146,8 +146,8 @@ class UserFixtures extends Fixture {
             ->setIsVerified(true)
             ->setRoles(["ROLE_STUDENT"]);
         $userEtu6->setPassword($this->hasher->hashPassword($userEtu6, 'etu6'));
-        $this->addReference(self::USER_STUDENT3, $userEtu6);
-        $this->setReference(self::USER_STUDENT3, $userEtu6);
+        $this->addReference(self::USER_STUDENT6, $userEtu6);
+        $this->setReference(self::USER_STUDENT6, $userEtu6);
         $manager->getRepository(User::class)->save($userEtu6, true);
 
         $userEtu7 = (new User())
@@ -204,15 +204,6 @@ class UserFixtures extends Fixture {
         $this->setReference(self::USER_STUDENT12, $userEtu12);
         $manager->getRepository(User::class)->save($userEtu12, true);
 
-        $userEtu12 = (new User())
-            ->setEmail("etu12@mail.com")
-            ->setIsVerified(true)
-            ->setRoles(["ROLE_STUDENT"]);
-        $userEtu12->setPassword($this->hasher->hashPassword($userEtu12, 'etu12'));
-        $this->addReference(self::USER_STUDENT12, $userEtu12);
-        $this->setReference(self::USER_STUDENT12, $userEtu12);
-        $manager->getRepository(User::class)->save($userEtu12, true);
-
         $userEtu13 = (new User())
             ->setEmail("etu13@mail.com")
             ->setIsVerified(true)
@@ -223,7 +214,7 @@ class UserFixtures extends Fixture {
         $manager->getRepository(User::class)->save($userEtu13, true);
 
         $userEtu14 = (new User())
-            ->setEmail("etu13@mail.com")
+            ->setEmail("etu14@mail.com")
             ->setIsVerified(true)
             ->setRoles(["ROLE_STUDENT"]);
         $userEtu14->setPassword($this->hasher->hashPassword($userEtu14, 'etu14'));
@@ -236,8 +227,8 @@ class UserFixtures extends Fixture {
             ->setIsVerified(true)
             ->setRoles(["ROLE_STUDENT"]);
         $userEtu15->setPassword($this->hasher->hashPassword($userEtu15, 'etu15'));
-        $this->addReference(self::USER_STUDENT3, $userEtu15);
-        $this->setReference(self::USER_STUDENT3, $userEtu15);
+        $this->addReference(self::USER_STUDENT15, $userEtu15);
+        $this->setReference(self::USER_STUDENT15, $userEtu15);
         $manager->getRepository(User::class)->save($userEtu15, true);
 
         $userEtu16 = (new User())
