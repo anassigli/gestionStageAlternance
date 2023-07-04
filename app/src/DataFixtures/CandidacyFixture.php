@@ -34,6 +34,48 @@ class CandidacyFixture extends Fixture implements DependentFixtureInterface
         $this->addReference(self::CANDIDACY_ETU1_OFFER1_ENTERPRISE1, $candidacy1);
         $manager->getRepository(Candidacy::class)->save($candidacy1, true);
 
+        $candidacy3 = (new Candidacy())
+            ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_1))
+            ->setStudent($this->getReference(StudentsFixtures::STUDENT1))
+            ->setStatus($this->getReference(StatusFixtures::WAITING));
+        $this->addReference(self::CANDIDACY_ETU1_OFFER1_ENTERPRISE2, $candidacy3);
+        $manager->getRepository(Candidacy::class)->save($candidacy3, true);
+
+        $candidacy4 = (new Candidacy())
+            ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1))
+            ->setStudent($this->getReference(StudentsFixtures::STUDENT2))
+            ->setStatus($this->getReference(StatusFixtures::WAITING));
+        $this->addReference(self::CANDIDACY_ETU2_OFFER1_ENTERPRISE1, $candidacy4);
+        $manager->getRepository(Candidacy::class)->save($candidacy4, true);
+
+        $candidacy6 = (new Candidacy())
+            ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1))
+            ->setStudent($this->getReference(StudentsFixtures::STUDENT3))
+            ->setStatus($this->getReference(StatusFixtures::WAITING));
+        $this->addReference(self::CANDIDACY_ETU3_OFFER1_ENTERPRISE1, $candidacy6);
+        $manager->getRepository(Candidacy::class)->save($candidacy6, true);
+
+
+        $candidacy9 = (new Candidacy())
+            ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1))
+            ->setStudent($this->getReference(StudentsFixtures::STUDENT5))
+            ->setStatus($this->getReference(StatusFixtures::WAITING));
+        $this->addReference(self::CANDIDACY_ETU5_OFFER1_ENTERPRISE1, $candidacy9);
+        $manager->getRepository(Candidacy::class)->save($candidacy9, true);
+
+        $candidacy10 = (new Candidacy())
+            ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_1))
+            ->setStudent($this->getReference(StudentsFixtures::STUDENT6))
+            ->setStatus($this->getReference(StatusFixtures::WAITING));
+        $this->addReference(self::CANDIDACY_ETU6_OFFER1_ENTERPRISE2, $candidacy10);
+        $manager->getRepository(Candidacy::class)->save($candidacy10, true);
+
+        $candidacy12 = (new Candidacy())
+            ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE3_2))
+            ->setStudent($this->getReference(StudentsFixtures::STUDENT7))
+            ->setStatus($this->getReference(StatusFixtures::WAITING));
+        $this->addReference(self::CANDIDACY_ETU7_OFFER2_ENTERPRISE3, $candidacy12);
+        $manager->getRepository(Candidacy::class)->save($candidacy12, true);
 
     }
 

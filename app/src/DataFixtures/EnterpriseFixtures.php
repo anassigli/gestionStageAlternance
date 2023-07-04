@@ -24,7 +24,7 @@ class EnterpriseFixtures extends Fixture implements DependentFixtureInterface
             ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE1))
             ->setCity("Bordeaux")
             ->setDepartment("33000")
-            ->setImageName("test")
+            ->setImageName("cgi.jpg")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
         $this->addReference(self::ENTERPRISE1, $enterprise1);
         $manager->getRepository(Enterprise::class)->save($enterprise1, true);
@@ -36,7 +36,7 @@ class EnterpriseFixtures extends Fixture implements DependentFixtureInterface
             ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE2))
             ->setCity("Cestas")
             ->setDepartment("33610")
-            ->setImageName("test")
+            ->setImageName("multimedia.jpg")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
         $this->addReference(self::ENTERPRISE2, $enterprise2);
         $manager->getRepository(Enterprise::class)->save($enterprise2, true);
@@ -48,7 +48,7 @@ class EnterpriseFixtures extends Fixture implements DependentFixtureInterface
             ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE3))
             ->setCity("Bordeaux")
             ->setDepartment("33000")
-            ->setImageName("test")
+            ->setImageName("capgemini.png")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
         $this->addReference(self::ENTERPRISE3, $enterprise3);
         $manager->getRepository(Enterprise::class)->save($enterprise3, true);
@@ -60,7 +60,7 @@ class EnterpriseFixtures extends Fixture implements DependentFixtureInterface
             ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE4))
             ->setCity("Bordeaux")
             ->setDepartment("33000")
-            ->setImageName("test")
+            ->setImageName("betclic.png")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
         $this->addReference(self::ENTERPRISE4, $enterprise4);
         $manager->getRepository(Enterprise::class)->save($enterprise4, true);
