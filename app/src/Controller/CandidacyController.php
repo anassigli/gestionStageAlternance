@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Candidacy;
 use App\Entity\Offers;
 use App\Entity\User;
+use App\MailService\Candidacies\Mailer;
 use App\Repository\CandidacyRepository;
 use App\Repository\OffersRepository;
 use App\Repository\StatusRepository;
@@ -34,9 +35,13 @@ class CandidacyController extends AbstractController
                         CandidacyRepository $candidacyRepository,
                         StudentRepository   $studentRepository,
                         StatusRepository    $statusRepository,
-                        Session             $session): Response
+                        Session             $session,
+                        Mailer              $mailer): Response
     {
-        $student = $studentRepository->findOneBy(['email' => $this->getUser()->getEmail()]);
+        /** @var User $current_user */
+        $current_user = $this->getUser();
+
+        $student = $studentRepository->findOneBy(['email' => $current_user->getEmail()]);
         $status = $statusRepository->findOneBy(['status' => 'En attente']);
 
         $candidacy = (new Candidacy())
@@ -45,6 +50,8 @@ class CandidacyController extends AbstractController
             ->setStatus($status);
 
         $candidacyRepository->save($candidacy, true);
+
+        $mailer->sendPostedCandidacyMessage($current_user, $offer);
 
         $session->getFlashBag()->add('success',
             "Votre candidature a bien été prise en compte. Vous pouvez la consulter sur votre page 'Mes candidatures'");
@@ -77,20 +84,28 @@ class CandidacyController extends AbstractController
     }
 
     #[Route('/candidacies/accept/student/{id}', name: 'app_candidacy_accept')]
-    public function acceptCandidacy(Request             $request,
-                                    Candidacy           $candidacy,
+    public function acceptCandidacy(Candidacy           $candidacy,
                                     StatusRepository    $statusRepository,
                                     CandidacyRepository $candidacyRepository,
-                                    OffersRepository    $offersRepository): Response
+                                    OffersRepository    $offersRepository,
+                                    Mailer              $mailer): Response
     {
         $offer = $candidacy->getOffer();
         $allCandidacies = $offer->getCandidacies();
+
         foreach ($allCandidacies as $otherCandidacy) {
-            $otherCandidacy->setStatus($statusRepository->findOneBy(["status" => "Refusée"]));
-            $candidacyRepository->save($otherCandidacy, false);
+            if ($otherCandidacy->getId() !== $candidacy->getId()) {
+                $otherCandidacy->setStatus($statusRepository->findOneBy(["status" => "Refusée"]));
+                $candidacyRepository->save($otherCandidacy);
+
+                $mailer->sendDenyCandidacyMessage($otherCandidacy->getStudent(), $offer);
+            }
         }
+
         $candidacy->setStatus($statusRepository->findOneBy(["status" => "Validée"]));
         $offer->setStatus($statusRepository->findOneBy(["status" => "Pourvue"]));
+
+        $mailer->sendAcceptCandidacyMessage($candidacy->getStudent(), $offer);
 
         $candidacyRepository->save($candidacy, true);
         $offersRepository->save($offer, true);
@@ -98,14 +113,17 @@ class CandidacyController extends AbstractController
         return $this->redirectToRoute('app_enterprise_offers_candidacies', ["id" => $candidacy->getOffer()->getId()]);
     }
 
-    #[Route('/candidacies/refuse/student/{id}', name: 'app_candidacy_refuse')]
-    public function refuseCandidacy(
-                                    Candidacy           $candidacy,
-                                    StatusRepository    $statusRepository,
-                                    CandidacyRepository $candidacyRepository): Response
+    #[Route('/candidacies/deny/student/{id}', name: 'app_candidacy_deny')]
+    public function denyCandidacy(Candidacy           $candidacy,
+                                  StatusRepository    $statusRepository,
+                                  CandidacyRepository $candidacyRepository,
+                                  Mailer              $mailer): Response
     {
         $candidacy->setStatus($statusRepository->findOneBy(["status" => "Refusée"]));
         $candidacyRepository->save($candidacy, true);
+
+        $mailer->sendDenyCandidacyMessage($candidacy->getStudent(), $candidacy->getOffer());
+
         return $this->redirectToRoute('app_enterprise_offers_candidacies', ["id" => $candidacy->getOffer()->getId()]);
     }
 }

@@ -13,7 +13,7 @@ class Mailer extends MailService
         $this->sendTemplatedEmail(new Address(parent::EMAIL_APPLICATION, 'Appli Stage'),
             new Address($user->getEmail()),
             "Confirmation de votre email",
-            'registration/confirmation_email.html.twig',
+            'mails/confirmation_email.html.twig',
             ['signedUrl' => $signedUrl]);
     }
 }
