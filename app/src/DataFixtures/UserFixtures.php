@@ -87,15 +87,6 @@ class UserFixtures extends Fixture {
         $this->setReference(self::USER_ENTERPRISE4, $userEnterprise4);
         $manager->getRepository(User::class)->save($userEnterprise4, true);
 
-        $userEnterprise5 = (new User())
-            ->setEmail("enterprise5@mail.com")
-            ->setIsVerified(true)
-            ->setRoles(["ROLE_ENTERPRISE"]);
-        $userEnterprise5->setPassword($this->hasher->hashPassword($userEnterprise5, 'enterprise5'));
-        $this->addReference(self::USER_ENTERPRISE5, $userEnterprise5);
-        $this->setReference(self::USER_ENTERPRISE5, $userEnterprise5);
-        $manager->getRepository(User::class)->save($userEnterprise5, true);
-
         $userEtu1 = (new User())
             ->setEmail("etu1@mail.com")
             ->setIsVerified(true)
