@@ -20,40 +20,22 @@
         </div>
         <!-- end part 1  -->
 
-
-        <div class="flex">
-            <div class="flex-initial w-1/2">
+        <div class="flex w-full justify-center">
+            <div class="flex-initial w-2/3">
                 <p>Charte 3 : Avancement des recherches</p>
                 <div style="height: 300px;">
                     {{ render_chart(studentsFoundStage) }}
                 </div>
             </div>
         </div>
-        {#<div class="flex">
-            <div class="flex-initial w-1/2">
-                <p>charte 1 : stages</p>
-                <div style="height: 300px;">
-                    {{ render_chart(studentsFoundStage) }}
-                </div>
-            </div>
-            <div class="flex-initial w-1/2">
-                <p>charte 2 : alternance</p>
-                <div style="height: 300px;">
-                    {{ render_chart(studentsFoundAlternance) }}
-                </div>
-            </div>
-        </div>#}
-
 
         <div class="flex">
             <div class="w-full">
-                <p>charte 1 : stages</p>
+                <p>charte 1 : Nombres de fois que les tags sont utilisés</p>
                 <div style="max-height: 300px;">
                     {{ render_chart(allTagsChart) }}
                 </div>
             </div>
         </div>
-
-
+    </div>
 {% endblock %}
-

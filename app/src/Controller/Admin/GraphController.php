@@ -2,9 +2,14 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Enterprise;
+use App\Entity\Tags;
+use App\Repository\CandidacyRepository;
 use App\Repository\EnterpriseRepository;
+use App\Repository\OffersRepository;
 use App\Repository\StudentRepository;
 use App\Repository\TagsRepository;
+use PhpCsFixer\DocBlock\Tag;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,63 +18,216 @@ use Symfony\UX\Chartjs\Model\Chart;
 
 class GraphController extends AbstractController
 {
-    #[Route('/admin/graph', name: 'app_admin_graph')]
+    #[
+        Route('/admin/graph', name: 'app_admin_graph')]
     public function index(EnterpriseRepository  $enterpriseRepository,
                           StudentRepository     $studentRepository,
                           TagsRepository        $tagsRepository,
                           CandidacyRepository   $candidacyRepository,
+                          OffersRepository      $offersRepository,
                           ChartBuilderInterface $chartBuilder): Response
     {
-        //Data
         $studentsCount = sizeof($studentRepository->findAll());
+
+        // Nouveaux étudiants inscrits et dernière entreprises inscrite
+        $lastStudentsAndEnterprises = $this->createNewSubscribesChart($chartBuilder, $enterpriseRepository, $studentRepository);
+
+        // Nb étudiants et entreprises
+        $allStudentsAndEnterprises = $this->createNbStudentsAndEnterprise($chartBuilder, $enterpriseRepository, $studentsCount);
+
+        // Tags par offres et Tags par candidatures
+        $allTagsChart = $this->createTagsGraph($chartBuilder, $candidacyRepository, $tagsRepository, $offersRepository);
+
+        $studentsFoundContract = $this->createNbCandidacyGraph($chartBuilder, $candidacyRepository, $studentsCount);
+
+        return $this->render('admin/graph/index.html.twig', [
+            'lastStudentsAndEnterprises' => $lastStudentsAndEnterprises,
+            'allStudentsAndEnterprises' => $allStudentsAndEnterprises,
+            'studentsFoundStage' => $studentsFoundContract,
+            'allTagsChart' => $allTagsChart
+        ]);
+    }
+
+    private function createNbStudentsAndEnterprise(ChartBuilderInterface $chartBuilder,
+                                                   EnterpriseRepository  $enterpriseRepository,
+                                                   int                   $studentsCount): Chart
+    {
         $companiesCount = sizeof($enterpriseRepository->findAll());
-
-        // new Students and Enterprises
-        $newCompanies = sizeof($enterpriseRepository->findNewCompaniesInLastWeek());
-        $newStudents = sizeof($studentRepository->findNewStudentsInLastWeek());
-
-        $lastStudentsAndEnterprises = $chartBuilder->createChart(Chart::TYPE_PIE);
-
         $allStudentsAndEnterprises = $this->createBarGraph($chartBuilder, ["Total étudiants", "Total entreprises"], [$studentsCount, $companiesCount]);
+        $allStudentsAndEnterprises->setOptions([
+            'maintainAspectRatio' => false,
+        ]);
+        return $allStudentsAndEnterprises;
+    }
 
-        $allTagsChart = $chartBuilder->createChart(Chart::TYPE_BAR);
-
-        $studentsFoundStage = $this->createNbCandidacyGraph($chartBuilder, $candidacyRepository, $studentsCount);
-
-        //tags
-        $tagsCount = sizeof($tagsRepository->findAll());
-        $tagsCountResults = $tagsRepository->getTagUsageCounts();
-
-        $tagUsageCounts = [];
-        foreach ($tagsCountResults as $tagCountResult) {
-            $tagName = $tagCountResult['tag'];
-            $usageCount = $tagCountResult['usageCount'];
-            $tagUsageCounts[$tagName] = $usageCount;
-        }
-
-        $keys = array_keys($tagsCountResults);
-        $values = array_values($tagsCountResults);
-        $v = [];
-
-        for ($i = 0; $i < sizeof($values); $i++) {
-            array_push($v, $values[$i]["tag"]);
-        }
-
-        $allTagsChart->setData([
-            'labels' => $v,
+    private function createBarGraph(ChartBuilderInterface $chartBuilder,
+                                    array                 $labels,
+                                    array                 $data): Chart
+    {
+        $graph = $chartBuilder->createChart(Chart::TYPE_BAR);
+        $graph->setData([
+            'labels' => $labels,
             'datasets' => [
                 [
-                    'label' => "",
+                    'label' => "Etudiants | Entreprises",
                     'backgroundColor' => ['rgb(255, 99, 132, .4)', 'rgb(120, 99, 132, .4)'],
                     'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => $keys,
+                    'data' => $data,
                     'tension' => 0.4,
+                ]
+            ],
+        ]);
+        return $graph;
+    }
+
+    private function createLineGraph(ChartBuilderInterface $chartBuilder,
+                                     array                 $nbStudentsPerMonth,
+                                     array                 $acceptedCandidacyPerMonth): Chart
+    {
+        $graph = $chartBuilder->createChart(Chart::TYPE_LINE);
+        $graph->setData([
+            'labels' => ['Janvier', "Frévrier", "Mars", "Avril", "Mai", "Juin",
+                "Juillet", "Août", 'Septembre', 'Octobre', 'Novembre', "Décembre"],
+            'datasets' => [
+                [
+                    'label' => "N'ont pas trouvé de contrat",
+                    'backgroundColor' => 'rgb(255, 99, 132)',
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => $nbStudentsPerMonth,
+                ],
+                [
+                    'label' => "Ont trouvé un contrat",
+                    'backgroundColor' => 'rgb(120, 99, 132, .4)',
+                    'borderColor' => 'rgb(120, 99, 132, .4)',
+                    'data' => $acceptedCandidacyPerMonth,
                 ],
             ],
         ]);
+        return $graph;
+    }
+
+    private function createNbCandidacyGraph(ChartBuilderInterface $chartBuilder,
+                                            CandidacyRepository   $candidacyRepository,
+                                            int                   $studentsCount)
+    {
+        $acceptedCandidacyPerMonth = $candidacyRepository->getCandidacyByMonth();
+        $studentsCountRemains = $studentsCount;
+        $nbStudentsPerMonth = [];
+        $nbAcceptedCandidaciesPerMonth = [];
+        foreach ($acceptedCandidacyPerMonth as $month) {
+            $studentsCountRemains = $studentsCountRemains - $month;
+            $nbStudentsPerMonth[] = $studentsCountRemains;
+            $nbAcceptedCandidaciesPerMonth[] = end($nbAcceptedCandidaciesPerMonth) + $month;
+        }
+        return $this->createLineGraph($chartBuilder, $nbStudentsPerMonth, $nbAcceptedCandidaciesPerMonth);
+    }
+
+    private function createTagsGraph(ChartBuilderInterface $chartBuilder,
+                                     CandidacyRepository   $candidacyRepository,
+                                     TagsRepository        $tagsRepository,
+                                     OffersRepository      $offersRepository)
+    {
+        $allTagsChart = $chartBuilder->createChart(Chart::TYPE_BAR);
+        $allTags = $tagsRepository->findAll();
+        $tagsByOffers = $this->getAllTags($allTags);
+        $tagsByCandidacies = $this->getAllTags($allTags);
+
+        $tagsByOffers = $this->getTagsByOffers($offersRepository, $tagsByOffers);
+        $tagsByCandidacies = $this->getTagsByCandidacies($candidacyRepository, $tagsByCandidacies);
+
+        $dataForGraph = $this->orderDataTags($tagsByOffers, $tagsByCandidacies);
+
+        $allTagsChart->setData([
+            'labels' => $dataForGraph[0],
+            'datasets' => [
+                [
+                    'label' => "Par offres",
+                    'backgroundColor' => ['rgb(255, 99, 132, .4)'],
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => $dataForGraph[1],
+                    'tension' => 0.4,
+                ],
+                [
+                    'label' => "Par candidatures",
+                    'backgroundColor' => ['rgb(120, 99, 132, .4)'],
+                    'borderColor' => 'rgb(255, 99, 132)',
+                    'data' => $dataForGraph[2],
+                    'tension' => 0.4,
+                ]
+            ],
+        ]);
+        return $allTagsChart;
+    }
+
+    private function orderDataTags(array $tagsByOffers, array $tagsByCandidacies)
+    {
+        $dataForGraph = [];
+        $offer = [];
+        $candidacies = [];
+        $tagsName = [];
+        foreach ($tagsByOffers as $tagName => $value) {
+            $tagsName[] = $tagName;
+            $offer[] = $value;
+            $candidacies[] = $tagsByCandidacies[$tagName];
+        }
+        $dataForGraph[0] = $tagsName;
+        $dataForGraph[1] = $offer;
+        $dataForGraph[2] = $candidacies;
+        return $dataForGraph;
+    }
+
+    private function getAllTags(array $allTags)
+    {
+        $tags = [];
+        foreach ($allTags as $tag) {
+            /** @var Tags $tag */
+            $tags[$tag->getTag()] = 0;
+        }
+        return $tags;
+    }
+
+    private function getTagsByOffers(OffersRepository $offersRepository,
+                                     array            $tagsPerOffers): array
+    {
+        foreach ($offersRepository->findAll() as $offer) {
+            foreach ($offer->getTags() as $tag) {
+                if (array_key_exists($tag->getTag(), $tagsPerOffers)) {
+                    $tagsPerOffers[$tag->getTag()]++;
+                } else {
+                    $tagsPerOffers[$tag->getTag()] = 1;
+                }
+            }
+        }
+        asort($tagsPerOffers);
+        return $tagsPerOffers;
+    }
+
+    private function getTagsByCandidacies(CandidacyRepository $candidacyRepository,
+                                          array               $tagsPerValidatesCandidacies): array
+    {
+        foreach ($candidacyRepository->findAll() as $candidacy) {
+            foreach ($candidacy->getOffer()->getTags() as $tag) {
+                if (array_key_exists($tag->getTag(), $tagsPerValidatesCandidacies)) {
+                    $tagsPerValidatesCandidacies[$tag->getTag()]++;
+                } else {
+                    $tagsPerValidatesCandidacies[$tag->getTag()] = 1;
+                }
+            }
+        }
+        return $tagsPerValidatesCandidacies;
+    }
+
+    private
+    function createNewSubscribesChart(ChartBuilderInterface $chartBuilder,
+                                      EnterpriseRepository  $enterpriseRepository,
+                                      StudentRepository     $studentRepository): Chart
+    {
+        $lastStudentsAndEnterprises = $chartBuilder->createChart(Chart::TYPE_PIE);
+
+        $newCompanies = sizeof($enterpriseRepository->findNewCompaniesInLastWeek());
+        $newStudents = sizeof($studentRepository->findNewStudentsInLastWeek());
 
         if ($newCompanies !== 0 || $newStudents !== 0) {
-
             $lastStudentsAndEnterprises->setData([
                 'labels' => ["Nouveaux étudiants cette semaine", "Nouvelles entreprises cette semaine"],
                 'datasets' => [
@@ -86,21 +244,7 @@ class GraphController extends AbstractController
             $lastStudentsAndEnterprises->setOptions([
                 'maintainAspectRatio' => false,
             ]);
-            $allStudentsAndEnterprises->setOptions([
-                'maintainAspectRatio' => false,
-            ]);
-            $lastStudentsAndEnterprises->setOptions([
-                'maintainAspectRatio' => false,
-            ]);
         }
-
-        return $this->render('admin/graph/index.html.twig', [
-            'newStudents' => $newStudents,
-            'newCompanies' => $newCompanies,
-            'lastStudentsAndEnterprises' => $lastStudentsAndEnterprises,
-            'allStudentsAndEnterprises' => $allStudentsAndEnterprises,
-            'studentsFoundStage' => $studentsFoundStage,
-            'allTagsChart' => $allTagsChart
-        ]);
+        return $lastStudentsAndEnterprises;
     }
 }
