@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Repository\CandidacyRepository;
 use App\Repository\EnterpriseRepository;
 use App\Repository\StudentRepository;
 use App\Repository\TagsRepository;
@@ -14,61 +13,6 @@ use Symfony\UX\Chartjs\Model\Chart;
 
 class GraphController extends AbstractController
 {
-    private function createBarGraph(ChartBuilderInterface $chartBuilder, array $labels, array $data): Chart
-    {
-        $graph = $chartBuilder->createChart(Chart::TYPE_BAR);
-        $graph->setData([
-            'labels' => $labels,
-            'datasets' => [
-                [
-                    'label' => "Etudiants | Entreprises",
-                    'backgroundColor' => ['rgb(255, 99, 132, .4)', 'rgb(120, 99, 132, .4)'],
-                    'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => $data,
-                    'tension' => 0.4,
-                ]
-            ],
-        ]);
-        return $graph;
-    }
-
-    private function createLineGraph(ChartBuilderInterface $chartBuilder, array $labels, array $nbStudentsPerMonth, array $acceptedCandidacyPerMonth): Chart
-    {
-        $graph = $chartBuilder->createChart(Chart::TYPE_LINE);
-        $graph->setData([
-            'labels' => ['Septembre', 'Octobre', 'Novembre', "Décembre", 'Janvier',
-                "Frévrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août"],
-            'datasets' => [
-                [
-                    'label' => 'Ont trouvé un contrat',
-                    'backgroundColor' => 'rgb(255, 99, 132)',
-                    'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => $nbStudentsPerMonth,
-                ],
-                [
-                    'label' => "N'ont toujours pas trouvé de contrat",
-                    'backgroundColor' => 'rgb(120, 99, 132, .4)',
-                    'borderColor' => 'rgb(120, 99, 132, .4)',
-                    'data' => $acceptedCandidacyPerMonth,
-                ],
-            ],
-        ]);
-        return $graph;
-    }
-
-    private function createNbCandidacyGraph(ChartBuilderInterface $chartBuilder, CandidacyRepository $candidacyRepository, int $studentsCount) {
-        $acceptedCandidacyPerMonth = $candidacyRepository->getCandidacyByMonth();
-        $studentsCountRemains = $studentsCount;
-        $nbStudentsPerMonth = [];
-        foreach ($acceptedCandidacyPerMonth as $month) {
-            $studentsCountRemains = $studentsCountRemains - $month;
-            $toto = $month;
-            $nbStudentsPerMonth[] = $studentsCountRemains;
-        }
-        dd($nbStudentsPerMonth, $acceptedCandidacyPerMonth);
-        return $this->createLineGraph($chartBuilder, [],$nbStudentsPerMonth, $toto);
-    }
-
     #[Route('/admin/graph', name: 'app_admin_graph')]
     public function index(EnterpriseRepository  $enterpriseRepository,
                           StudentRepository     $studentRepository,
@@ -115,6 +59,7 @@ class GraphController extends AbstractController
             'labels' => $v,
             'datasets' => [
                 [
+                    'label' => "",
                     'backgroundColor' => ['rgb(255, 99, 132, .4)', 'rgb(120, 99, 132, .4)'],
                     'borderColor' => 'rgb(255, 99, 132)',
                     'data' => $keys,

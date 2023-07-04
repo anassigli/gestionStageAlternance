@@ -1,78 +1,115 @@
 {% block body %}
-    <div class="card">
 
-        <div>
-            <img src="{{ asset(img_enterprises ~ offer.enterprise.imageName) }}" class="w-1/4 float-right"
-                 alt="logo de l'entreprise">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4"> {{ offer.name }}</h2>
-            <div class="mb-4">
-                <div class="pill-holder">
-                    {% for tag in offer.tags %}
-                        <span class="pill">{{ tag.tag }}</span>
-                    {% endfor %}
-                </div>
-                <p class="text-sm font-medium text-gray-500">
-                    Il y a {{ offer.candidacies|length }} candidature(s) pour cette offre.
-                    <br>
-                    {% if offer.candidacies|length != 0 and "ROLE_ENTERPRISE" in app.user.roles
-                        and offer.enterprise.user.id == app.user.id %}
-                        <span>
-                            <a href="{{ path('app_enterprise_offers_candidacies', { 'id': offer.id }) }}"
-                               class="hover:underline">
-                                Voir les candidatures.
-                            </a>
-                        </span>
+    {% if offer.candidacies%}
+        {% for candidacy in offer.candidacies %}
+            {% if candidacy.student.user.id == app.user.id %}
+                {% if candidacy.status == "validée" %}
+                    {% set color = "card-bg-accepted" %}
+                {% elseif candidacy.status == "Refusée"  %}
+                    {% set color = "card-bg-rejected" %}
+                {% else %}
+                    {% set color = "card-bg-onHold" %}
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <div class="flex flex-col drop-shadow ">
+        <div class="flex flex-row justify-between items-center bg-card-bg-normal p-4  rounded-t-lg ">
+
+            <div class="flex flex-row items-center gap-3">
+                <img src="{{ asset(img_enterprises ~ offer.enterprise.imageName) }}" class="float-right rounded-full"
+                    style="width: 40px; height: auto ; margin-right:10px" alt="">
+                <div class="flex flex-row items-center gap-3">
+                    <p>{{ offer.enterprise.name }}</p>
+
+                    {% if offer.status == "Validée" %}
+                            <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="16" cy="16" r="16" fill="#0BD172"/>
+                                <path d="M22.6667 11L13.5 20.1667L9.33337 16" stroke="white" stroke-width="3.65754" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
                     {% endif %}
-                </p>
+                </div>
             </div>
-            <div class="mb-4">
-                <p class="text-style-3lines">
-                    {{ offer.description }}
-                </p>
+
+            <div class="items-stretch ">
+                <a href="{{ path('app_offers_show', {'id': offer.id}) }}" class=" text-blue-600 break-keep">En savoir +</a>
             </div>
         </div>
 
-        <div class="link-container m-0">
-            <div class="link-holder m-0">
-                <div class="flex items-center justify-evenly w-full"><a
-                            href="{{ path('app_offers_show', {'id': offer.id}) }}"
-                            class="rounded-md p-2 text-white bg-blue-500 hover:bg-blue-600">En savoir +</a>
-                    {% if app.user %}
-                        {% if "ROLE_STUDENT" in app.user.roles %}
-                            {% set find = false %}
-                            {% for candidacy in offer.candidacies %}
-                                {% if candidacy.student.user.id == app.user.id %}
-                                    {% set find = true %}
-                                {% endif %}
-                            {% endfor %}
-                            {% if find %}
-                                <a href="{{ path('app_delete_candidacy', { 'id': offer.id }) }}"
-                                   class="btn bg-red-500 hover:bg-red-600">Désister</a>
-                            {% else %}
-                                <a href="{{ path('app_new_candidacy', { 'id': offer.id }) }}"
-                                   class="btn bg-sky-500 hover:bg-sky-600">Postuler</a>
-                            {% endif %}
-                            {% if offer.candidacies %}
-                                {% for candidacy in offer.candidacies %}
-                                    {% if candidacy.student.user.id == app.user.id %}
-                                        <span class="rounded-full text-sm p-2 text-white bg-{{ candidacy.status }}">
-                                            {{ candidacy.status }}
-                                        </span>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-                        {% elseif "ROLE_ENTERPRISE" in app.user.roles %}
-                            {% if offer.enterprise.id == app.user.enterprise.id %}
-                                <a href="{{ path("app_offers_edit", {'id': offer.id}) }}"
-                                   class="rounded-md p-2 text-white bg-blue-500 hover:bg-blue-600">Modifier</a>
-                                {{ include('offers/_delete_form.html.twig') }}
-                            {% endif %}
-                            <span class="rounded-full text-sm p-2 text-white bg-{{ offer.status }}">{{ offer.status }}</span>
+        <div class="pt-4 pb-4 pl-4 pr-4 rounded-b-lg gap-3 bg-white">
+            <div class="flex flex-wrap ">
+                {% for tag in offer.tags %}
+                    <span class="rounded-full bg-card-bg-normal }} pl-3 pr-3 mr-2 mb-3 break-keep">{{ tag.tag }}</span>
+                {% endfor %}
+            </div>
+
+            <p class="text-style-3lines">
+                {{ offer.description }}
+            </p>
+
+            {% if app.user %}
+                {% if "ROLE_STUDENT" in app.user.roles %}
+                    {% set find = false %}
+
+
+                    {% for candidacy in offer.candidacies %}
+                        {% if candidacy.student.user.id == app.user.id %}
+                            {% set find = true %}
                         {% endif %}
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+                    {% endfor %}
 
+
+                    {% if find %}
+                            <a href="{{ path('app_delete_candidacy', { 'id': offer.id }) }}"
+                               class="text-red-500 break-keep flex flex-row items-center gap-1">
+                                <svg width="18" height="18" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="17.0293" cy="16.5" r="14" fill="#FF0000" fill-opacity="0.5"/>
+                                    <path d="M12.0796 12.0503L21.9791 21.9498" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12.0796 21.9497L21.9791 12.0502" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+
+                            <p>Désister</p>
+                            </a>
+
+
+                    {% else %}
+                        <a href="{{ path('app_new_candidacy', { 'id': offer.id }) }}"
+                           class="text-green-500 break-keep flex flex-row items-center gap-1">
+                            <svg width="18" height="18" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="14" cy="14" r="14" fill="#7B61FF"/>
+                                <path d="M14 7.5V21.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M7 14.5H21" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+
+                        <div class="text-[#7B61FF]">
+                        Postuler
+                        </div>
+
+
+
+                        </a>
+                    {% endif %}
+
+
+
+
+
+
+
+
+
+                {% elseif "ROLE_ENTERPRISE" in app.user.roles %}
+                    {% if offer.enterprise.id == app.user.enterprise.id %}
+                        <a href="{{ path("app_offers_edit", {'id': offer.id}) }}"
+                           class="rounded-md p-2 text-white bg-blue-500 hover:bg-blue-600">Modifier</a>
+                        {{ include('offers/_delete_form.html.twig') }}
+                    {% endif %}
+                    <span class="rounded-full text-sm p-2 text-white bg-{{ offer.status }}">{{ offer.status }}</span>
+                {% endif %}
+            {% endif %}
+
+
+        </div>
     </div>
 {% endblock %}

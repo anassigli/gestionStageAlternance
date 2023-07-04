@@ -41,8 +41,8 @@ class HomeController extends AbstractController
         $this->studentRepository = $studentRepository;
         $this->offersRepository = $offersRepository;
         $this->statusRepository = $statusRepository;
-        $this->categoryRepository = $categoryRepository;
         $this->tagsRepository = $tagsRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     #[Route('/', name: 'app_home')]
