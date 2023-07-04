@@ -72,5 +72,14 @@ select::-webkit-scrollbar {
     display: none;
 }
 
+.svg-purple {
+    @apply fill-purple-500;
+}
+
+
+.svg-red {
+    @apply fill-red-500;
+}
+
 
 
