@@ -3,13 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Candidacy;
+use App\Entity\Enterprise;
 use App\Entity\Offers;
 use App\Entity\User;
+use App\MailService\Candidacies\Mailer;
 use App\Repository\CandidacyRepository;
 use App\Repository\OffersRepository;
 use App\Repository\StatusRepository;
 use App\Repository\StudentRepository;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -17,6 +18,25 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CandidacyController extends AbstractController
 {
+    private CandidacyRepository $candidacyRepository;
+    private StudentRepository $studentRepository;
+    private StatusRepository $statusRepository;
+    private OffersRepository $offersRepository;
+    private Mailer $mailer;
+
+    public function __construct(CandidacyRepository $candidacyRepository,
+                                StudentRepository   $studentRepository,
+                                StatusRepository    $statusRepository,
+                                OffersRepository    $offersRepository,
+                                Mailer              $mailer)
+    {
+        $this->candidacyRepository = $candidacyRepository;
+        $this->studentRepository = $studentRepository;
+        $this->statusRepository = $statusRepository;
+        $this->offersRepository = $offersRepository;
+        $this->mailer = $mailer;
+    }
+
     #[Route('/candidacies', name: 'app_candidacies_show', methods: ['GET'])]
     public function candidacies(): Response
     {
@@ -30,21 +50,23 @@ class CandidacyController extends AbstractController
     }
 
     #[Route('/candidacies/new/{id}', name: 'app_new_candidacy')]
-    public function new(Offers              $offer,
-                        CandidacyRepository $candidacyRepository,
-                        StudentRepository   $studentRepository,
-                        StatusRepository    $statusRepository,
-                        Session             $session): Response
+    public function new(Offers  $offer,
+                        Session $session): Response
     {
-        $student = $studentRepository->findOneBy(['email' => $this->getUser()->getEmail()]);
-        $status = $statusRepository->findOneBy(['status' => 'En attente']);
+        /** @var User $current_user */
+        $current_user = $this->getUser();
+
+        $student = $this->studentRepository->findOneBy(['email' => $current_user->getEmail()]);
+        $status = $this->statusRepository->findOneBy(['status' => 'En attente']);
 
         $candidacy = (new Candidacy())
             ->setStudent($student)
             ->setOffer($offer)
             ->setStatus($status);
 
-        $candidacyRepository->save($candidacy, true);
+        $this->candidacyRepository->save($candidacy, true);
+
+        $this->mailer->sendPostedCandidacyMessage($current_user, $offer);
 
         $session->getFlashBag()->add('success',
             "Votre candidature a bien été prise en compte. Vous pouvez la consulter sur votre page 'Mes candidatures'");
@@ -53,22 +75,20 @@ class CandidacyController extends AbstractController
     }
 
     #[Route('/candidacies/delete/{id}', name: 'app_delete_candidacy')]
-    public function delete(Offers              $offer,
-                           StudentRepository   $studentRepository,
-                           CandidacyRepository $candidacyRepository,
-                           Session             $session): Response
+    public function delete(Offers  $offer,
+                           Session $session): Response
     {
         /** @var User $user */
         $user = $this->getUser();
 
-        $student = $studentRepository->findOneBy(['email' => $user->getEmail()]);
+        $student = $this->studentRepository->findOneBy(['email' => $user->getEmail()]);
 
-        $candidacy = $candidacyRepository->findOneBy([
+        $candidacy = $this->candidacyRepository->findOneBy([
             'offer' => $offer,
             'student' => $student
         ]);
 
-        $candidacyRepository->remove($candidacy, true);
+        $this->candidacyRepository->remove($candidacy, true);
 
         $session->getFlashBag()->add('success',
             "Votre candidature a bien été supprimée.");
@@ -77,35 +97,55 @@ class CandidacyController extends AbstractController
     }
 
     #[Route('/candidacies/accept/student/{id}', name: 'app_candidacy_accept')]
-    public function acceptCandidacy(Request             $request,
-                                    Candidacy           $candidacy,
-                                    StatusRepository    $statusRepository,
-                                    CandidacyRepository $candidacyRepository,
-                                    OffersRepository    $offersRepository): Response
+    public function acceptCandidacy(Candidacy $candidacy): Response
     {
         $offer = $candidacy->getOffer();
         $allCandidacies = $offer->getCandidacies();
-        foreach ($allCandidacies as $otherCandidacy) {
-            $otherCandidacy->setStatus($statusRepository->findOneBy(["status" => "Refusée"]));
-            $candidacyRepository->save($otherCandidacy, false);
-        }
-        $candidacy->setStatus($statusRepository->findOneBy(["status" => "Validée"]));
-        $offer->setStatus($statusRepository->findOneBy(["status" => "Pourvue"]));
 
-        $candidacyRepository->save($candidacy, true);
-        $offersRepository->save($offer, true);
+        foreach ($allCandidacies as $otherCandidacy) {
+            if ($otherCandidacy->getId() !== $candidacy->getId()) {
+                $otherCandidacy->setStatus($this->statusRepository->findOneBy(["status" => "Refusée"]));
+                $this->candidacyRepository->save($otherCandidacy);
+
+                $this->mailer->sendDenyCandidacyMessage($otherCandidacy->getStudent(), $offer);
+            }
+        }
+
+        $candidacy->setStatus($this->statusRepository->findOneBy(["status" => "Validée"]));
+        $offer->setStatus($this->statusRepository->findOneBy(["status" => "Pourvue"]));
+
+        $this->mailer->sendAcceptCandidacyMessage($candidacy->getStudent(), $offer);
+
+        $this->candidacyRepository->save($candidacy, true);
+        $this->offersRepository->save($offer, true);
 
         return $this->redirectToRoute('app_enterprise_offers_candidacies', ["id" => $candidacy->getOffer()->getId()]);
     }
 
-    #[Route('/candidacies/refuse/student/{id}', name: 'app_candidacy_refuse')]
-    public function refuseCandidacy(
-                                    Candidacy           $candidacy,
-                                    StatusRepository    $statusRepository,
-                                    CandidacyRepository $candidacyRepository): Response
+    #[Route('/candidacies/deny/student/{id}', name: 'app_candidacy_deny')]
+    public function denyCandidacy(Candidacy $candidacy): Response
     {
-        $candidacy->setStatus($statusRepository->findOneBy(["status" => "Refusée"]));
-        $candidacyRepository->save($candidacy, true);
+        $candidacy->setStatus($this->statusRepository->findOneBy(["status" => "Refusée"]));
+        $this->candidacyRepository->save($candidacy, true);
+
+        $this->mailer->sendDenyCandidacyMessage($candidacy->getStudent(), $candidacy->getOffer());
+
         return $this->redirectToRoute('app_enterprise_offers_candidacies', ["id" => $candidacy->getOffer()->getId()]);
+    }
+
+    #[Route('/candidacies/new/spontaneous/{id}', name: 'app_spontaneous_candidacy')]
+    public function newSpontaneous(Session $session, Enterprise $enterprise): Response
+    {
+        /** @var User $current_user */
+        $current_user = $this->getUser();
+        $student = $this->studentRepository->findOneBy(['email' => $current_user->getEmail()]);
+
+        $this->mailer->sendSpontaneousCandidacyMessage($student, $enterprise);
+        $this->mailer->receivedSpontaneousCandidacyMessage($student, $enterprise, $this->getParameter('kernel.project_dir'));
+
+        $session->getFlashBag()->add('success',
+            "Votre candidature a bien été prise en compte. Un mail a été envoyé à " . $enterprise->getName());
+
+        return $this->redirectToRoute('app_home');
     }
 }
