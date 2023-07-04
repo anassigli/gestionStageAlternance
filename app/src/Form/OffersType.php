@@ -28,18 +28,20 @@ class OffersType extends AbstractType
                 'label' => 'Tags',
                 // Entité que l'on veut ajouter au formulaire
                 'class' => Tags::class,
-
                 // La valeur que l'on veut ajouter
                 'choice_label' => 'tag',
-
                 // Affichage
                 'multiple' => true,
                 'expanded' => true,
+                'attr'=>array(
+                    "class" => "flex flex-col"
+                )
             ])
             ->add('description', TextareaType::class, [
                 'label' => "Description",
                 'attr' => [
-                    "style" => "height:200px"
+                    "style" => "height:200px; width:100%;",
+                    "class" => "mt-2"
                 ]
             ]);
 
