@@ -27,8 +27,9 @@
                      style="width: 40px; height: auto ; margin-right:10px" alt="image entreprise">
                 <div class="w-8/12">
                     <p>{{ offer.name }}</p>
-                    <span class="text-xs text-gray-500 font-light">{{ offer.city }} ({{ offer.department }})</span> <br>
-                    <span class="text-sm text-gray-500 font-normal">Parue il y a {{ diffInWeeks }} semaine(s)</span>
+                    <p class="mb-2 text-sm font-semibold text-gray-700">{{ offer.enterprise.name }}</p>
+                    <p class="text-xs text-gray-500 font-light">{{ offer.city }} ({{ offer.department }})</p>
+                    <p class="text-sm text-gray-500 font-normal">Parue il y a {{ diffInWeeks }} semaine(s)</p>
                 </div>
                 <div>
                     <a href="{{ path('app_offers_show', {'id': offer.id}) }}" class=" text-blue-600 break-keep">
