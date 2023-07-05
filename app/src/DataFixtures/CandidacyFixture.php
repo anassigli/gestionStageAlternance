@@ -31,38 +31,46 @@ class CandidacyFixture extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
+
         $candidacy1 = (new Candidacy())
-            ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1))
-            ->setStudent($this->getReference(StudentsFixtures::STUDENT1))
-            ->setStatus($this->getReference(StatusFixtures::REFUSED))
-            ->setCreatedAt(new \DateTimeImmutable('2022-12-26 19:31:21'));
-        $this->addReference(self::CANDIDACY_ETU1_OFFER1_ENTERPRISE1, $candidacy1);
+            ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_2))
+            ->setStudent($this->getReference(StudentsFixtures::STUDENT2))
+            ->setStatus($this->getReference(StatusFixtures::VERIFIED))
+            ->setCreatedAt(new \DateTimeImmutable('2022-09-15 19:40:17'));
+        $this->addReference(self::CANDIDACY_ETU2_OFFER2_ENTERPRISE1, $candidacy1);
         $manager->getRepository(Candidacy::class)->save($candidacy1, true);
 
-
-        $candidacy4 = (new Candidacy())
-            ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1))
-            ->setStudent($this->getReference(StudentsFixtures::STUDENT2))
+        $candidacy2 = (new Candidacy())
+            ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_1))
+            ->setStudent($this->getReference(StudentsFixtures::STUDENT3))
             ->setStatus($this->getReference(StatusFixtures::REFUSED))
-            ->setCreatedAt(new \DateTimeImmutable('2022-12-26 19:40:17'));
-        $this->addReference(self::CANDIDACY_ETU2_OFFER1_ENTERPRISE1, $candidacy4);
-        $manager->getRepository(Candidacy::class)->save($candidacy4, true);
+            ->setCreatedAt(new \DateTimeImmutable('2022-09-11 13:23:41'));
+        $this->addReference(self::CANDIDACY_ETU3_OFFER1_ENTERPRISE2, $candidacy2);
+        $manager->getRepository(Candidacy::class)->save($candidacy2, true);
 
         $candidacy3 = (new Candidacy())
             ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_1))
-            ->setStudent($this->getReference(StudentsFixtures::STUDENT1))
-            ->setStatus($this->getReference(StatusFixtures::WAITING))
-            ->setCreatedAt(new \DateTimeImmutable('2022-12-26 19:50:39'));
-        $this->addReference(self::CANDIDACY_ETU1_OFFER1_ENTERPRISE2, $candidacy3);
+            ->setStudent($this->getReference(StudentsFixtures::STUDENT4))
+            ->setStatus($this->getReference(StatusFixtures::VERIFIED))
+            ->setCreatedAt(new \DateTimeImmutable('2022-09-13 14:16:23'));
+        $this->addReference(self::CANDIDACY_ETU4_OFFER1_ENTERPRISE2, $candidacy3);
         $manager->getRepository(Candidacy::class)->save($candidacy3, true);
 
-        $candidacy6 = (new Candidacy())
-            ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1))
-            ->setStudent($this->getReference(StudentsFixtures::STUDENT3))
-            ->setStatus($this->getReference(StatusFixtures::REFUSED))
-            ->setCreatedAt(new \DateTimeImmutable('2022-12-28 19:12:51'));
-        $this->addReference(self::CANDIDACY_ETU3_OFFER1_ENTERPRISE1, $candidacy6);
-        $manager->getRepository(Candidacy::class)->save($candidacy6, true);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         $candidacy9 = (new Candidacy())
             ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1))
