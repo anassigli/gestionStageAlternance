@@ -2,46 +2,50 @@
 
 {% block content %}
     <div class="flex flex-col gap-10">
-        <!-- part 1 : pie & doughnut charts -->
         <div class="flex flex-col align-items-center">
-            <h2 class="mt-2 mb-2">Statistiques généraux de l'application</h2>
+            <h2 class="mt-2 mb-2 underline font-semibold text-2xl">Statistiques généraux de l'application</h2>
             <div class="flex">
                 <div class="flex-initial w-1/2">
-                    <p>Graphique 1 : Nouvelles inscription de la semaine dernière</p>
+                    <p class="underline">Nouvelles inscriptions de la semaine dernière</p>
                     <div style="height: 300px;">
                         {{ render_chart(lastStudentsAndEnterprises) }}
                     </div>
                 </div>
                 <div class="flex-initial w-1/2">
-                    <p>Graphique 2 : Nombre total d'étudiants et d'entreprises</p>
-                    <div style="height: 300px;">
+                    <p class="underline">Nombre total d'étudiants et d'entreprises</p>
+                    <div>
                         {{ render_chart(allStudentsAndEnterprises) }}
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- end part 1  -->
+        <hr>
 
-        <div class="flex justify-center">
-            <div class="flex-initial w-2/3">
-                <h3>Avancement des recherches</h3>
-                <div style="height: 300px;">
-                    {{ render_chart(studentsFoundStage) }}
+        <div class="flex flex-col align-items-center">
+            <h2 class="mb-2 underline font-semibold text-2xl">Statistique sur le nombres de candidature et
+                d'offres</h2>
+            <div class="flex w-full justify-center  mb-4">
+                <div class="w-1/2">
+                    <p class="underline">Nombre de candidatures et d'offres par mois</p>
+                    <div>
+                        {{ render_chart(studentsFoundStage) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex w-full justify-center mt-4">
+                <div class="w-1/2">
+                    <p class="underline">Nombre de candidatures et d'offres par mois</p>
+                    <div>
+                        {{ render_chart(candidaciesAndOffersByMonth) }}
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="flex w-full justify-center">
-            <div class="flex-initial w-2/3">
-                <p>Graphique 5 : Nombre de candidatures et d'offres par mois</p>
-                <div style="height: 300px;">
-                    {{ render_chart(candidaciesAndOffersByMonth) }}
-                </div>
-            </div>
-        </div>
+        <hr>
 
-        <!-- part 1 : pie & doughnut charts -->
         <div class="flex flex-col align-items-center">
             <h2 class="mt-2 mb-2 underline font-semibold text-2xl">Statistique sur les tags</h2>
             <div class="flex justify-center w-full">
