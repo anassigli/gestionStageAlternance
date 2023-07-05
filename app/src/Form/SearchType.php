@@ -19,19 +19,20 @@ class SearchType extends AbstractType
             ->add('q', TextType::class, [
                 'attr' => [
                     'placeholder' => "Chercher par intitulé de poste, compétence entreprise ou localisation",
+                    'class'=>'pl-3 pr-3'
                 ],
             ])
             ->add('tags', EntityType::class, [
-                'label' => 'Filtres :',
+                'label' => '',
                 'label_attr' => [
-                    'style' => 'margin-bottom: 10px',
+                    'style' => 'margin-bottom: 0',
                 ],
                 'class' => Tags::class,
                 'multiple' => true,
                 'required' => false,
                 'attr' => [
-                    'style' => 'height: 250px; width: 800px; margin-bottom: 20px',
-                    'class' => 'focus:outline-none'
+                    'class' => 'flex flex-col focus:outline-none pl-3 pr-3',
+                    'style'=>'height : 90vh'
                 ],
                 'group_by' => function ($choice, $key, $value) {
                     /** @var Category $category */

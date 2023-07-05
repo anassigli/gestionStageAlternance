@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Student;
+use App\Entity\Tags;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,6 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class StudentFormType extends AbstractType
@@ -31,9 +34,11 @@ class StudentFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Email'
             ])
-            ->add('cv', FileType::class, [
+            ->add('cvFile', VichFileType::class, [
                 'label' => 'CV',
-                'required' => false
+                'required' => false,
+                'download_label' => 'Télécharger',
+                'download_uri' => 'images/students/',
             ])
             ->add('imageFile', VichImageType::class, [
                 'label' => 'Image de profil',
@@ -56,6 +61,19 @@ class StudentFormType extends AbstractType
                         'max' => 50,
                     ]),
                 ],
+            ])
+            ->add('tags', EntityType::class, [
+                'label' => 'Filtres préférés',
+                // Entité que l'on veut ajouter au formulaire
+                'class' => Tags::class,
+                // La valeur que l'on veut ajouter
+                'choice_label' => 'tag',
+                // Affichage
+                'multiple' => true,
+                'expanded' => true,
+                'attr'=> [
+                    "class" => "flex flex-col"
+                ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,

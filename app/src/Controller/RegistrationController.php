@@ -75,6 +75,7 @@ class RegistrationController extends AbstractController
             );
 
             $mailer->sendConfirmEmailMessage($user, $signatureComponents->getSignedUrl());
+            $mailer->sendAcceptEnterpriseMessage($enterprise);
 
             $session->getFlashBag()->add('success', 'Un mail de confirmation vous a été envoyé');
 
