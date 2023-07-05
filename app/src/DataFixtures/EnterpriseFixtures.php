@@ -16,6 +16,8 @@ class EnterpriseFixtures extends Fixture implements DependentFixtureInterface
     public const ENTERPRISE4 = 'enterprise4';
     public const ENTERPRISE5 = 'enterprise5';
     public const ENTERPRISE6 = 'enterprise6';
+    public const ENTERPRISE7 = 'enterprise7';
+    public const ENTERPRISE8 = 'enterprise8';
 
     public function load(ObjectManager $manager)
     {
@@ -86,7 +88,11 @@ Fort de 50 000 collaborateurs dans près de 30 pays, le Groupe a réalisé un ch
         $enterprise6 = (new Enterprise())
             ->setEmail("enterprise6@mail.com")
             ->setName("NetCarbon")
-            ->setDescription("NetCarbon propose aux agriculteurs de valoriser le CO2 capté par leurs terres. Et si les agriculteurs étaient rémunérés pour séquestrer davantage de CO2 ? C'est l'idée que propose la startup bordelaise NetCarbon, pour lutter contre le changement climatique tout en encourageant une agriculture plus durable.")
+            ->setDescription("NetCarbon propose aux agriculteurs de 
+            valoriser le CO2 capté par leurs terres. Et si les agriculteurs 
+            étaient rémunérés pour séquestrer davantage de CO2 ? C'est l'idée
+             que propose la startup bordelaise NetCarbon, pour lutter contre 
+             le changement climatique tout en encourageant une agriculture plus durable.")
             ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE6))
             ->setCity("Bordeaux")
             ->setDepartment("33000")
@@ -94,6 +100,23 @@ Fort de 50 000 collaborateurs dans près de 30 pays, le Groupe a réalisé un ch
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
         $this->addReference(self::ENTERPRISE6, $enterprise6);
         $manager->getRepository(Enterprise::class)->save($enterprise6, true);
+
+        $enterprise7 = (new Enterprise())
+            ->setEmail("enterprise7@mail.com")
+            ->setName("PRODITEC")
+            ->setDescription("Proditec assure l'assemblage complet des machines,
+             les réglages et l'installation des machines chez nos clients. 
+             Les machines sont ensuite installées par nos équipes multilingues et
+              multiculturelles en Europe, en Asie et en Amérique")
+            ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE7))
+            ->setCity("Pessac")
+            ->setDepartment("33318")
+            ->setImageName("proditec.png")
+            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+        $this->addReference(self::ENTERPRISE7, $enterprise7);
+        $manager->getRepository(Enterprise::class)->save($enterprise7, true);
+
+
 
          }
 

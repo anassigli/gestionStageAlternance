@@ -124,7 +124,7 @@ class CandidacyFixture extends Fixture implements DependentFixtureInterface
         $candidacy17 = (new Candidacy())
             ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1))
             ->setStudent($this->getReference(StudentsFixtures::STUDENT10))
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED))
+            ->setStatus($this->getReference(StatusFixtures::WAITING))
             ->setCreatedAt(new \DateTimeImmutable('2023-03-08 19:14:52'));
         $this->addReference(self::CANDIDACY_ETU10_OFFER1_ENTERPRISE1, $candidacy17);
         $manager->getRepository(Candidacy::class)->save($candidacy17, true);
@@ -140,7 +140,7 @@ class CandidacyFixture extends Fixture implements DependentFixtureInterface
         $candidacy19 = (new Candidacy())
             ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE3_2))
             ->setStudent($this->getReference(StudentsFixtures::STUDENT11))
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED))
+            ->setStatus($this->getReference(StatusFixtures::WAITING))
             ->setCreatedAt(new \DateTimeImmutable('2023-04-01 07:55:05'));
         $this->addReference(self::CANDIDACY_ETU11_OFFER2_ENTERPRISE3, $candidacy19);
         $manager->getRepository(Candidacy::class)->save($candidacy19, true);

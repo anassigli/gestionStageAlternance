@@ -34,7 +34,8 @@ class OffersFixtures extends Fixture implements DependentFixtureInterface
     public const OFFER_ENTERPRISE6_2 = 'offer_enterprise6_2';
 
 
-
+    public const OFFER_ENTERPRISE7_1 = 'offer_enterprise7_1';
+    public const OFFER_ENTERPRISE7_2 = 'offer_enterprise7_2';
 
 
 
@@ -101,7 +102,7 @@ Nous avons combiné des capacités industrielles et des expertises de haut nivea
 
 
 
-
+//Enterprise2
         $offer2_1 = (new Offers())
             ->setName("Offre d'alternance de développeur FullStack ")
             ->setDescription("La gestion électronique de documents (GED) est une méthode pour stocker, organiser et partager des documents numériques au sein d’une entreprise ou d’une organisation. \n
@@ -132,6 +133,8 @@ N’attendez plus pour optimiser la gestion collaborative de vos documents, leur
 
 
 
+
+//Enterprise3
         $offer3_1 = (new Offers())
             ->setName("Développeur C# H/F")
             ->setDescription("En quoi consiste le poste ?
@@ -164,6 +167,8 @@ Si vous êtes suffisamment à l’aise, vous pourrez aussi intervenir dans des m
 
 
 
+
+        //Enterprise4
         $offer4_1 = (new Offers())
             ->setName("Alternance - Développeur Kotlin H/F")
             ->setDescription("Depuis sa création en 2005, Betclic est une société de technologie ".'"mobile-only"'.", animée par une passion inébranlable pour le sport. Guidé par l'émotion et le plaisir du jeu, Betclic développe des applications de divertissement mobile et place ses clients au cœur d’une expérience de jeu unique en innovant avec agilité et rapidité pour offrir toujours plus de jeux et plus de fun à ses joueurs. \n
@@ -211,6 +216,10 @@ Des cours de sports 2 fois par semaine")
             ->setStatus($this->getReference(StatusFixtures::WAITING));
 
 
+
+
+
+//Enterprise5
         $offer5_1 = (new Offers())
             ->setName("Développeur - Java")
             ->setDescription("Votre rôle et missions \n \n
@@ -261,6 +270,9 @@ Technos utilisées : JAVA/JEE, Angular 5, Bootstrap, Maven, Jenkins, Sonar, MySQ
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE5))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
+
+
+
 //Entreprise 6
         $offer6_1 = (new Offers())
             ->setName("Alternance Data Scientist")
@@ -300,6 +312,44 @@ Suivi du projet et développement de l’équipe \n
 
 
 
+        //Enterprise7
+        $offer7_1 = (new Offers())
+            ->setName("Stagiaire informatique H/F: Gestion Utilisateurs Windows (C++/Win Api)")
+            ->setDescription("En tant que stagiaire informatique au sein de l’équipe R&D, vous participerez à la mise en place d’un module de gestionnaire d’utilisateurs sous Windows en mode local ou en mode Active Directory. \n
+\n
+Vous devrez aussi mettre en place une IHM sous Qt pour gérer les fonctionnalités de ce module. \n
+\n
+Le stage sera articulé autour des axes suivants : \n
+ \n
+ - Compréhension des besoins fonctionnels \n
+ - Développement du module de gestion d’utilisateurs \n
+ - Tests \n
+ - Rédaction de documentation")
+            ->setDepartment("33318")
+            ->setCity("Pessac")
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE7))
+            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+
+
+        $offer7_2 = (new Offers())
+            ->setName("Stagiaire informatique H/F: Module OPC UA (C++/Qt)")
+            ->setDescription("En tant que stagiaire informatique au sein de l’équipe R&D, vous participerez à la mise en place d’un module de gestionnaire d’utilisateurs sous Windows en mode local ou en mode Active Directory. \n
+\n
+Vous devrez aussi mettre en place une IHM sous Qt pour gérer les fonctionnalités de ce module. \n
+\n
+Le stage sera articulé autour des axes suivants : \n
+ \n
+ - Compréhension des besoins fonctionnels \n
+ - Développement du module de gestion d’utilisateurs \n
+ - Tests \n
+ - Rédaction de documentation")
+            ->setDepartment("33318")
+            ->setCity("Pessac")
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE7))
+            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
         $this->addReference(self::OFFER_ENTERPRISE1_1, $offer1_1);
         $this->setReference(self::OFFER_ENTERPRISE1_1, $offer1_1);
@@ -362,6 +412,15 @@ Suivi du projet et développement de l’équipe \n
         $this->addReference(self::OFFER_ENTERPRISE6_2, $offer6_2);
         $this->setReference(self::OFFER_ENTERPRISE6_2, $offer6_2);
         $manager->getRepository(Offers::class)->save($offer6_2, true);
+
+        //Entreprise 7
+        $this->addReference(self::OFFER_ENTERPRISE7_1, $offer7_1);
+        $this->setReference(self::OFFER_ENTERPRISE7_1, $offer7_1);
+        $manager->getRepository(Offers::class)->save($offer7_1, true);
+
+        $this->addReference(self::OFFER_ENTERPRISE7_2, $offer7_2);
+        $this->setReference(self::OFFER_ENTERPRISE7_2, $offer7_2);
+        $manager->getRepository(Offers::class)->save($offer7_2, true);
     }
 
     public function getDependencies(): array
