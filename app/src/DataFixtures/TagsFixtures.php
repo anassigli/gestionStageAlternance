@@ -9,18 +9,18 @@ use Doctrine\Persistence\ObjectManager;
 
 class TagsFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const  TAGS = ["Dev FullStack"=>CategoryFixtures::JOB, "Dev Front"=>CategoryFixtures::JOB,
-        "Dev BackEnd"=>CategoryFixtures::JOB, "Designer"=>CategoryFixtures::JOB,
+    public const  TAGS = ["FullStack"=>CategoryFixtures::JOB, "Front"=>CategoryFixtures::JOB,
+        "BackEnd"=>CategoryFixtures::JOB,
         "Administrateur réseaux"=>CategoryFixtures::JOB,
         "Technicien de maintenance"=>CategoryFixtures::JOB,
-        "Angular"=>CategoryFixtures::LANGUAGE, "Java"=>CategoryFixtures::LANGUAGE,
+         "Java"=>CategoryFixtures::LANGUAGE,
         "JavaScript"=>CategoryFixtures::LANGUAGE, "CSS"=>CategoryFixtures::LANGUAGE,
         "PHP"=>CategoryFixtures::LANGUAGE,"Kotlin"=>CategoryFixtures::LANGUAGE,
         "Python"=>CategoryFixtures::LANGUAGE, "C#"=>CategoryFixtures::LANGUAGE,
         "C"=>CategoryFixtures::LANGUAGE, "Ruby"=>CategoryFixtures::LANGUAGE,
         "Rust"=>CategoryFixtures::LANGUAGE, "Cobol"=>CategoryFixtures::LANGUAGE,
-        "Petite"=>CategoryFixtures::SIZE, "Moyenne"=>CategoryFixtures::SIZE,
-        "Grande"=>CategoryFixtures::SIZE, "Télétravail"=>CategoryFixtures::CONDITION,
+        "Excel"=>CategoryFixtures::LANGUAGE,
+        "Télétravail"=>CategoryFixtures::CONDITION,
         "De nuit"=>CategoryFixtures::CONDITION, "Stage"=>CategoryFixtures::OFFER_TYPE,
         "Alternance"=>CategoryFixtures::OFFER_TYPE];
 
@@ -30,46 +30,43 @@ class TagsFixtures extends Fixture implements DependentFixtureInterface
             $tag = (new Tags())
                 ->setTag($tagName);
                 $tag->setCategory($this->getReference($category));
-            if($tagName == "Dev FullStack"){
+            if($tagName == "FullStack"){
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_1));
+                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_2));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_2));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE3_1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE3_2));
-            } else if($tagName == "Dev Front"){
+                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE6_2));
+
+            } else if($tagName == "Front"){
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_3));
-            } else if($tagName == "Dev BackEnd"){
+            } else if($tagName == "BackEnd"){
+                $tag->addStudent($this->getReference(StudentsFixtures::STUDENT1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE4_1));
-            } else if($tagName == "Technicien de maintenance"){
-                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_2));
-            } else if($tagName == "Angular"){
-                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_1));
-                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_2));
-                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE4_2));
+                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE5_1));
+                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE5_2));
+                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE6_1));
+
             } else if($tagName == "Java"){
+                $tag->addStudent($this->getReference(StudentsFixtures::STUDENT1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_1));
+                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_2));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_2));
+                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE5_1));
+                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE5_2));
             } else if($tagName == "JavaScript"){
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_3));
             } else if($tagName == "CSS"){
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_3));
             } else if($tagName == "Kotlin"){
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE4_1));
-            } else if($tagName == "C#"){
+            } else if($tagName == "C#") {
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE3_1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE3_2));
-            } else if($tagName == "Moyenne"){
-                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_1));
-                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_2));
-                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE4_1));
-                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE4_2));
-            } else if($tagName == "Grande"){
-                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1));
-                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_2));
-                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_3));
-                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE3_1));
-                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE3_2));
+            }else if ($tagName == "Python"){
+                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE6_1));
             } else if($tagName == "Télétravail"){
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE3_1));
@@ -78,7 +75,9 @@ class TagsFixtures extends Fixture implements DependentFixtureInterface
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_2));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE3_1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE3_2));
+                $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE5_2));
             } else if($tagName == "Alternance"){
+                $tag->addStudent($this->getReference(StudentsFixtures::STUDENT1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_3));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE4_1));
@@ -93,7 +92,8 @@ class TagsFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             OffersFixtures::class,
-            CategoryFixtures::class
+            CategoryFixtures::class,
+            StudentsFixtures::class
         ];
     }
 }
