@@ -40,8 +40,6 @@ class TagsRepository extends ServiceEntityRepository
         }
     }
 
-
-
     public function getTagUsageCounts()
     {
         $entityManager = $this->getEntityManager();
@@ -86,6 +84,4 @@ class TagsRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-
-
 }

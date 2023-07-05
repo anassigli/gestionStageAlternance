@@ -92,4 +92,31 @@ class OffersRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getOffersByMonth()
+    {
+        $offersByMonth = [
+            "1" => 0,
+            "2" => 0,
+            "3" => 0,
+            "4" => 0,
+            "5" => 0,
+            "6" => 0,
+            "7" => 0,
+            "8" => 0,
+            "9" => 0,
+            "10" => 0,
+            "11" => 0,
+            "12" => 0
+        ];
+        $results = $this->createQueryBuilder('o')
+            ->select('MONTH(o.created_at) as month, count(o.id)')
+            ->groupBy('month')
+            ->getQuery()
+            ->getResult();
+        foreach ($results as $result) {
+            $offersByMonth[strval($result["month"])] = $result[1];
+        }
+        return $offersByMonth;
+    }
 }
