@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="grid grid-cols-2 gap-8 mx-auto justify-stretch">
+        {% for enterprise in enterprises %}
+
+            <div class="bg-card-bg-normal px-4 py-2 rounded-lg">
+
+                <div class="flex items-center justify-between w-full mb-4">
+                    <div class="flex gap-3 items-center">
+                        <img src="{{ asset(img_enterprises ~ enterprise.imageName) }}" class="rounded-full"
+                             style="width: 40px; height: 40px; margin-right:10px" alt="image entreprise">
+                        <div>
+                            <p>{{ enterprise.name }}</p>
+                            <p class="text-xs text-gray-500 font-light mb-4">
+                                {{ enterprise.city }} ({{ enterprise.department }})
+                            </p>
+                            <p class="text-sm text-gray-700">
+                                Nombre d'offres publiées : {{ enterprise.offers|length }}
+                            </p>
+                        </div>
+                    </div>
+                    {% if "ROLE_STUDENT" in app.user.roles %}
+                    <div>
+                        <a href="{{ path('app_spontaneous_candidacy', {id: enterprise.id}) }}" class="text-blue-600 hover:underline">
+                            Candidature spontanée
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        {% endfor %}
+    </div>
+
+{% endblock %}

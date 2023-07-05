@@ -34,6 +34,9 @@ class Student
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $cv = null;
 
+    #[Vich\UploadableField(mapping: 'students', fileNameProperty: 'cv')]
+    private ?File $cvFile = null;
+
     #[ORM\OneToOne(inversedBy: 'student', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -211,5 +214,21 @@ class Student
     public function getImageFile(): ?File
     {
         return $this->imageFile;
+    }
+
+    public function setCvFile(?File $cvFile = null): void
+    {
+        $this->cvFile = $cvFile;
+
+        if (null !== $cvFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updated_at = new \DateTimeImmutable();
+        }
+    }
+
+    public function getCvFile(): ?File
+    {
+        return $this->cvFile;
     }
 }

@@ -2,25 +2,11 @@
 <div class="my-custom-class-for-errors">
     {{ form_errors(form) }}
 </div>
-
-<div class="row">
-    <div class="col">
         {{ form_row(form.name) }}
-    </div>
-    <div class="col">
         {{ form_row(form.city) }}
-    </div>
-    <div class="col">
         {{ form_row(form.department) }}
-    </div>
-    <div class="col">
         {{ form_label(form.tags) }}
         {{ form_widget(form.tags) }}
-    </div>
-    <div class="col">
-        {{ form_row(form.description) }}
-    </div>
-</div>
-
+        {{ form_row(form.description)}}
 <button class="rounded-md p-2 text-white bg-sky-500 hover:bg-sky-600">{{ button_label|default('Valider') }}</button>
 {{ form_end(form) }}
