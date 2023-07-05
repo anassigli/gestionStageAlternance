@@ -41,6 +41,7 @@ class TagsFixtures extends Fixture implements DependentFixtureInterface
             } else if($tagName == "Front"){
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_3));
             } else if($tagName == "BackEnd"){
+                $tag->addStudent($this->getReference(StudentsFixtures::STUDENT1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE4_1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE5_1));
@@ -48,6 +49,7 @@ class TagsFixtures extends Fixture implements DependentFixtureInterface
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE6_1));
 
             } else if($tagName == "Java"){
+                $tag->addStudent($this->getReference(StudentsFixtures::STUDENT1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE2_2));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1));
@@ -75,6 +77,7 @@ class TagsFixtures extends Fixture implements DependentFixtureInterface
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE3_2));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE5_2));
             } else if($tagName == "Alternance"){
+                $tag->addStudent($this->getReference(StudentsFixtures::STUDENT1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_3));
                 $tag->addOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE4_1));
@@ -89,7 +92,8 @@ class TagsFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             OffersFixtures::class,
-            CategoryFixtures::class
+            CategoryFixtures::class,
+            StudentsFixtures::class
         ];
     }
 }

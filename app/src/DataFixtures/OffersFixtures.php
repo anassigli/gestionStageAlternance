@@ -30,7 +30,8 @@ class OffersFixtures extends Fixture implements DependentFixtureInterface
     public const OFFER_ENTERPRISE5_2 = 'offer_enterprise5_2';
 
 
-    public const OFFER_ENTERPRISE6_1 = 'offer_enterprise5_1';
+    public const OFFER_ENTERPRISE6_1 = 'offer_enterprise6_1';
+    public const OFFER_ENTERPRISE6_2 = 'offer_enterprise6_2';
 
 
 
