@@ -6,12 +6,15 @@ use App\Entity\Candidacy;
 use App\Entity\Enterprise;
 use App\Entity\Offers;
 use App\Entity\User;
+use App\Form\AcceptCandidacyType;
+use App\Form\SearchType;
 use App\MailService\Candidacies\Mailer;
 use App\Repository\CandidacyRepository;
 use App\Repository\OffersRepository;
 use App\Repository\StatusRepository;
 use App\Repository\StudentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
@@ -97,29 +100,43 @@ class CandidacyController extends AbstractController
     }
 
     #[Route('/candidacies/accept/student/{id}', name: 'app_candidacy_accept')]
-    public function acceptCandidacy(Candidacy $candidacy): Response
+    public function acceptCandidacy(Candidacy $candidacy, Request $request): Response
     {
-        $offer = $candidacy->getOffer();
-        $allCandidacies = $offer->getCandidacies();
+        $form = $this->createForm(AcceptCandidacyType::class, null, [
+            'offer' => $candidacy->getOffer()
+        ]);
 
-        foreach ($allCandidacies as $otherCandidacy) {
-            if ($otherCandidacy->getId() !== $candidacy->getId()) {
-                $otherCandidacy->setStatus($this->statusRepository->findOneBy(["status" => "Refusée"]));
-                $this->candidacyRepository->save($otherCandidacy);
+        $form->handleRequest($request);
 
-                $this->mailer->sendDenyCandidacyMessage($otherCandidacy->getStudent(), $offer);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $offer = $candidacy->getOffer();
+            $allCandidacies = $offer->getCandidacies();
+
+            foreach ($allCandidacies as $otherCandidacy) {
+                if ($otherCandidacy->getId() !== $candidacy->getId()) {
+                    $otherCandidacy->setStatus($this->statusRepository->findOneBy(["status" => "Refusée"]));
+                    $this->candidacyRepository->save($otherCandidacy);
+
+                    $this->mailer->sendDenyCandidacyMessage($otherCandidacy->getStudent(), $offer);
+                }
             }
+
+            $candidacy->setStatus($this->statusRepository->findOneBy(["status" => "Validée"]));
+            $offer->setStatus($this->statusRepository->findOneBy(["status" => "Pourvue"]));
+
+            $this->mailer->sendAcceptCandidacyMessage($candidacy->getStudent(), $offer, $form->getData()['content']);
+
+            $this->candidacyRepository->save($candidacy, true);
+            $this->offersRepository->save($offer, true);
+
+            return $this->redirectToRoute('app_enterprise_offers_candidacies', [
+                "id" => $candidacy->getOffer()->getId()
+            ]);
         }
 
-        $candidacy->setStatus($this->statusRepository->findOneBy(["status" => "Validée"]));
-        $offer->setStatus($this->statusRepository->findOneBy(["status" => "Pourvue"]));
-
-        $this->mailer->sendAcceptCandidacyMessage($candidacy->getStudent(), $offer);
-
-        $this->candidacyRepository->save($candidacy, true);
-        $this->offersRepository->save($offer, true);
-
-        return $this->redirectToRoute('app_enterprise_offers_candidacies', ["id" => $candidacy->getOffer()->getId()]);
+        return $this->render('candidacies/accept.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     #[Route('/candidacies/deny/student/{id}', name: 'app_candidacy_deny')]
