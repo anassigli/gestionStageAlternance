@@ -13,7 +13,7 @@
                 </div>
                 <div class="flex-initial w-1/2">
                     <p class="underline">Nombre total d'étudiants et d'entreprises</p>
-                    <div style="height: 300px;">
+                    <div>
                         {{ render_chart(allStudentsAndEnterprises) }}
                     </div>
                 </div>
@@ -22,22 +22,22 @@
 
         <hr>
 
-        <div class="flex flex-col align-items-center mb-2">
-            <h2 class="mt-2 mb-2 underline font-semibold text-2xl">Statistique sur le nombres de candidature et
+        <div class="flex flex-col align-items-center">
+            <h2 class="mb-2 underline font-semibold text-2xl">Statistique sur le nombres de candidature et
                 d'offres</h2>
-            <div class="flex w-full justify-center">
-                <div class="flex-initial w-2/3">
+            <div class="flex w-full justify-center  mb-4">
+                <div class="w-1/2">
                     <p class="underline">Nombre de candidatures et d'offres par mois</p>
-                    <div style="height: 300px;">
+                    <div>
                         {{ render_chart(studentsFoundStage) }}
                     </div>
                 </div>
             </div>
 
-            <div class="flex w-full justify-center mt-2">
-                <div class="flex-initial w-2/3">
+            <div class="flex w-full justify-center mt-4">
+                <div class="w-1/2">
                     <p class="underline">Nombre de candidatures et d'offres par mois</p>
-                    <div style="height: 300px;">
+                    <div>
                         {{ render_chart(candidaciesAndOffersByMonth) }}
                     </div>
                 </div>
