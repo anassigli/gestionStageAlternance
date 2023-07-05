@@ -9,12 +9,22 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture {
 
+    //Admin
     public const USER_ADMIN = 'admin';
+
+    // Enterprise
     public const USER_ENTERPRISE1 = 'user_enterprise1';
     public const USER_ENTERPRISE2 = 'user_enterprise2';
     public const USER_ENTERPRISE3 = 'user_enterprise3';
     public const USER_ENTERPRISE4 = 'user_enterprise4';
     public const USER_ENTERPRISE5 = 'user_enterprise5';
+    public const USER_ENTERPRISE6 = 'user_enterprise6';
+    public const USER_ENTERPRISE7 = 'user_enterprise7';
+    public const USER_ENTERPRISE8 = 'user_enterprise8';
+    public const USER_ENTERPRISE9 = 'user_enterprise9';
+    public const USER_ENTERPRISE10 = 'user_enterprise10';
+
+    // Student
     public const USER_STUDENT1 = 'user_student1';
     public const USER_STUDENT2 = 'user_student2';
     public const USER_STUDENT3 = 'user_student3';
@@ -95,6 +105,51 @@ class UserFixtures extends Fixture {
         $this->addReference(self::USER_ENTERPRISE5, $userEnterprise5);
         $this->setReference(self::USER_ENTERPRISE5, $userEnterprise5);
         $manager->getRepository(User::class)->save($userEnterprise5, true);
+
+        $userEnterprise6 = (new User())
+            ->setEmail("enterprise6@mail.com")
+            ->setIsVerified(true)
+            ->setRoles(["ROLE_ENTERPRISE"]);
+        $userEnterprise6->setPassword($this->hasher->hashPassword($userEnterprise6, 'enterprise6'));
+        $this->addReference(self::USER_ENTERPRISE6, $userEnterprise6);
+        $this->setReference(self::USER_ENTERPRISE6, $userEnterprise6);
+        $manager->getRepository(User::class)->save($userEnterprise6, true);
+
+        $userEnterprise7 = (new User())
+            ->setEmail("enterprise7@mail.com")
+            ->setIsVerified(true)
+            ->setRoles(["ROLE_ENTERPRISE"]);
+        $userEnterprise7->setPassword($this->hasher->hashPassword($userEnterprise7, 'enterprise7'));
+        $this->addReference(self::USER_ENTERPRISE7, $userEnterprise7);
+        $this->setReference(self::USER_ENTERPRISE7, $userEnterprise7);
+        $manager->getRepository(User::class)->save($userEnterprise7, true);
+
+        $userEnterprise8 = (new User())
+            ->setEmail("enterprise8@mail.com")
+            ->setIsVerified(true)
+            ->setRoles(["ROLE_ENTERPRISE"]);
+        $userEnterprise8->setPassword($this->hasher->hashPassword($userEnterprise8, 'enterprise8'));
+        $this->addReference(self::USER_ENTERPRISE8, $userEnterprise8);
+        $this->setReference(self::USER_ENTERPRISE8, $userEnterprise8);
+        $manager->getRepository(User::class)->save($userEnterprise8, true);
+
+        $userEnterprise9 = (new User())
+            ->setEmail("enterprise9@mail.com")
+            ->setIsVerified(true)
+            ->setRoles(["ROLE_ENTERPRISE"]);
+        $userEnterprise9->setPassword($this->hasher->hashPassword($userEnterprise9, 'enterprise9'));
+        $this->addReference(self::USER_ENTERPRISE9, $userEnterprise9);
+        $this->setReference(self::USER_ENTERPRISE9, $userEnterprise9);
+        $manager->getRepository(User::class)->save($userEnterprise9, true);
+
+        $userEnterprise10 = (new User())
+            ->setEmail("enterprise10@mail.com")
+            ->setIsVerified(true)
+            ->setRoles(["ROLE_ENTERPRISE"]);
+        $userEnterprise10->setPassword($this->hasher->hashPassword($userEnterprise10, 'enterprise10'));
+        $this->addReference(self::USER_ENTERPRISE10, $userEnterprise10);
+        $this->setReference(self::USER_ENTERPRISE10, $userEnterprise10);
+        $manager->getRepository(User::class)->save($userEnterprise10, true);
 
         $userEtu1 = (new User())
             ->setEmail("etu1@mail.com")

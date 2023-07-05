@@ -56,11 +56,15 @@ class Student
     #[Vich\UploadableField(mapping: 'students', fileNameProperty: 'imageName')]
     private ?File $imageFile = null;
 
+    #[ORM\ManyToMany(targetEntity: Tags::class, inversedBy: 'students')]
+    private Collection $tags;
+
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
         $this->updated_at = new \DateTime();
         $this->candidacies = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     #[ORM\PreUpdate]
@@ -230,5 +234,29 @@ class Student
     public function getCvFile(): ?File
     {
         return $this->cvFile;
+    }
+
+    /**
+     * @return Collection<int, Tags>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tags $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tags $tag): static
+    {
+        $this->tags->removeElement($tag);
+
+        return $this;
     }
 }

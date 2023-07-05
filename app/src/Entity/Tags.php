@@ -33,11 +33,15 @@ class Tags
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
 
+    #[ORM\ManyToMany(targetEntity: Student::class, mappedBy: 'tags')]
+    private Collection $students;
+
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
         $this->updated_at = new \DateTime();
         $this->offers = new ArrayCollection();
+        $this->students = new ArrayCollection();
     }
 
     #[ORM\PreUpdate]
@@ -129,5 +133,32 @@ class Tags
     public function __toString(): string
     {
         return $this->getTag();
+    }
+
+    /**
+     * @return Collection<int, Student>
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function addStudent(Student $student): static
+    {
+        if (!$this->students->contains($student)) {
+            $this->students->add($student);
+            $student->addTag($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Student $student): static
+    {
+        if ($this->students->removeElement($student)) {
+            $student->removeTag($this);
+        }
+
+        return $this;
     }
 }

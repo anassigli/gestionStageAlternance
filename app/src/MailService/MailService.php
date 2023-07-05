@@ -33,6 +33,7 @@ class MailService
     }
 
     protected const EMAIL_APPLICATION = 'appli-stage@gmail.com';
+    protected const EMAIL_ADMIN = 'admin@appli-stage.com';
 
     public function __construct(MailerInterface $mailer)
     {
