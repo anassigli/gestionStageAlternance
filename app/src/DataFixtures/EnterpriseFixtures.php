@@ -92,7 +92,7 @@ Fort de 50 000 collaborateurs dans près de 30 pays, le Groupe a réalisé un ch
             ->setDepartment("33000")
             ->setImageName("netcarbon.png")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
-        $this->addReference(self::ENTERPRISE5, $enterprise6);
+        $this->addReference(self::ENTERPRISE6, $enterprise6);
         $manager->getRepository(Enterprise::class)->save($enterprise6, true);
 
          }
