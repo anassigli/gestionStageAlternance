@@ -3,20 +3,44 @@
 {% block body %}
 
     <div class="flex justify-between relative">
-        <div class="w-1/4" style="height: 100vh !important;position: sticky !important;top: 0 !important; left: 10px !important;">
+        <div class="w-1/4"
+             style="height: 100vh !important;position: sticky !important;top: 0 !important; left: 10px !important;">
             {% include "_search_data.html.twig" with {
                 form: form ?? null
             } %}
         </div>
 
-        <div class="grid grid-cols-2 gap-8 pr-10 pl-10 mx-auto justify-stretch w-3/4">
-            {% for offer in offers %}
-                {% include 'card/card.html.twig' with
-                    {
-                        'offer': offer,
-                        'candidacies': candidacies,
-                    } %}
-            {% endfor %}
+        <div class="flex flex-col">
+            {% if offersWithFavTags|length != 0 %}
+                <div>
+                    <h3 class="text-2xl font-semibold underline text-center mb-8">Offres liées à vos tags favoris</h3>
+                    <div class="grid grid-cols-2 gap-8 pr-10 pl-10 mx-auto justify-stretch w-3/4">
+                        {% for offer in offersWithFavTags %}
+                            {% include 'card/card.html.twig' with
+                                {
+                                    'offer': offer,
+                                    'candidacies': candidacies,
+                                } %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <hr class="mt-4 mb-4 w-2/3 mx-auto">
+            {% endif %}
+
+            <div>
+                <h3 class="text-2xl font-semibold underline text-center mb-8">Les offres</h3>
+                <div class="grid grid-cols-2 gap-8 pr-10 pl-10 mx-auto justify-stretch w-3/4">
+                    {% for offer in offers %}
+                        {% include 'card/card.html.twig' with
+                            {
+                                'offer': offer,
+                                'candidacies': candidacies,
+                            } %}
+                    {% endfor %}
+                </div>
+            </div>
+
         </div>
 
     </div>
