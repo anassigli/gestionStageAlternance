@@ -6,23 +6,23 @@
     {{ block('form_widget_simple') }}
 {% endblock %}
 
-{% block button_widget -%}
-    {%- if attr.forgotten is same as(true) -%}
-        <div class="flex items-center justify-between">
-            {%- set attr = attr|merge({class: (attr.class|default(' text-white font-bold rounded focus:outline-none focus:shadow-outline'))|trim}) -%}
-            {{- parent() -}}
-            <a class="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" href="">
-                Forgot Password?
-            </a>
-        </div>
-    {%- else -%}
-        <div class="mt-10 flex justify-center">
-            {%- set attr = attr|merge({class: (attr.class|default('bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'))|trim}) -%}
-            {{- parent() -}}
-        </div>
-    {%- endif -%}
+{#{% block button_widget -%}#}
+{#    {%- if attr.forgotten is same as(true) -%}#}
+{#        <div class="flex items-center justify-between">#}
+{#            {%- set attr = attr|merge({class: (attr.class|default(' text-white font-bold rounded focus:outline-none focus:shadow-outline'))|trim}) -%}#}
+{#            {{- parent() -}}#}
+{#            <a class="inline-block align-baseline font-bold text-sm text-blue hover:text-blue-darker" href="">#}
+{#                Forgot Password?#}
+{#            </a>#}
+{#        </div>#}
+{#    {%- else -%}#}
+{#        <div class="mt-10 flex justify-center">#}
+{#            {%- set attr = attr|merge({class: (attr.class|default('bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'))|trim}) -%}#}
+{#            {{- parent() -}}#}
+{#        </div>#}
+{#    {%- endif -%}#}
 
-{%- endblock button_widget %}
+{#{%- endblock button_widget %}#}
 
 {%- block form_widget_simple -%}
     <input type="{{ type }}"
