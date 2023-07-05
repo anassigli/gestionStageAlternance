@@ -88,7 +88,7 @@ class StudentsFixtures extends Fixture implements DependentFixtureInterface
             ->setLastname("Boileau");
         $this->addReference(self::STUDENT7, $student7);
         $this->setReference(self::STUDENT7, $student7);
-        $manager->getRepository(Student::class)->save($student3, true);
+        $manager->getRepository(Student::class)->save($student7, true);
 
         $student8 = (new Student())
             ->setEmail("etu8@mail.com")
