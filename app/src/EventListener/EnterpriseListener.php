@@ -3,15 +3,20 @@
 namespace App\EventListener;
 
 use App\Entity\Enterprise;
-use App\Entity\User;
-use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
+use App\MailService\Enterprises\Mailer;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityUpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class EnterpriseListener implements EventSubscriberInterface
 {
-    public function onBeforeEntityPersisted(BeforeEntityPersistedEvent $event): void
+    private Mailer $mailer;
+
+    public function __construct(Mailer $mailer)
+    {
+        $this->mailer = $mailer;
+    }
+
+    public function onBeforeEntityUpdated(BeforeEntityUpdatedEvent $event): void
     {
         $entity = $event->getEntityInstance();
 
@@ -19,22 +24,13 @@ class EnterpriseListener implements EventSubscriberInterface
             return;
         }
 
-    }
-
-    public function onBeforeEntityUpdated(BeforeEntityUpdatedEvent $event): void
-    {
-        $entity = $event->getEntityInstance();
-
-        if (!$entity instanceof User) {
-            return;
-        }
+        $this->mailer->sendChangeStatusEnterpriseMessage($entity);
     }
 
 
     public static function getSubscribedEvents(): array
     {
         return [
-            BeforeEntityPersistedEvent::class => 'onBeforeEntityPersisted',
             BeforeEntityUpdatedEvent::class => 'onBeforeEntityUpdated',
         ];
     }

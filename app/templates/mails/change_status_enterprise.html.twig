@@ -1,0 +1,13 @@
+<h1>Votre statut sur l'application a été modifié</h1>
+
+{% if enterprise.status == 'Validée' %}
+    <p>Votre statut est passé en Validé !</p>
+    <p>Vous pouvez maintenant poster des offres sur l'application, qui seront aussi à leur tour vérifiées par un admin
+        pour acceptation</p>
+{% elseif enterprise.status == 'Refusée' %}
+    <p>Le profil de votre entreprise n'a pas été accepté par l'administration.</p>
+    <p>Pour toute question, veuillez prendre contact avec {{ mail_admin }}</p>
+{% elseif enterprise.status == 'En attente' %}
+    <p>Le profil de votre entreprise est en statut "En attente".</p>
+    <p>Pour le moment, vous ne pouvez pas poster d'offres, en atttendant la validation d'un administrateur.</p>
+{% endif %}
