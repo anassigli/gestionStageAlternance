@@ -130,7 +130,7 @@ Fort de 50 000 collaborateurs dans près de 30 pays, le Groupe a réalisé un ch
             ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE8))
             ->setCity("Yvrac")
             ->setDepartment("33370")
-            ->setCreatedAt(new \DateTimeImmutable('2022-07-03 12:54:13'))
+            ->setCreatedAt(new \DateTimeImmutable('2022-07-01 12:54:13'))
             ->setImageName("berto.png")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
         $this->addReference(self::ENTERPRISE8, $enterprise8);

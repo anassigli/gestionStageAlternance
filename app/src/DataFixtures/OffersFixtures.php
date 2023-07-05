@@ -132,6 +132,7 @@ Optimisez la productivité de vos collaborateurs et la performance de votre entr
 N’attendez plus pour optimiser la gestion collaborative de vos documents, leur partage et archivage !")
             ->setDepartment("33160")
             ->setCity("Cestas")
+            ->setCreatedAt(new \DateTimeImmutable('2022-09-15 09:50:39'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE2))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -151,7 +152,7 @@ Si vous êtes suffisamment à l’aise, vous pourrez aussi intervenir dans des m
 On parlait de fun tout à l’heure, les aftwerworks, jeux ou parties de sport feront aussi partie de votre quotidien si vous le souhaitez ! Cliquez ici pour accéder aux témoignages de nos collaborateurs.")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
-            ->setCreatedAt(new \DateTimeImmutable('2022-09-07 09:50:39'))
+            ->setCreatedAt(new \DateTimeImmutable('2022-09-16 09:50:39'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE3))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -167,6 +168,7 @@ Si vous êtes suffisamment à l’aise, vous pourrez aussi intervenir dans des m
     On parlait de fun tout à l’heure, les aftwerworks, jeux ou parties de sport feront aussi partie de votre quotidien si vous le souhaitez ! Cliquez ici pour accéder aux témoignages de nos collaborateurs.")
             ->setDepartment("33160")
             ->setCity("Cestas")
+            ->setCreatedAt(new \DateTimeImmutable('2022-10-04 09:50:39'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE3))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -184,6 +186,7 @@ Betclic, dont le siège est à Bordeaux, est une entreprise multiculturelle et i
 Les profils recherchés sont ceux qui ont l’ambition de construire en équipe, qui sont prêts à relever des challenges tous plus passionnants les uns que les autres, et qui ont cette volonté de créer des solutions offrant une expérience client inédite. ")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-12-15 17:34:13'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE4))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -216,6 +219,7 @@ Un abonnement de transport pris en charge à hauteur de 50% ou une prime annuell
 Des locaux hors du commun avec un rooftop aménagé pour profiter d'animations régulières, de pauses et de déjeuners au soleil face à la Cité du Vin \n
 Des cours de sports 2 fois par semaine")
             ->setDepartment("33160")
+            ->setCreatedAt(new \DateTimeImmutable('2022-12-21 18:06:52'))
             ->setCity("Cestas")
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE4))
             ->setStatus($this->getReference(StatusFixtures::WAITING));
@@ -245,6 +249,7 @@ Diplômé d'un bac +5 (écoles d'Ingénieurs grandes écoles ou Universités) ou
 Votre sens du service, votre rigueur, vos qualités relationnelles avérées et vos compétences méthodologiques et technologiques, vous permettront d'évoluer au sein de l'agence de Sophia-Antipolis vers les différentes filières métiers.6")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-02-12 12:40:23'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE5))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -272,6 +277,7 @@ Les apports du stage \n
 Technos utilisées : JAVA/JEE, Angular 5, Bootstrap, Maven, Jenkins, Sonar, MySQL, Junit, Mockito, JIRA, Icescrum, Mantis")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-02-20 09:12:42'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE5))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -291,6 +297,7 @@ Conception produit \n
 Tu contribues à la conception des applications en apportant ton expérience dans la définition de fonctionnalités réalisables techniquement.")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-04-13 08:04:53'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE6))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -312,6 +319,7 @@ Suivi du projet et développement de l’équipe \n
  - Tu contribues aux rituels agiles de l’équipe : sprint planning, démo, rétrospectives")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-04-25 15:24:35'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE6))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -332,6 +340,7 @@ Le stage sera articulé autour des axes suivants : \n
  - Rédaction de documentation")
             ->setDepartment("33318")
             ->setCity("Pessac")
+            ->setCreatedAt(new \DateTimeImmutable('2022-06-28 23:02:03'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE7))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -350,6 +359,7 @@ Le stage sera articulé autour des axes suivants : \n
  - Rédaction de documentation")
             ->setDepartment("33318")
             ->setCity("Pessac")
+            ->setCreatedAt(new \DateTimeImmutable('2022-06-30 17:54:13'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE7))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -379,6 +389,7 @@ Une partie de notre stack technique (liste non exhaustive) pour situer le contex
 Nous travaillons en mode agile, sur Teams, et la suite Microsoft Office, Git, EasyRedmine, Squash …")
             ->setDepartment("33310")
             ->setCity("Lormont")
+            ->setCreatedAt(new \DateTimeImmutable('2022-07-03 08:38:19'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE8))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -404,6 +415,7 @@ Travail en équipe en méthodologie agile \n
 Participer au traitement des priorités des flux d’anomalies clients et de recette interne QA.")
             ->setDepartment("33300")
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-07-05 15:28:56'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE8))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
