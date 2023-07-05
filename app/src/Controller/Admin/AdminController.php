@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Enterprise;
 use App\Entity\Offers;
 use App\Entity\Tags;
 use App\Entity\Candidacy;
@@ -48,6 +49,7 @@ class AdminController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linkToCrud('Gestion Des Entreprises', 'fas fa-list', Enterprise::class);
         yield MenuItem::linkToCrud('Gestion Des Offres', 'fas fa-list', Offers::class);
         yield MenuItem::linkToCrud('Gestion Des Candidatures', 'fas fa-list', Candidacy::class);
         yield MenuItem::linkToCrud('Gestion Des Utilisateurs', 'fas fa-list', User::class);

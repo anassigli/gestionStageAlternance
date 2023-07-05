@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="w-2/3 mx-auto">
+        {{ form_start(form) }}
+
+        {{ form_row(form.content, {'attr': {'style': 'width: 100%; height: 130px'}}) }}
+
+        <button class="rounded-md p-2 text-white bg-sky-500 hover:bg-sky-600">
+            {{ button_label|default('Envoyer') }}
+        </button>
+
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

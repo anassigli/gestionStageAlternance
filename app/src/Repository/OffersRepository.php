@@ -119,4 +119,28 @@ class OffersRepository extends ServiceEntityRepository
         }
         return $offersByMonth;
     }
+
+    public function getOffersWithStudentTags(?int $id)
+    {
+        $queryResult = $this->createQueryBuilder('o')
+            ->select("o, count(o) as nbTags")
+            ->join("o.tags", "t")
+            ->join("t.students", "s")
+            ->where('s.id = :id')
+            ->andWhere("t MEMBER OF s.tags")
+            ->andWhere("t MEMBER OF o.tags")
+            ->groupBy("o")
+            ->orderBy("nbTags", "desc")
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->setMaxResults(4)
+            ->getResult();
+
+        $result = [];
+        foreach ($queryResult as $offer) {
+            $result[] = $offer[0];
+        }
+
+        return $result;
+    }
 }

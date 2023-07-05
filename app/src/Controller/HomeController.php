@@ -56,9 +56,11 @@ class HomeController extends AbstractController
             /** @var User $current_user */
             $current_user = $this->getUser();
             $current_user_role = $current_user->getRoles();
+            $offersWithFavTags = [];
 
             if (in_array('ROLE_STUDENT', $current_user_role)) {
                 $candidacies = $current_user->getStudent()->getCandidacies();
+                $offersWithFavTags = $this->offersRepository->getOffersWithStudentTags($current_user->getStudent()->getId());
             }
 
             if (in_array('ROLE_ENTERPRISE', $current_user_role)) {
@@ -85,6 +87,7 @@ class HomeController extends AbstractController
                 'form' => $form->createView(),
                 'offers' => $offers,
                 'candidacies' => $candidacies ?? null,
+                'offersWithFavTags' => $offersWithFavTags
             ]);
         }
 
@@ -92,6 +95,7 @@ class HomeController extends AbstractController
             'offers' => $offers,
             'candidacies' => $candidacies ?? null,
             'form' => $form,
+            'offersWithFavTags' => $offersWithFavTags
         ]);
     }
 

@@ -19,7 +19,6 @@ class SearchType extends AbstractType
             ->add('q', TextType::class, [
                 'attr' => [
                     'placeholder' => "Chercher par intitulé de poste, compétence entreprise ou localisation",
-                    'class'=>'pl-3 pr-3'
                 ],
             ])
             ->add('tags', EntityType::class, [
