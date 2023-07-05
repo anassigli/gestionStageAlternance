@@ -2,24 +2,21 @@
 
 {% block body %}
 
-    <div class="flex justify-between" style="position: relative">
-        <div style="height: 100vh !important;position: sticky !important;top: 0 !important; left: 0 !important;">
+    <div class="flex justify-between relative">
+        <div class="w-1/4" style="height: 100vh !important;position: sticky !important;top: 0 !important; left: 10px !important;">
             {% include "_search_data.html.twig" with {
                 form: form ?? null
             } %}
         </div>
 
-        <div>
-            <div class="grid grid-cols-2 gap-8 pr-10 pl-10 mx-auto justify-stretch">
-                {% for offer in offers %}
-                    {% include 'card/card.html.twig' with
-                        {
-                            'offer': offer,
-                            'candidacies': candidacies,
-                        }
-                    %}
-                {% endfor %}
-            </div>
+        <div class="grid grid-cols-2 gap-8 pr-10 pl-10 mx-auto justify-stretch w-3/4">
+            {% for offer in offers %}
+                {% include 'card/card.html.twig' with
+                    {
+                        'offer': offer,
+                        'candidacies': candidacies,
+                    } %}
+            {% endfor %}
         </div>
 
     </div>

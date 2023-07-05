@@ -4,6 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\Enterprise;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class EnterpriseCrudController extends AbstractCrudController
 {
@@ -12,14 +15,18 @@ class EnterpriseCrudController extends AbstractCrudController
         return Enterprise::class;
     }
 
-    /*
+
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+            TextField::new('name'),
+            EmailField::new('email'),
+            TextField::new('status')
+                ->hideOnForm(),
+            AssociationField::new('status')
+                ->setCrudController(StatusCrudController::getEntityFqcn())
+                ->onlyOnForms(),
         ];
     }
-    */
+
 }

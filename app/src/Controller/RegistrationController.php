@@ -33,13 +33,14 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request                     $request,
-                             Session                     $session,
-                             UserPasswordHasherInterface $userPasswordHasher,
-                             Mailer                      $mailer,
-                             EnterpriseRepository        $enterpriseRepository,
-                             StatusRepository            $statusRepository,
-                             StudentRepository           $studentRepository): Response
+    public function register(Request                             $request,
+                             Session                             $session,
+                             UserPasswordHasherInterface         $userPasswordHasher,
+                             Mailer                              $mailerVerifyUser,
+                             \App\MailService\Enterprises\Mailer $mailerEnterprise,
+                             EnterpriseRepository                $enterpriseRepository,
+                             StatusRepository                    $statusRepository,
+                             StudentRepository                   $studentRepository): Response
     {
         $enterprise = new Enterprise();
         $student = new Student();
@@ -74,8 +75,8 @@ class RegistrationController extends AbstractController
                 ['id' => $user->getId()]
             );
 
-            $mailer->sendConfirmEmailMessage($user, $signatureComponents->getSignedUrl());
-            $mailer->sendAcceptEnterpriseMessage($enterprise);
+            $mailerVerifyUser->sendConfirmEmailMessage($user, $signatureComponents->getSignedUrl());
+            $mailerEnterprise->sendAcceptEnterpriseMessage($enterprise);
 
             $session->getFlashBag()->add('success', 'Un mail de confirmation vous a été envoyé');
 
@@ -103,7 +104,7 @@ class RegistrationController extends AbstractController
                 ['id' => $user->getId()]
             );
 
-            $mailer->sendConfirmEmailMessage($user, $signatureComponents->getSignedUrl());
+            $mailerVerifyUser->sendConfirmEmailMessage($user, $signatureComponents->getSignedUrl());
 
             $session->getFlashBag()->add('success', 'Un mail de confirmation vous a été envoyé');
 

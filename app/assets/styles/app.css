@@ -45,6 +45,23 @@
     @apply bg-green-500;
 }
 
+.text-Validée {
+    @apply text-green-500;
+}
+
+/* Statut en attente */
+.text-En {
+    @apply text-purple-500;
+}
+
+.text-Refusée {
+    @apply text-red-500;
+}
+
+.text-Pourvue {
+    @apply text-green-500;
+}
+
 optgroup {
     @apply font-semibold inline-grid mx-auto;
 }
