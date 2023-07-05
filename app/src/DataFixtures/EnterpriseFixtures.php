@@ -28,6 +28,7 @@ class EnterpriseFixtures extends Fixture implements DependentFixtureInterface
             ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE1))
             ->setCity("Bordeaux")
             ->setDepartment("33000")
+            ->setCreatedAt(new \DateTimeImmutable('2022-09-07 19:50:39'))
             ->setImageName("cgi.jpg")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
         $this->addReference(self::ENTERPRISE1, $enterprise1);
@@ -39,6 +40,7 @@ class EnterpriseFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription("Multimédia SOLUTIONS est éditeur de logiciels de Gestion Électronique de Documents. . Forte de plus de 23 ans d'expertise, nous proposons nos logiciels Windex GED, BotServer et eFoms aux PME et grands-groupes de tous métiers.")
             ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE2))
             ->setCity("Cestas")
+            ->setCreatedAt(new \DateTimeImmutable('2022-09-07 09:50:39'))
             ->setDepartment("33610")
             ->setImageName("multimedia.jpg")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
@@ -52,6 +54,7 @@ class EnterpriseFixtures extends Fixture implements DependentFixtureInterface
             ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE3))
             ->setCity("Bordeaux")
             ->setDepartment("33000")
+            ->setCreatedAt(new \DateTimeImmutable('2022-09-07 14:50:39'))
             ->setImageName("capgemini.png")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
         $this->addReference(self::ENTERPRISE3, $enterprise3);
@@ -63,6 +66,7 @@ class EnterpriseFixtures extends Fixture implements DependentFixtureInterface
             ->setDescription("Betclic ou Betclic Everest Group est une entreprise française de paris sportifs, poker en ligne et de sport hippique créé en 2005 à Londres par Eric Moncada et Nicolas Béraud. Elle revendique 11 millions de joueurs inscrits sur sa plateforme en ligne. Betclic est une filiale de FL Entertainment, qui détient aussi l'entreprise Banijay.")
             ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE4))
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-12-07 12:54:13'))
             ->setDepartment("33000")
             ->setImageName("betclic.png")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
@@ -80,6 +84,7 @@ Fort de 50 000 collaborateurs dans près de 30 pays, le Groupe a réalisé un ch
             ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE5))
             ->setCity("Bordeaux")
             ->setDepartment("33000")
+            ->setCreatedAt(new \DateTimeImmutable('2022-02-07 19:54:13'))
             ->setImageName("sopra.png")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
         $this->addReference(self::ENTERPRISE5, $enterprise5);
@@ -95,6 +100,7 @@ Fort de 50 000 collaborateurs dans près de 30 pays, le Groupe a réalisé un ch
              le changement climatique tout en encourageant une agriculture plus durable.")
             ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE6))
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-04-07 13:54:13'))
             ->setDepartment("33000")
             ->setImageName("netcarbon.png")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
@@ -111,12 +117,24 @@ Fort de 50 000 collaborateurs dans près de 30 pays, le Groupe a réalisé un ch
             ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE7))
             ->setCity("Pessac")
             ->setDepartment("33318")
+            ->setCreatedAt(new \DateTimeImmutable('2022-06-26 17:54:13'))
             ->setImageName("proditec.png")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
         $this->addReference(self::ENTERPRISE7, $enterprise7);
         $manager->getRepository(Enterprise::class)->save($enterprise7, true);
 
-
+        $enterprise8 = (new Enterprise())
+            ->setEmail("enterprise8@mail.com")
+            ->setName("GROUPE BERTO")
+            ->setDescription("Entreprise familiale, le Groupe Berto est le leader national de la location de véhicules industriels avec conducteurs. Nous proposons également d'autres services spécialisés et intelligents pour la gestion optimisée des hommes, des matériels et des flux.")
+            ->setUser($this->getReference(UserFixtures::USER_ENTERPRISE8))
+            ->setCity("Yvrac")
+            ->setDepartment("33370")
+            ->setCreatedAt(new \DateTimeImmutable('2022-07-03 12:54:13'))
+            ->setImageName("berto.png")
+            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+        $this->addReference(self::ENTERPRISE8, $enterprise8);
+        $manager->getRepository(Enterprise::class)->save($enterprise8, true);
 
          }
 

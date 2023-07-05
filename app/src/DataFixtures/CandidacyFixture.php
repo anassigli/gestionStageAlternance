@@ -28,7 +28,6 @@ class CandidacyFixture extends Fixture implements DependentFixtureInterface
     public const CANDIDACY_ETU13_OFFER3_ENTERPRISE1 = 'candidacy_etu13_offer3_enterprise1';
     public const CANDIDACY_ETU14_OFFER2_ENTERPRISE1 = 'candidacy_etu14_offer2_enterprise1';
     public const CANDIDACY_ETU15_OFFER2_ENTERPRISE2 = 'candidacy_etu15_offer2_enterprise2';
-    public const CANDIDACY_ETU16_OFFER1_ENTERPRISE4 = 'candidacy_etu16_offer1_enterprise4';
 
     public function load(ObjectManager $manager)
     {
