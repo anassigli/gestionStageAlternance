@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Student;
+use App\Entity\Tags;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -38,13 +40,13 @@ class StudentFormType extends AbstractType
                 'download_label' => 'Télécharger',
                 'download_uri' => 'images/students/',
             ])
-//            ->add('imageFile', VichImageType::class, [
-//                'label' => 'Image de profil',
-//                'image_uri' => 'images/students/',
-//                'allow_delete' => false,
-//                'download_label' => 'Télécharger',
-//                'required' => false
-//            ])
+            ->add('imageFile', VichImageType::class, [
+                'label' => 'Image de profil',
+                'image_uri' => 'images/students/',
+                'allow_delete' => false,
+                'download_label' => 'Télécharger',
+                'required' => false
+            ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'Mot de passe',
                 'mapped' => false,
@@ -59,6 +61,19 @@ class StudentFormType extends AbstractType
                         'max' => 50,
                     ]),
                 ],
+            ])
+            ->add('tags', EntityType::class, [
+                'label' => 'Filtres préférés',
+                // Entité que l'on veut ajouter au formulaire
+                'class' => Tags::class,
+                // La valeur que l'on veut ajouter
+                'choice_label' => 'tag',
+                // Affichage
+                'multiple' => true,
+                'expanded' => true,
+                'attr'=> [
+                    "class" => "flex flex-col"
+                ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
