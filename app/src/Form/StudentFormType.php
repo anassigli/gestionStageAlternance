@@ -15,6 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class StudentFormType extends AbstractType
@@ -31,17 +32,19 @@ class StudentFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Email'
             ])
-            ->add('cv', FileType::class, [
+            ->add('cvFile', VichFileType::class, [
                 'label' => 'CV',
-                'required' => false
-            ])
-            ->add('imageFile', VichImageType::class, [
-                'label' => 'Image de profil',
-                'image_uri' => 'images/students/',
-                'allow_delete' => false,
+                'required' => false,
                 'download_label' => 'Télécharger',
-                'required' => false
+                'download_uri' => 'images/students/',
             ])
+//            ->add('imageFile', VichImageType::class, [
+//                'label' => 'Image de profil',
+//                'image_uri' => 'images/students/',
+//                'allow_delete' => false,
+//                'download_label' => 'Télécharger',
+//                'required' => false
+//            ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'Mot de passe',
                 'mapped' => false,

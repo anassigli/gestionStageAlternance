@@ -9,120 +9,122 @@
     {% set dateInterval = date('now').diff(offer.createdAt).format('%H:%I:%S') %}
     {% set diffInWeeks = dateInterval|number_format % 7 %}
 
-
-    <a href="{{ path('app_home') }}">
-        <div class="flex items-center gap-3 mb-2">
-            <svg width="20" height="auto" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0.439339 10.9393C-0.146447 11.5251 -0.146446 12.4749 0.439341 13.0607L9.98529 22.6066C10.5711 23.1924 11.5208 23.1924 12.1066 22.6066C12.6924 22.0208 12.6924 21.0711 12.1066 20.4853L3.62132 12L12.1066 3.51471C12.6924 2.92892 12.6924 1.97917 12.1066 1.39339C11.5208 0.807603 10.5711 0.807604 9.98527 1.39339L0.439339 10.9393ZM36 10.5L1.5 10.5L1.5 13.5L36 13.5L36 10.5Z"
-                      fill="black"/>
-            </svg>
-            Retour à l'accueil
-        </div>
-    </a>
-
-    <div class="flex flex-col drop-shadow ">
-        <div class="flex flex-row justify-between items-center bg-card-bg-normal p-4  rounded-t-lg ">
-
-            <div class="flex flex-row items-center gap-3">
-                <img src="{{ asset(img_enterprises ~ offer.enterprise.imageName) }}" class="float-right rounded-full"
-                     style="width: 40px; height: auto ; margin-right:10px" alt="">
-                <div class="flex flex-col">
-                    <p>{{ offer.name }}</p>
-                    <p class="mb-2 text-sm font-semibold text-gray-700">{{ offer.enterprise.name }}</p>
-                    <p class="text-xs text-gray-500 font-light">{{ offer.city }} ({{ offer.department }})</p>
-                    <p class="text-sm text-gray-500 font-normal">Parue il y a {{ diffInWeeks }} semaine(s)</p>
-                </div>
+    <div class="w-3/4 mx-auto">
+        <a href="{{ path('app_home') }}">
+            <div class="flex items-center gap-3 mb-2">
+                <svg width="20" height="auto" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.439339 10.9393C-0.146447 11.5251 -0.146446 12.4749 0.439341 13.0607L9.98529 22.6066C10.5711 23.1924 11.5208 23.1924 12.1066 22.6066C12.6924 22.0208 12.6924 21.0711 12.1066 20.4853L3.62132 12L12.1066 3.51471C12.6924 2.92892 12.6924 1.97917 12.1066 1.39339C11.5208 0.807603 10.5711 0.807604 9.98527 1.39339L0.439339 10.9393ZM36 10.5L1.5 10.5L1.5 13.5L36 13.5L36 10.5Z"
+                          fill="black"/>
+                </svg>
+                Retour à l'accueil
             </div>
+        </a>
 
-            <div class="flex flex-col text-end">
+        <div class="flex flex-col drop-shadow ">
+            <div class="flex flex-row justify-between items-center bg-card-bg-normal p-4  rounded-t-lg ">
+
+                <div class="flex flex-row items-center gap-3">
+                    <img src="{{ asset(img_enterprises ~ offer.enterprise.imageName) }}"
+                         class="float-right rounded-full"
+                         style="width: 40px; height: auto ; margin-right:10px" alt="">
+                    <div class="flex flex-col">
+                        <p>{{ offer.name }}</p>
+                        <p class="mb-2 text-sm font-semibold text-gray-700">{{ offer.enterprise.name }}</p>
+                        <p class="text-xs text-gray-500 font-light">{{ offer.city }} ({{ offer.department }})</p>
+                        <p class="text-sm text-gray-500 font-normal">Parue il y a {{ diffInWeeks }} semaine(s)</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col text-end">
                 <span class="text-sm font-medium text-gray-500 mb-1">
                     Il y a {{ offer.candidacies|length }} candidature(s) pour cette offre.
                 </span>
-                <span class="text-xs text-gray-500 font-light">
+                    <span class="text-xs text-gray-500 font-light">
                     Créée le {{ offer.updatedAt ? offer.updatedAt|date('d-m-Y') : '' }}
                 </span>
-            </div>
-        </div>
-
-        <div class="pt-4 pb-4 pl-4 pr-4 rounded-b-lg gap-3 bg-white">
-
-            <div class="flex flex-wrap ">
-                {% for tag in offer.tags %}
-                    <span class="rounded-full bg-card-bg-normal }} pl-3 pr-3 mr-2 mb-3 break-keep">{{ tag.tag }}</span>
-                {% endfor %}
+                </div>
             </div>
 
-            <p class="mt-4 mb-4">
-                {{ offer.description }}
-            </p>
+            <div class="pt-4 pb-4 pl-4 pr-4 rounded-b-lg gap-3 bg-white">
 
-            {% if app.user %}
-                {% if "ROLE_STUDENT" in app.user.roles %}
-                    {% set find = false %}
-
-
-                    {% for candidacy in offer.candidacies %}
-                        {% if candidacy.student.user.id == app.user.id %}
-                            {% set find = true %}
-                        {% endif %}
+                <div class="flex flex-wrap ">
+                    {% for tag in offer.tags %}
+                        <span class="rounded-full bg-card-bg-normal }} pl-3 pr-3 mr-2 mb-3 break-keep">{{ tag.tag }}</span>
                     {% endfor %}
+                </div>
+
+                <p class="mt-4 mb-4">
+                    {{ offer.description }}
+                </p>
+
+                {% if app.user %}
+                    {% if "ROLE_STUDENT" in app.user.roles %}
+                        {% set find = false %}
 
 
-                    {% if find %}
-                        <a href="{{ path('app_delete_candidacy', { 'id': offer.id }) }}"
-                           class="text-red-500 flex items-center gap-1 mt-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512" class="svg-red">
-                                <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"/>
-                            </svg>
-                            <p>Désister</p>
-                        </a>
+                        {% for candidacy in offer.candidacies %}
+                            {% if candidacy.student.user.id == app.user.id %}
+                                {% set find = true %}
+                            {% endif %}
+                        {% endfor %}
 
 
-                    {% else %}
-                        <a href="{{ path('app_new_candidacy', { 'id': offer.id }) }}"
-                           class="text-purple-500 break-keep flex flex-row items-center gap-1 mt-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"
-                                 class="svg-purple">
-                                <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/>
-                            </svg>
-                            <p>Postuler</p>
-                        </a>
-                    {% endif %}
+                        {% if find %}
+                            <a href="{{ path('app_delete_candidacy', { 'id': offer.id }) }}"
+                               class="text-red-500 flex items-center gap-1 mt-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"
+                                     class="svg-red">
+                                    <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"/>
+                                </svg>
+                                <p>Désister</p>
+                            </a>
 
 
-                {% elseif "ROLE_ENTERPRISE" in app.user.roles %}
-                    {% if offer.enterprise.id == app.user.enterprise.id %}
-                        <div class="flex gap-3">
-                            <a href="{{ path("app_offers_edit", {'id': offer.id}) }}"
-                               class="text-purple-500 flex items-center gap-1 mt-4">
+                        {% else %}
+                            <a href="{{ path('app_new_candidacy', { 'id': offer.id }) }}"
+                               class="text-purple-500 break-keep flex flex-row items-center gap-1 mt-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"
                                      class="svg-purple">
                                     <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/>
                                 </svg>
-                                <p>Modifier</p>
+                                <p>Postuler</p>
                             </a>
-                            {{ include('offers/_delete_form.html.twig') }}
-                        </div>
-                    {% endif %}
-                {% endif %}
+                        {% endif %}
 
-                <p class="text-sm text-gray-500 mt-4">
-                    {% if offer.candidacies|length != 0
-                        and "ROLE_ENTERPRISE" in app.user.roles
-                        and offer.enterprise.id == app.user.enterprise.id %}
-                        <span class="font-semibold">
+
+                    {% elseif "ROLE_ENTERPRISE" in app.user.roles %}
+                        {% if offer.enterprise.id == app.user.enterprise.id %}
+                            <div class="flex gap-3">
+                                <a href="{{ path("app_offers_edit", {'id': offer.id}) }}"
+                                   class="text-purple-500 flex items-center gap-1 mt-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"
+                                         class="svg-purple">
+                                        <path d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"/>
+                                    </svg>
+                                    <p>Modifier</p>
+                                </a>
+                                {{ include('offers/_delete_form.html.twig') }}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
+                    <p class="text-sm text-gray-500 mt-4">
+                        {% if offer.candidacies|length != 0
+                            and "ROLE_ENTERPRISE" in app.user.roles
+                            and offer.enterprise.id == app.user.enterprise.id %}
+                            <span class="font-semibold">
                             <a href="{{ path('app_enterprise_offers_candidacies', { 'id': offer.id }) }}">
                                 Voir les candidatures
                             </a>
                         </span>
-                    {% endif %}
-                </p>
-            {% endif %}
+                        {% endif %}
+                    </p>
+                {% endif %}
 
 
+            </div>
         </div>
     </div>
-
 
 
 {% endblock %}
