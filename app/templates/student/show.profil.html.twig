@@ -1,10 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div>
-        <h1>Informations étudiant</h1>
+    <div class="mx-auto w-3/4">
+        <h1 class="text-2xl font-semibold text-center mb-8">Informations étudiant</h1>
         <div>
             {{ form_start(form) }}
+
+            {{ form_row(form.firstname) }}
+            {{ form_row(form.lastname) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.cvFile) }}
+
+            {{ form_row(form.plainPassword, {'help': 'Laissez vide si vous ne voulez pas changer de mot de passe'}) }}
+
+            {{ form_row(form.agreeTerms) }}
+
             {{ form_end(form) }}
         </div>
     </div>
