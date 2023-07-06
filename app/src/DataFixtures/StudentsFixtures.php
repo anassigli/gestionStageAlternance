@@ -31,6 +31,7 @@ class StudentsFixtures extends Fixture implements DependentFixtureInterface
             ->setEmail("etu1@mail.com")
             ->setUser($this->getReference(UserFixtures::USER_STUDENT1))
             ->setFirstname("Robert")
+            ->setCv("CV-Baptiste-Chabrol.pdf")
             ->setLastname("Marcoux");
         $this->addReference(self::STUDENT1, $student1);
         $this->setReference(self::STUDENT1, $student1);

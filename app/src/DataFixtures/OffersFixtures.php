@@ -34,11 +34,12 @@ class OffersFixtures extends Fixture implements DependentFixtureInterface
     public const OFFER_ENTERPRISE6_2 = 'offer_enterprise6_2';
 
 
+    public const OFFER_ENTERPRISE7_1 = 'offer_enterprise7_1';
+    public const OFFER_ENTERPRISE7_2 = 'offer_enterprise7_2';
 
 
-
-
-
+    public const OFFER_ENTERPRISE8_1 = 'offer_enterprise8_1';
+    public const OFFER_ENTERPRISE8_2 = 'offer_enterprise8_2';
 
 
     public function load(ObjectManager $manager)
@@ -55,6 +56,7 @@ class OffersFixtures extends Fixture implements DependentFixtureInterface
             Si vous avez besoin d’un accompagnement spécifique durant le processus de recrutement et d’intégration, veuillez nous en informer. Nous serons heureux de vous aider.")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-09-09 19:50:39'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE1))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -81,6 +83,7 @@ Donnez un élan à votre carrière. \n \n
     CGI favorise l’équité en matière d’emploi.")
             ->setDepartment("33160")
             ->setCity("Cestas")
+            ->setCreatedAt(new \DateTimeImmutable('2022-09-14 16:34:14'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE1))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -96,12 +99,13 @@ Nous avons combiné des capacités industrielles et des expertises de haut nivea
     Nos équipes sont passionnées d’automatisation, d’Intelligence Artificielle, de CRM, de BI/Big Data, de Design Thinking, de Web, de Mobilité, de cybersécurité, …, qu’elles mettent en œuvre sur tous les secteurs d’activités (industrie, banque, assurance, retail, médias,…) pour des clients de la France entière mais aussi à l’international.")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-09-20 08:12:54'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE1))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
 
 
-
+//Enterprise2
         $offer2_1 = (new Offers())
             ->setName("Offre d'alternance de développeur FullStack ")
             ->setDescription("La gestion électronique de documents (GED) est une méthode pour stocker, organiser et partager des documents numériques au sein d’une entreprise ou d’une organisation. \n
@@ -112,6 +116,7 @@ Les avantages de la GED incluent une meilleure organisation, une réduction des 
 Optimisez la productivité de vos collaborateurs et la performance de votre entreprise grâce à notre logiciel de gestion électronique de documents Windex GED !\n
 N’attendez plus pour optimiser la gestion collaborative de vos documents, leur partage et archivage !")
             ->setDepartment("33000")
+            ->setCreatedAt(new \DateTimeImmutable('2022-09-10 14:50:39'))
             ->setCity("Bordeaux")
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE2))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
@@ -127,11 +132,14 @@ Optimisez la productivité de vos collaborateurs et la performance de votre entr
 N’attendez plus pour optimiser la gestion collaborative de vos documents, leur partage et archivage !")
             ->setDepartment("33160")
             ->setCity("Cestas")
+            ->setCreatedAt(new \DateTimeImmutable('2022-09-15 09:50:39'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE2))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
 
 
+
+//Enterprise3
         $offer3_1 = (new Offers())
             ->setName("Développeur C# H/F")
             ->setDescription("En quoi consiste le poste ?
@@ -144,6 +152,7 @@ Si vous êtes suffisamment à l’aise, vous pourrez aussi intervenir dans des m
 On parlait de fun tout à l’heure, les aftwerworks, jeux ou parties de sport feront aussi partie de votre quotidien si vous le souhaitez ! Cliquez ici pour accéder aux témoignages de nos collaborateurs.")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-09-16 09:50:39'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE3))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -159,11 +168,14 @@ Si vous êtes suffisamment à l’aise, vous pourrez aussi intervenir dans des m
     On parlait de fun tout à l’heure, les aftwerworks, jeux ou parties de sport feront aussi partie de votre quotidien si vous le souhaitez ! Cliquez ici pour accéder aux témoignages de nos collaborateurs.")
             ->setDepartment("33160")
             ->setCity("Cestas")
+            ->setCreatedAt(new \DateTimeImmutable('2022-10-04 09:50:39'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE3))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
 
 
+
+        //Enterprise4
         $offer4_1 = (new Offers())
             ->setName("Alternance - Développeur Kotlin H/F")
             ->setDescription("Depuis sa création en 2005, Betclic est une société de technologie ".'"mobile-only"'.", animée par une passion inébranlable pour le sport. Guidé par l'émotion et le plaisir du jeu, Betclic développe des applications de divertissement mobile et place ses clients au cœur d’une expérience de jeu unique en innovant avec agilité et rapidité pour offrir toujours plus de jeux et plus de fun à ses joueurs. \n
@@ -174,6 +186,7 @@ Betclic, dont le siège est à Bordeaux, est une entreprise multiculturelle et i
 Les profils recherchés sont ceux qui ont l’ambition de construire en équipe, qui sont prêts à relever des challenges tous plus passionnants les uns que les autres, et qui ont cette volonté de créer des solutions offrant une expérience client inédite. ")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-12-15 17:34:13'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE4))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -206,11 +219,16 @@ Un abonnement de transport pris en charge à hauteur de 50% ou une prime annuell
 Des locaux hors du commun avec un rooftop aménagé pour profiter d'animations régulières, de pauses et de déjeuners au soleil face à la Cité du Vin \n
 Des cours de sports 2 fois par semaine")
             ->setDepartment("33160")
+            ->setCreatedAt(new \DateTimeImmutable('2022-12-21 18:06:52'))
             ->setCity("Cestas")
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE4))
             ->setStatus($this->getReference(StatusFixtures::WAITING));
 
 
+
+
+
+//Enterprise5
         $offer5_1 = (new Offers())
             ->setName("Développeur - Java")
             ->setDescription("Votre rôle et missions \n \n
@@ -231,6 +249,7 @@ Diplômé d'un bac +5 (écoles d'Ingénieurs grandes écoles ou Universités) ou
 Votre sens du service, votre rigueur, vos qualités relationnelles avérées et vos compétences méthodologiques et technologiques, vous permettront d'évoluer au sein de l'agence de Sophia-Antipolis vers les différentes filières métiers.6")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-02-12 12:40:23'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE5))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -258,8 +277,12 @@ Les apports du stage \n
 Technos utilisées : JAVA/JEE, Angular 5, Bootstrap, Maven, Jenkins, Sonar, MySQL, Junit, Mockito, JIRA, Icescrum, Mantis")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-02-20 09:12:42'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE5))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+
+
+
 
 //Entreprise 6
         $offer6_1 = (new Offers())
@@ -274,6 +297,7 @@ Conception produit \n
 Tu contribues à la conception des applications en apportant ton expérience dans la définition de fonctionnalités réalisables techniquement.")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-04-13 08:04:53'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE6))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
@@ -295,11 +319,109 @@ Suivi du projet et développement de l’équipe \n
  - Tu contribues aux rituels agiles de l’équipe : sprint planning, démo, rétrospectives")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-04-25 15:24:35'))
             ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE6))
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
 
 
 
+        //Enterprise7
+        $offer7_1 = (new Offers())
+            ->setName("Stagiaire informatique H/F: Gestion Utilisateurs Windows (C++/Win Api)")
+            ->setDescription("En tant que stagiaire informatique au sein de l’équipe R&D, vous participerez à la mise en place d’un module de gestionnaire d’utilisateurs sous Windows en mode local ou en mode Active Directory. \n
+\n
+Vous devrez aussi mettre en place une IHM sous Qt pour gérer les fonctionnalités de ce module. \n
+\n
+Le stage sera articulé autour des axes suivants : \n
+ \n
+ - Compréhension des besoins fonctionnels \n
+ - Développement du module de gestion d’utilisateurs \n
+ - Tests \n
+ - Rédaction de documentation")
+            ->setDepartment("33318")
+            ->setCity("Pessac")
+            ->setCreatedAt(new \DateTimeImmutable('2022-06-28 23:02:03'))
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE7))
+            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+
+
+        $offer7_2 = (new Offers())
+            ->setName("Stagiaire informatique H/F: Module OPC UA (C++/Qt)")
+            ->setDescription("En tant que stagiaire informatique au sein de l’équipe R&D, vous participerez à la mise en place d’un module de gestionnaire d’utilisateurs sous Windows en mode local ou en mode Active Directory. \n
+\n
+Vous devrez aussi mettre en place une IHM sous Qt pour gérer les fonctionnalités de ce module. \n
+\n
+Le stage sera articulé autour des axes suivants : \n
+ \n
+ - Compréhension des besoins fonctionnels \n
+ - Développement du module de gestion d’utilisateurs \n
+ - Tests \n
+ - Rédaction de documentation")
+            ->setDepartment("33318")
+            ->setCity("Pessac")
+            ->setCreatedAt(new \DateTimeImmutable('2022-06-30 17:54:13'))
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE7))
+            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+
+
+        //Enterprise8
+        $offer8_1 = (new Offers())
+            ->setName("Alternance Développeur Web PHP H/F")
+            ->setDescription("Participer à la conception technique, au paramétrage et à la rédaction des spécifications techniques des évolutions \n
+    . Développer et maintenir des briques aussi bien backend (APIs, MariaDB, …) que Frontend \n
+    . Optimiser la performance des applications. \n
+    . Fournir du code de qualité et ainsi garantir la qualité des mises en production \n
+    . Travail en équipe en méthodologie agile \n
+    . Participer au traitement des priorités des flux d'anomalies clients et de recette interne QA. \n
+\n
+Nos challenges sont nombreux, que ce soit métiers (l’internationalisation, cartographie, optimisation de circuits, des intégrations à des services tiers, expérience utilisateur multi-canal etc...) ou techniques (la scalabilité, la tenue en charge, une architecture distribuée, hybride (on premise, SaaS). \n
+\n
+Nous recherchons une personne capable de s’intégrer dans une équipe distribuée sur plusieurs sites. Cela implique une bonne capacité de communication, une capacité à vulgariser les sujets complexes, une très forte sensibilité à la qualité, une flexibilité face aux priorités commerciales changeantes, ouvert à de nouvelles idées et un focus client. \n
+\n
+Une partie de notre stack technique (liste non exhaustive) pour situer le contexte : \n
+\n
+    Front-end web : HTML \n
+    Back-end : PHP \n
+    IDEs : PHPStorm \n
+    DB : MySQL \n
+    SIG : BusinessGeographic/GEO \n
+    Backend sous Unix : en C/C++ \n
+Nous travaillons en mode agile, sur Teams, et la suite Microsoft Office, Git, EasyRedmine, Squash …")
+            ->setDepartment("33310")
+            ->setCity("Lormont")
+            ->setCreatedAt(new \DateTimeImmutable('2022-07-03 08:38:19'))
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE8))
+            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+
+        $offer8_2 = (new Offers())
+            ->setName("Alternance - Développement d’Applications Web PHP (Ecobox)")
+            ->setDescription("Intégré à une équipe de développement d’une quinzaine de personnes, vous participerez au développement et à la maintenance de notre plateforme ECOBOXCarto (Web / API / backend / DB / SIG). \n
+\n
+Notre stack logiciel cible intègre des technologies s’articulant autour de notre plateforme logicielle SaaS et multi tenant : PHP, MySQL, Sentry, Graylog, SIG BusinessGeographic/GEO \n
+ \n
+Vous reporterez au responsable de l’équipe.\n
+\n
+Vos activités types seront les suivantes : \n
+\n 
+Participer à la maintenance évolutive et corrective de l’application ECOBOXCarto \n
+Analyse de l'existant, proposer des évolutions techniques de la solution quand vous le jugerez nécessaire. \n
+Etendre et reprendre la documentation de l’application pour les développeurs \n
+Décrire la solution technique répondant à de nouvelles user stories \n
+Comprendre et intégrer vos développements dans notre process d’intégration continue \n
+Développer des tests unitaires et fonctionnels sur tout nouveau code. \n
+Optimiser la performance de l’application. \n
+Prendre soin à la qualité du code (via des revues de codes, revues des exécutions de campagne de tests, maintenabilité du code et production et maintien de nos documentations utilisateurs) \n
+Travail en équipe en méthodologie agile \n
+Participer au traitement des priorités des flux d’anomalies clients et de recette interne QA.")
+            ->setDepartment("33300")
+            ->setCity("Bordeaux")
+            ->setCreatedAt(new \DateTimeImmutable('2022-07-05 15:28:56'))
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE8))
+            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
         $this->addReference(self::OFFER_ENTERPRISE1_1, $offer1_1);
         $this->setReference(self::OFFER_ENTERPRISE1_1, $offer1_1);
@@ -362,6 +484,25 @@ Suivi du projet et développement de l’équipe \n
         $this->addReference(self::OFFER_ENTERPRISE6_2, $offer6_2);
         $this->setReference(self::OFFER_ENTERPRISE6_2, $offer6_2);
         $manager->getRepository(Offers::class)->save($offer6_2, true);
+
+        //Entreprise 7
+        $this->addReference(self::OFFER_ENTERPRISE7_1, $offer7_1);
+        $this->setReference(self::OFFER_ENTERPRISE7_1, $offer7_1);
+        $manager->getRepository(Offers::class)->save($offer7_1, true);
+
+        $this->addReference(self::OFFER_ENTERPRISE7_2, $offer7_2);
+        $this->setReference(self::OFFER_ENTERPRISE7_2, $offer7_2);
+        $manager->getRepository(Offers::class)->save($offer7_2, true);
+
+
+        //Entreprise 8
+        $this->addReference(self::OFFER_ENTERPRISE8_1, $offer8_1);
+        $this->setReference(self::OFFER_ENTERPRISE8_1, $offer8_1);
+        $manager->getRepository(Offers::class)->save($offer8_1, true);
+
+        $this->addReference(self::OFFER_ENTERPRISE8_2, $offer8_2);
+        $this->setReference(self::OFFER_ENTERPRISE8_2, $offer8_2);
+        $manager->getRepository(Offers::class)->save($offer8_2, true);
     }
 
     public function getDependencies(): array

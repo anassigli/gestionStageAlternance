@@ -15,7 +15,7 @@
         <div class="flex flex-col">
             {% if offersWithFavTags|length != 0 %}
                 <div>
-                    <h3 class="text-2xl font-semibold underline text-center mb-8">Offres liées à vos tags favoris</h3>
+                    <h3 class="text-2xl font-semibold text-center mb-8">Offres liées à vos tags favoris</h3>
                     <div class="grid grid-cols-2 gap-8 pr-10 pl-10 mx-auto justify-stretch w-3/4">
                         {% for offer in offersWithFavTags %}
                             {% include 'card/card.html.twig' with
@@ -31,7 +31,7 @@
             {% endif %}
 
             <div>
-                <h3 class="text-2xl font-semibold underline text-center mb-8">Les offres</h3>
+                <h3 class="text-2xl font-semibold text-center mb-8">Les offres</h3>
                 <div class="grid grid-cols-2 gap-8 pr-10 pl-10 mx-auto justify-stretch w-3/4">
                     {% for offer in offers %}
                         {% include 'card/card.html.twig' with
