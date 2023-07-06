@@ -4,8 +4,15 @@ services:
     image: baptistechab/projet-alternance:latest
     ports:
       - "8080:80"
+  db:
+    image: mysql
+    container_name: db
     environment:
-      DATABASE_URL: "mysql://dawin_team1:Alaska123*@db4free:net:3306/projet_dawin1?serverVersion=8.0.32&charset=utf8mb4"
-
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: projet_dawin1
+    ports:
+      - "6033:3306"
+    volumes:
+      - db-data:/var/lib/mysql
 volumes:
   db-data:
