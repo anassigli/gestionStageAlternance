@@ -24,6 +24,6 @@ RUN chmod -R 777 /var/www/var/log
 
 WORKDIR /var/www/
 
-#ENTRYPOINT ["bash", "./docker/docker.sh"]
+ENTRYPOINT ["bash", "./docker/docker.sh"]
 
 EXPOSE 80

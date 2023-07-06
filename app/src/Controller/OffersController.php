@@ -8,6 +8,7 @@ use App\Entity\Offers;
 use App\Form\OffersType;
 use App\Entity\Status;
 use App\Entity\Student;
+use App\Repository\CandidacyRepository;
 use App\Repository\EnterpriseRepository;
 use App\Repository\OffersRepository;
 use App\Repository\StatusRepository;
@@ -66,11 +67,15 @@ class OffersController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'app_offers_delete', methods: ['POST'])]
-    public function delete(Request          $request,
-                           Offers           $offer,
-                           OffersRepository $offersRepository): Response
+    public function delete(Request             $request,
+                           Offers              $offer,
+                           OffersRepository    $offersRepository,
+                           CandidacyRepository $candidacyRepository): Response
     {
-
+        $candidacies = $offer->getCandidacies();
+        foreach ($candidacies as $candidacy) {
+            $candidacyRepository->remove($candidacy, true);
+        }
         $offersRepository->remove($offer, true);
         // Permet de revenir sur la page précédente
         $route = $request->headers->get('referer');

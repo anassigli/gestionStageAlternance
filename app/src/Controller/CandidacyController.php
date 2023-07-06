@@ -8,6 +8,8 @@ use App\Entity\Offers;
 use App\Entity\User;
 use App\Form\AcceptCandidacyType;
 use App\Form\SearchType;
+use App\Form\SendCandidacyType;
+use App\Form\SendSpontaneousCandidacyType;
 use App\MailService\Candidacies\Mailer;
 use App\Repository\CandidacyRepository;
 use App\Repository\OffersRepository;
@@ -53,28 +55,41 @@ class CandidacyController extends AbstractController
     }
 
     #[Route('/candidacies/new/{id}', name: 'app_new_candidacy')]
-    public function new(Offers  $offer,
-                        Session $session): Response
+    public function new(Offers  $offer, Session $session, Request $request): Response
     {
         /** @var User $current_user */
         $current_user = $this->getUser();
 
-        $student = $this->studentRepository->findOneBy(['email' => $current_user->getEmail()]);
-        $status = $this->statusRepository->findOneBy(['status' => 'En attente']);
+        $form = $this->createForm(SendCandidacyType::class, null, [
+            'offer' => $offer
+        ]);
 
-        $candidacy = (new Candidacy())
-            ->setStudent($student)
-            ->setOffer($offer)
-            ->setStatus($status);
+        $form->handleRequest($request);
 
-        $this->candidacyRepository->save($candidacy, true);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $student = $this->studentRepository->findOneBy(['email' => $current_user->getEmail()]);
+            $status = $this->statusRepository->findOneBy(['status' => 'En attente']);
 
-        $this->mailer->sendPostedCandidacyMessage($current_user, $offer);
+            $candidacy = (new Candidacy())
+                ->setStudent($student)
+                ->setOffer($offer)
+                ->setStatus($status);
 
-        $session->getFlashBag()->add('success',
-            "Votre candidature a bien été prise en compte. Vous pouvez la consulter sur votre page 'Mes candidatures'");
+            $this->candidacyRepository->save($candidacy, true);
 
-        return $this->redirectToRoute('app_home');
+            $this->mailer->sendPostedCandidacyMessage($current_user, $offer);
+            $this->mailer->sendCandidacyMessage($offer->getEnterprise(), $offer, $form->getData()['content']);
+
+
+            $session->getFlashBag()->add('success',
+                "Votre candidature a bien été prise en compte. Vous pouvez la consulter sur votre page 
+            'Mes candidatures'");
+
+            return $this->redirectToRoute('app_home');
+        }
+        return $this->render('candidacies/new.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     #[Route('/candidacies/delete/{id}', name: 'app_delete_candidacy')]
@@ -151,18 +166,34 @@ class CandidacyController extends AbstractController
     }
 
     #[Route('/candidacies/new/spontaneous/{id}', name: 'app_spontaneous_candidacy')]
-    public function newSpontaneous(Session $session, Enterprise $enterprise): Response
+    public function newSpontaneous(Session $session, Enterprise $enterprise, Request $request): Response
     {
         /** @var User $current_user */
         $current_user = $this->getUser();
-        $student = $this->studentRepository->findOneBy(['email' => $current_user->getEmail()]);
 
-        $this->mailer->sendSpontaneousCandidacyMessage($student, $enterprise);
-        $this->mailer->receivedSpontaneousCandidacyMessage($student, $enterprise, $this->getParameter('kernel.project_dir'));
+        $form = $this->createForm(SendSpontaneousCandidacyType::class, null, [
+            'enterprise' => $enterprise
+        ]);
 
-        $session->getFlashBag()->add('success',
-            "Votre candidature a bien été prise en compte. Un mail a été envoyé à " . $enterprise->getName());
+        $form->handleRequest($request);
 
-        return $this->redirectToRoute('app_home');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $student = $this->studentRepository->findOneBy(['email' => $current_user->getEmail()]);
+
+            $this->mailer->sendSpontaneousCandidacyMessage($student, $enterprise);
+            $this->mailer->receivedSpontaneousCandidacyMessage($student,
+                $enterprise,
+                $this->getParameter('kernel.project_dir'),
+                $form->getData()['content']);
+
+            $session->getFlashBag()->add('success',
+                "Votre candidature a bien été prise en compte. Un mail a été envoyé à " . $enterprise->getName());
+
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('candidacies/send_spontaneous.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
