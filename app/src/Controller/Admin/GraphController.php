@@ -30,7 +30,7 @@ class GraphController extends AbstractController
     {
         $studentsCount = sizeof($studentRepository->findAll());
 
-        // Nouveaux étudiants inscrits et dernière entreprises inscrite
+        // Nouveaux étudiants inscrits et dernières entreprises inscrite
         $lastStudentsAndEnterprises = $this->createNewSubscribesChart($chartBuilder, $enterpriseRepository, $studentRepository);
 
         // Nb étudiants et entreprises

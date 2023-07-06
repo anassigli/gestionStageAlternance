@@ -1,2 +1,2 @@
-php bin/console d:m:m --no-interaction
-php bin/console doctrine:fixtures:load --no-interaction
+php bin/console doc:mig:mig --no-interaction
+php bin/console doc:fix:load --no-interaction
