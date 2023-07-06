@@ -27,7 +27,8 @@ class CandidacyFixture extends Fixture implements DependentFixtureInterface
     public const CANDIDACY_ETU13_OFFER1_ENTERPRISE7 = 'candidacy_etu13_offer1_enterprise7';
     public const CANDIDACY_ETU14_OFFER2_ENTERPRISE7 = 'candidacy_etu14_offer2_enterprise7';
     public const CANDIDACY_ETU14_OFFER2_ENTERPRISE8 = 'candidacy_etu14_offer2_enterprise8';
-
+    public const CANDIDACY_ETU15_OFFER1_ENTERPRISE1 = 'candidacy_etu15_offer1_enterprise1';
+    public const CANDIDACY_ETU16_OFFER1_ENTERPRISE1 = 'candidacy_etu16_offer1_enterprise1';
     public function load(ObjectManager $manager)
     {
 
@@ -171,7 +172,21 @@ class CandidacyFixture extends Fixture implements DependentFixtureInterface
         $this->addReference(self::CANDIDACY_ETU14_OFFER2_ENTERPRISE8, $candidacy16);
         $manager->getRepository(Candidacy::class)->save($candidacy16, true);
 
+        $candidacy17 = (new Candidacy())
+            ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1))
+            ->setStudent($this->getReference(StudentsFixtures::STUDENT15))
+            ->setStatus($this->getReference(StatusFixtures::WAITING))
+            ->setCreatedAt(new \DateTimeImmutable('2022-07-05 16:36:43'));
+        $this->addReference(self::CANDIDACY_ETU15_OFFER1_ENTERPRISE1, $candidacy17);
+        $manager->getRepository(Candidacy::class)->save($candidacy17, true);
 
+        $candidacy18 = (new Candidacy())
+            ->setOffer($this->getReference(OffersFixtures::OFFER_ENTERPRISE1_1))
+            ->setStudent($this->getReference(StudentsFixtures::STUDENT16))
+            ->setStatus($this->getReference(StatusFixtures::WAITING))
+            ->setCreatedAt(new \DateTimeImmutable('2022-07-06 20:36:43'));
+        $this->addReference(self::CANDIDACY_ETU16_OFFER1_ENTERPRISE1, $candidacy18);
+        $manager->getRepository(Candidacy::class)->save($candidacy18, true);
 
     }
 
