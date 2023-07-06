@@ -102,7 +102,7 @@ Fort de 50 000 collaborateurs dans près de 30 pays, le Groupe a réalisé un ch
             ->setCity("Bordeaux")
             ->setCreatedAt(new \DateTimeImmutable('2022-04-07 13:54:13'))
             ->setDepartment("33000")
-            ->setImageName("netcarbon.png")
+            ->setImageName("netcarbon.jpg")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
         $this->addReference(self::ENTERPRISE6, $enterprise6);
         $manager->getRepository(Enterprise::class)->save($enterprise6, true);
@@ -118,7 +118,7 @@ Fort de 50 000 collaborateurs dans près de 30 pays, le Groupe a réalisé un ch
             ->setCity("Pessac")
             ->setDepartment("33318")
             ->setCreatedAt(new \DateTimeImmutable('2022-06-26 17:54:13'))
-            ->setImageName("proditec.png")
+            ->setImageName("proditec.jpg")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
         $this->addReference(self::ENTERPRISE7, $enterprise7);
         $manager->getRepository(Enterprise::class)->save($enterprise7, true);
@@ -131,7 +131,7 @@ Fort de 50 000 collaborateurs dans près de 30 pays, le Groupe a réalisé un ch
             ->setCity("Yvrac")
             ->setDepartment("33370")
             ->setCreatedAt(new \DateTimeImmutable('2022-07-01 12:54:13'))
-            ->setImageName("berto.png")
+            ->setImageName("berto.jpg")
             ->setStatus($this->getReference(StatusFixtures::VERIFIED));
         $this->addReference(self::ENTERPRISE8, $enterprise8);
         $manager->getRepository(Enterprise::class)->save($enterprise8, true);
