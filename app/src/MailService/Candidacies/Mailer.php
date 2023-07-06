@@ -48,13 +48,28 @@ class Mailer extends MailService
             ['enterprise' => $enterprise]);
     }
 
-    public function receivedSpontaneousCandidacyMessage(Student $student, Enterprise $enterprise, string $appPath)
+    public function receivedSpontaneousCandidacyMessage(Student    $student,
+                                                        Enterprise $enterprise,
+                                                        string     $appPath,
+                                                        string     $content)
     {
         $this->sendTemplatedEmail(new Address(parent::EMAIL_APPLICATION, 'Appli Stage'),
             new Address($enterprise->getEmail()),
             "Candidature spontanée de la part de" . $student->getFirstname() . ' ' . $student->getLastname(),
             'mails/received_spontaneous_candidacy.html.twig',
-            ['student' => $student],
+            [
+                'student' => $student,
+                'content' => $content
+            ],
             $appPath . "\public\images\students\\" . $student->getCv());
+    }
+
+    public function sendCandidacyMessage(Enterprise $enterprise, Offers $offer, string $content): void
+    {
+        $this->sendTemplatedEmail(new Address(parent::EMAIL_APPLICATION, 'Appli Stage'),
+            new Address($enterprise->getEmail()),
+            "Candidature sur l'offre" . $offer->getName(),
+            'mails/send_candidacy.html.twig',
+            ['content' => $content]);
     }
 }
