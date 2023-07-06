@@ -7,3 +7,9 @@ when@dev:
         mailer:
             envelope:
                 recipients: [ '%env(MAIL_DEV)%' ]
+
+when@prod:
+    framework:
+        mailer:
+            envelope:
+                recipients: [ '%env(MAIL_DEV)%' ]
