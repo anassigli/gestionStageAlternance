@@ -54,7 +54,7 @@ class AdminController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Gestion Des Candidatures', 'fas fa-list', Candidacy::class);
         yield MenuItem::linkToCrud('Gestion Des Utilisateurs', 'fas fa-list', User::class);
         yield MenuItem::linkToCrud('Gestion Des Tags', 'fas fa-list', Tags::class);
-        yield MenuItem::linkToRoute('Graphiques', 'fas fa-list', 'app_admin_graph');
+        yield MenuItem::linkToRoute('Graphiques', 'fa-solid fa-chart-pie', 'app_admin_graph');
     }
 
 
