@@ -83,9 +83,10 @@ Donnez un élan à votre carrière. \n \n
     CGI favorise l’équité en matière d’emploi.")
             ->setDepartment("33160")
             ->setCity("Cestas")
+            ->setStatus($this->getReference(StatusFixtures::FILLED))
             ->setCreatedAt(new \DateTimeImmutable('2022-09-14 16:34:14'))
-            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE1))
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE1));
+
 
         $offer1_3 = (new Offers())
             ->setName("Alternance - Developer Web H/F")
@@ -116,10 +117,11 @@ Les avantages de la GED incluent une meilleure organisation, une réduction des 
 Optimisez la productivité de vos collaborateurs et la performance de votre entreprise grâce à notre logiciel de gestion électronique de documents Windex GED !\n
 N’attendez plus pour optimiser la gestion collaborative de vos documents, leur partage et archivage !")
             ->setDepartment("33000")
+            ->setStatus($this->getReference(StatusFixtures::FILLED))
             ->setCreatedAt(new \DateTimeImmutable('2022-09-10 14:50:39'))
             ->setCity("Bordeaux")
-            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE2))
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE2));
+
 
         $offer2_2 = (new Offers())
             ->setName("Offre d'alternance de développeur FullStack" )
@@ -132,9 +134,10 @@ Optimisez la productivité de vos collaborateurs et la performance de votre entr
 N’attendez plus pour optimiser la gestion collaborative de vos documents, leur partage et archivage !")
             ->setDepartment("33160")
             ->setCity("Cestas")
+            ->setStatus($this->getReference(StatusFixtures::FILLED))
             ->setCreatedAt(new \DateTimeImmutable('2022-09-15 09:50:39'))
-            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE2))
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE2));
+
 
 
 
@@ -152,9 +155,10 @@ Si vous êtes suffisamment à l’aise, vous pourrez aussi intervenir dans des m
 On parlait de fun tout à l’heure, les aftwerworks, jeux ou parties de sport feront aussi partie de votre quotidien si vous le souhaitez ! Cliquez ici pour accéder aux témoignages de nos collaborateurs.")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setStatus($this->getReference(StatusFixtures::FILLED))
             ->setCreatedAt(new \DateTimeImmutable('2022-09-16 09:50:39'))
-            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE3))
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE3));
+
 
         $offer3_2 = (new Offers())
             ->setName("Développeur C# H/F" )
@@ -168,9 +172,9 @@ Si vous êtes suffisamment à l’aise, vous pourrez aussi intervenir dans des m
     On parlait de fun tout à l’heure, les aftwerworks, jeux ou parties de sport feront aussi partie de votre quotidien si vous le souhaitez ! Cliquez ici pour accéder aux témoignages de nos collaborateurs.")
             ->setDepartment("33160")
             ->setCity("Cestas")
+            ->setStatus($this->getReference(StatusFixtures::FILLED))
             ->setCreatedAt(new \DateTimeImmutable('2022-10-04 09:50:39'))
-            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE3))
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE3));
 
 
 
@@ -186,9 +190,9 @@ Betclic, dont le siège est à Bordeaux, est une entreprise multiculturelle et i
 Les profils recherchés sont ceux qui ont l’ambition de construire en équipe, qui sont prêts à relever des challenges tous plus passionnants les uns que les autres, et qui ont cette volonté de créer des solutions offrant une expérience client inédite. ")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setStatus($this->getReference(StatusFixtures::FILLED))
             ->setCreatedAt(new \DateTimeImmutable('2022-12-15 17:34:13'))
-            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE4))
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE4));
 
         $offer4_2 = (new Offers())
             ->setName("Alternance - Développeur Angular H/F" )
@@ -221,8 +225,8 @@ Des cours de sports 2 fois par semaine")
             ->setDepartment("33160")
             ->setCreatedAt(new \DateTimeImmutable('2022-12-21 18:06:52'))
             ->setCity("Cestas")
-            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE4))
-            ->setStatus($this->getReference(StatusFixtures::WAITING));
+            ->setStatus($this->getReference(StatusFixtures::FILLED))
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE4));
 
 
 
@@ -249,9 +253,9 @@ Diplômé d'un bac +5 (écoles d'Ingénieurs grandes écoles ou Universités) ou
 Votre sens du service, votre rigueur, vos qualités relationnelles avérées et vos compétences méthodologiques et technologiques, vous permettront d'évoluer au sein de l'agence de Sophia-Antipolis vers les différentes filières métiers.6")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setStatus($this->getReference(StatusFixtures::FILLED))
             ->setCreatedAt(new \DateTimeImmutable('2022-02-12 12:40:23'))
-            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE5))
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE5));
 
         $offer5_2 = (new Offers())
             ->setName("Stage - Développeur JAVA H/F")
@@ -277,9 +281,9 @@ Les apports du stage \n
 Technos utilisées : JAVA/JEE, Angular 5, Bootstrap, Maven, Jenkins, Sonar, MySQL, Junit, Mockito, JIRA, Icescrum, Mantis")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setStatus($this->getReference(StatusFixtures::FILLED))
             ->setCreatedAt(new \DateTimeImmutable('2022-02-20 09:12:42'))
-            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE5))
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE5));
 
 
 
@@ -297,9 +301,9 @@ Conception produit \n
 Tu contribues à la conception des applications en apportant ton expérience dans la définition de fonctionnalités réalisables techniquement.")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setStatus($this->getReference(StatusFixtures::FILLED))
             ->setCreatedAt(new \DateTimeImmutable('2022-04-13 08:04:53'))
-            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE6))
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE6));
 
         $offer6_2 = (new Offers())
             ->setName("Alternance Développeur.se full stack")
@@ -319,9 +323,9 @@ Suivi du projet et développement de l’équipe \n
  - Tu contribues aux rituels agiles de l’équipe : sprint planning, démo, rétrospectives")
             ->setDepartment("33000")
             ->setCity("Bordeaux")
+            ->setStatus($this->getReference(StatusFixtures::FILLED))
             ->setCreatedAt(new \DateTimeImmutable('2022-04-25 15:24:35'))
-            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE6))
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE6));
 
 
 
@@ -340,9 +344,9 @@ Le stage sera articulé autour des axes suivants : \n
  - Rédaction de documentation")
             ->setDepartment("33318")
             ->setCity("Pessac")
+            ->setStatus($this->getReference(StatusFixtures::FILLED))
             ->setCreatedAt(new \DateTimeImmutable('2022-06-28 23:02:03'))
-            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE7))
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE7));
 
 
         $offer7_2 = (new Offers())
@@ -415,9 +419,9 @@ Travail en équipe en méthodologie agile \n
 Participer au traitement des priorités des flux d’anomalies clients et de recette interne QA.")
             ->setDepartment("33300")
             ->setCity("Bordeaux")
+            ->setStatus($this->getReference(StatusFixtures::FILLED))
             ->setCreatedAt(new \DateTimeImmutable('2022-07-05 15:28:56'))
-            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE8))
-            ->setStatus($this->getReference(StatusFixtures::VERIFIED));
+            ->setEnterprise($this->getReference(EnterpriseFixtures::ENTERPRISE8));
 
 
 
